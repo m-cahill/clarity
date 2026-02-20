@@ -679,3 +679,129 @@ class TestGuardrailsAST:
             if isinstance(node, ast.ImportFrom):
                 assert node.module != "numpy"
 
+
+# =============================================================================
+# Category 10: M10 Evidence Overlay Integration (12 tests)
+# =============================================================================
+
+
+class TestM10EvidenceOverlayIntegration:
+    """Tests for M10 evidence overlay integration in orchestrator."""
+
+    def test_runner_result_has_evidence_map(
+        self, stubbed_runner: StubbedRunner, test_image: Image.Image
+    ) -> None:
+        """Test that runner result includes evidence map."""
+        result = stubbed_runner.run(test_image, "prompt", "axis", "value", 42)
+        assert result.evidence_map is not None
+        assert result.evidence_map.width == 224
+        assert result.evidence_map.height == 224
+
+    def test_runner_result_evidence_map_to_dict(
+        self, stubbed_runner: StubbedRunner, test_image: Image.Image
+    ) -> None:
+        """Test that evidence map is included in to_dict()."""
+        result = stubbed_runner.run(test_image, "prompt", "axis", "value", 42)
+        d = result.to_dict()
+        assert "evidence_map" in d
+        assert d["evidence_map"]["width"] == 224
+        assert d["evidence_map"]["height"] == 224
+
+    def test_runner_evidence_map_deterministic(
+        self, test_image: Image.Image
+    ) -> None:
+        """Test that evidence map is deterministic for same seed."""
+        runner1 = StubbedRunner()
+        runner2 = StubbedRunner()
+        r1 = runner1.run(test_image, "prompt", "axis", "value", 42)
+        r2 = runner2.run(test_image, "prompt", "axis", "value", 42)
+        assert r1.evidence_map is not None
+        assert r2.evidence_map is not None
+        assert r1.evidence_map.values == r2.evidence_map.values
+
+    def test_orchestrator_result_has_overlay_bundle(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that orchestrator result includes overlay_bundle."""
+        result = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        assert result.overlay_bundle is not None
+
+    def test_overlay_bundle_has_evidence_map(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that overlay bundle has evidence map."""
+        result = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        assert result.overlay_bundle.evidence_map is not None
+        assert result.overlay_bundle.evidence_map.width == 224
+
+    def test_overlay_bundle_has_heatmap(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that overlay bundle has normalized heatmap."""
+        result = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        assert result.overlay_bundle.heatmap is not None
+        # Heatmap should have same dimensions
+        assert result.overlay_bundle.heatmap.width == result.overlay_bundle.evidence_map.width
+
+    def test_overlay_bundle_has_regions(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that overlay bundle has extracted regions."""
+        result = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        assert result.overlay_bundle.regions is not None
+        assert isinstance(result.overlay_bundle.regions, tuple)
+
+    def test_overlay_bundle_in_to_dict(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that overlay_bundle is included in to_dict()."""
+        result = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        d = result.to_dict()
+        assert "overlay_bundle" in d
+        assert "evidence_map" in d["overlay_bundle"]
+        assert "heatmap" in d["overlay_bundle"]
+        assert "regions" in d["overlay_bundle"]
+
+    def test_overlay_bundle_json_serializable(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that overlay_bundle is JSON serializable."""
+        result = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        d = result.to_dict()
+        json_str = json.dumps(d["overlay_bundle"], sort_keys=True)
+        parsed = json.loads(json_str)
+        assert "evidence_map" in parsed
+        assert "heatmap" in parsed
+        assert "regions" in parsed
+
+    def test_overlay_bundle_deterministic(
+        self, orchestrator: CounterfactualOrchestrator
+    ) -> None:
+        """Test that overlay bundle is deterministic across runs."""
+        r1 = orchestrator.run("test-baseline-001", 2, "brightness", "1p0")
+        # Create new orchestrator for fresh run
+        runner2 = StubbedRunner()
+        orch2 = CounterfactualOrchestrator(runner2, FIXTURES_DIR)
+        r2 = orch2.run("test-baseline-001", 2, "brightness", "1p0")
+        # Compare overlay bundles
+        assert r1.overlay_bundle.to_dict() == r2.overlay_bundle.to_dict()
+
+    def test_runner_custom_evidence_dimensions(
+        self, test_image: Image.Image
+    ) -> None:
+        """Test runner with custom evidence dimensions."""
+        runner = StubbedRunner(evidence_width=100, evidence_height=80)
+        result = runner.run(test_image, "prompt", "axis", "value", 42)
+        assert result.evidence_map is not None
+        assert result.evidence_map.width == 100
+        assert result.evidence_map.height == 80
+
+    def test_evidence_map_values_valid_range(
+        self, stubbed_runner: StubbedRunner, test_image: Image.Image
+    ) -> None:
+        """Test that evidence map values are in valid range [0, 1]."""
+        result = stubbed_runner.run(test_image, "prompt", "axis", "value", 42)
+        assert result.evidence_map is not None
+        for row in result.evidence_map.values:
+            for value in row:
+                assert 0.0 <= value <= 1.0

@@ -128,4 +128,5 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 |----|-------|------------|----------|----------|
 | INT-001 | Real sweep → metrics → surface → gradient integration | M05 | M07 | `test_gradient_engine.py::TestINT001RealSweepIntegration` |
 | CF-002 | Actual counterfactual sweeps orchestration | M08 | M09 | `CounterfactualOrchestrator` + `POST /counterfactual/run` endpoint |
+| CF-001 | Evidence-map-derived regions | M08 | M10 | `evidence_overlay.py::extract_regions_from_heatmap` + BFS region extraction |
 

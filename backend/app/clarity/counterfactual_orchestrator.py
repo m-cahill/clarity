@@ -43,6 +43,12 @@ from typing import Any, Protocol
 
 from PIL import Image
 
+from app.clarity.evidence_overlay import (
+    EvidenceMap,
+    OverlayBundle,
+    create_overlay_bundle,
+    generate_stubbed_evidence_map,
+)
 from app.clarity.counterfactual_engine import (
     CounterfactualComputationError,
     CounterfactualProbe,
@@ -125,21 +131,26 @@ class RunnerResult:
         justification: The model's justification.
         esi: Evidence Stability Index metric.
         drift: Justification drift metric.
+        evidence_map: Optional evidence map from inference (M10).
     """
 
     answer: str
     justification: str
     esi: float
     drift: float
+    evidence_map: EvidenceMap | None = None
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
-        return {
+        result = {
             "answer": self.answer,
             "drift": self.drift,
             "esi": self.esi,
             "justification": self.justification,
         }
+        if self.evidence_map is not None:
+            result["evidence_map"] = self.evidence_map.to_dict()
+        return result
 
 
 class RunnerProtocol(Protocol):
@@ -184,6 +195,7 @@ class StubbedRunner:
     The stubbed runner:
     - Returns deterministic answers based on masking
     - Simulates ESI/drift degradation when masked
+    - Generates deterministic evidence maps (M10)
     - Is fully reproducible given identical inputs
     """
 
@@ -193,6 +205,8 @@ class StubbedRunner:
         baseline_justification: str = "No abnormalities detected.",
         baseline_esi: float = 1.0,
         baseline_drift: float = 0.0,
+        evidence_width: int = 224,
+        evidence_height: int = 224,
     ) -> None:
         """Initialize the stubbed runner.
 
@@ -201,11 +215,15 @@ class StubbedRunner:
             baseline_justification: Justification for baseline runs.
             baseline_esi: ESI metric for baseline runs.
             baseline_drift: Drift metric for baseline runs.
+            evidence_width: Width of generated evidence maps.
+            evidence_height: Height of generated evidence maps.
         """
         self._baseline_answer = baseline_answer
         self._baseline_justification = baseline_justification
         self._baseline_esi = baseline_esi
         self._baseline_drift = baseline_drift
+        self._evidence_width = evidence_width
+        self._evidence_height = evidence_height
         self._call_count = 0
 
     def run(
@@ -229,9 +247,18 @@ class StubbedRunner:
             seed: Seed for reproducibility.
 
         Returns:
-            RunnerResult with deterministic metrics.
+            RunnerResult with deterministic metrics and evidence map.
         """
         self._call_count += 1
+
+        # Generate deterministic evidence map based on seed and call count
+        # Use a combined seed to vary the pattern per call while remaining deterministic
+        combined_seed = seed + self._call_count
+        evidence_map = generate_stubbed_evidence_map(
+            width=self._evidence_width,
+            height=self._evidence_height,
+            seed=combined_seed,
+        )
 
         # Detect if image is masked (has gray fill regions)
         is_masked = self._detect_masking(image)
@@ -245,6 +272,7 @@ class StubbedRunner:
                 justification=f"Analysis limited due to occluded region. {self._baseline_justification}",
                 esi=_round8(max(0.0, self._baseline_esi - degradation)),
                 drift=_round8(min(1.0, self._baseline_drift + degradation)),
+                evidence_map=evidence_map,
             )
         else:
             # Return baseline values for unmasked
@@ -253,6 +281,7 @@ class StubbedRunner:
                 justification=self._baseline_justification,
                 esi=_round8(self._baseline_esi),
                 drift=_round8(self._baseline_drift),
+                evidence_map=evidence_map,
             )
 
     def _detect_masking(self, image: Image.Image) -> bool:
@@ -426,12 +455,14 @@ class OrchestratorResult:
         config: The orchestrator configuration.
         baseline_metrics: Metrics from baseline (unmasked) run.
         probe_surface: The computed probe surface.
+        overlay_bundle: Visualization overlay data (M10).
     """
 
     baseline_id: str
     config: OrchestratorConfig
     baseline_metrics: RunnerResult
     probe_surface: ProbeSurface
+    overlay_bundle: OverlayBundle
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary representation."""
@@ -439,6 +470,7 @@ class OrchestratorResult:
             "baseline_id": self.baseline_id,
             "baseline_metrics": self.baseline_metrics.to_dict(),
             "config": self.config.to_dict(),
+            "overlay_bundle": self.overlay_bundle.to_dict(),
             "probe_surface": self.probe_surface.to_dict(),
         }
 
@@ -565,11 +597,21 @@ class CounterfactualOrchestrator:
         # Aggregate into surface
         probe_surface = compute_probe_surface(probe_results)
 
+        # Create overlay bundle from baseline evidence map (M10)
+        # Use the baseline run's evidence map for visualization
+        if baseline_result.evidence_map is not None:
+            overlay_bundle = create_overlay_bundle(baseline_result.evidence_map)
+        else:
+            # Fallback: generate a stubbed evidence map
+            fallback_evidence = generate_stubbed_evidence_map(seed=spec.seed)
+            overlay_bundle = create_overlay_bundle(fallback_evidence)
+
         return OrchestratorResult(
             baseline_id=baseline_id,
             config=config,
             baseline_metrics=baseline_result,
             probe_surface=probe_surface,
+            overlay_bundle=overlay_bundle,
         )
 
     def _load_image(self, image_path: Path) -> Image.Image:

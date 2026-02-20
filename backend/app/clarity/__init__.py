@@ -174,6 +174,23 @@ from app.clarity.counterfactual_orchestrator import (
     load_baseline_spec,
 )
 
+# Evidence Overlay (M10)
+from app.clarity.evidence_overlay import (
+    DEFAULT_EVIDENCE_HEIGHT,
+    DEFAULT_EVIDENCE_WIDTH,
+    EVIDENCE_THRESHOLD,
+    EvidenceMap,
+    EvidenceOverlayEngine,
+    EvidenceOverlayError,
+    Heatmap,
+    OverlayBundle,
+    OverlayRegion,
+    create_overlay_bundle,
+    extract_regions_from_heatmap,
+    generate_stubbed_evidence_map,
+    normalize_evidence_to_heatmap,
+)
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -276,4 +293,18 @@ __all__ = [
     "load_baseline_registry",
     "load_baseline_spec",
     "list_available_baselines",
+    # Evidence Overlay (M10)
+    "EvidenceMap",
+    "Heatmap",
+    "OverlayRegion",
+    "OverlayBundle",
+    "EvidenceOverlayError",
+    "EvidenceOverlayEngine",
+    "EVIDENCE_THRESHOLD",
+    "DEFAULT_EVIDENCE_WIDTH",
+    "DEFAULT_EVIDENCE_HEIGHT",
+    "generate_stubbed_evidence_map",
+    "normalize_evidence_to_heatmap",
+    "extract_regions_from_heatmap",
+    "create_overlay_bundle",
 ]
