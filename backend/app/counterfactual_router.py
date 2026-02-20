@@ -55,6 +55,7 @@ class CounterfactualRunResponse(BaseModel):
     config: dict[str, Any]
     baseline_metrics: dict[str, Any]
     probe_surface: dict[str, Any]
+    overlay_bundle: dict[str, Any]
 
 
 class BaselinesResponse(BaseModel):
@@ -105,6 +106,7 @@ def run_counterfactual(request: CounterfactualRunRequest) -> CounterfactualRunRe
         config=result_dict["config"],
         baseline_metrics=result_dict["baseline_metrics"],
         probe_surface=result_dict["probe_surface"],
+        overlay_bundle=result_dict["overlay_bundle"],
     )
 
 

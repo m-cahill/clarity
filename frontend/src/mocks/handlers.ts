@@ -4,11 +4,59 @@ import { http, HttpResponse } from "msw";
  * MSW handlers for CLARITY API mocking
  *
  * M09: Counterfactual API handlers
+ * M10: Added overlay_bundle mock data
  */
 
 // Mock baselines response
 const mockBaselines = {
   baselines: ["test-baseline-001", "test-baseline-002"],
+};
+
+// Generate a small mock heatmap (10x10 for testing)
+const generateMockHeatmap = (width: number, height: number): number[][] => {
+  const values: number[][] = [];
+  for (let y = 0; y < height; y++) {
+    const row: number[] = [];
+    for (let x = 0; x < width; x++) {
+      // Simple gradient pattern for testing
+      const value = ((x + y) / (width + height - 2)) * 0.5 + 0.3;
+      row.push(Math.round(value * 100000000) / 100000000);
+    }
+    values.push(row);
+  }
+  return values;
+};
+
+// Mock overlay bundle (M10)
+const mockOverlayBundle = {
+  evidence_map: {
+    width: 10,
+    height: 10,
+    values: generateMockHeatmap(10, 10),
+  },
+  heatmap: {
+    width: 10,
+    height: 10,
+    values: generateMockHeatmap(10, 10),
+  },
+  regions: [
+    {
+      region_id: "evidence_r0",
+      x_min: 0.3,
+      y_min: 0.3,
+      x_max: 0.7,
+      y_max: 0.7,
+      area: 0.16,
+    },
+    {
+      region_id: "evidence_r1",
+      x_min: 0.1,
+      y_min: 0.1,
+      x_max: 0.2,
+      y_max: 0.2,
+      area: 0.01,
+    },
+  ],
 };
 
 // Mock counterfactual run response
@@ -69,6 +117,7 @@ const mockProbeResult = {
     mean_abs_delta_drift: 0.25,
     max_abs_delta_drift: 0.4,
   },
+  overlay_bundle: mockOverlayBundle,
 };
 
 export const handlers = [
@@ -106,7 +155,7 @@ export const handlers = [
     return HttpResponse.json({
       status: "healthy",
       service: "clarity-backend",
-      version: "0.0.10",
+      version: "0.0.11",
     });
   }),
 ];

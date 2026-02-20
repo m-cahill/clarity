@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./CounterfactualConsole.css";
 
@@ -30,6 +30,36 @@ interface ProbeResultItem {
 }
 
 /**
+ * Overlay region from evidence extraction
+ */
+interface OverlayRegion {
+  region_id: string;
+  x_min: number;
+  y_min: number;
+  x_max: number;
+  y_max: number;
+  area: number;
+}
+
+/**
+ * Heatmap data structure
+ */
+interface HeatmapData {
+  width: number;
+  height: number;
+  values: number[][];
+}
+
+/**
+ * Overlay bundle from M10
+ */
+interface OverlayBundle {
+  evidence_map: HeatmapData;
+  heatmap: HeatmapData;
+  regions: OverlayRegion[];
+}
+
+/**
  * Full response from counterfactual run endpoint
  */
 interface CounterfactualRunResponse {
@@ -52,6 +82,7 @@ interface CounterfactualRunResponse {
     mean_abs_delta_drift: number;
     max_abs_delta_drift: number;
   };
+  overlay_bundle?: OverlayBundle;
 }
 
 /**
@@ -64,9 +95,251 @@ interface BaselinesResponse {
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 /**
+ * Fixed colormap: red scale (0 = transparent, 1 = full red)
+ * Returns RGBA values
+ */
+function applyColormap(value: number, alpha: number): [number, number, number, number] {
+  // Clamp value to [0, 1]
+  const v = Math.max(0, Math.min(1, value));
+  // Red scale colormap
+  const r = Math.round(255 * v);
+  const g = Math.round(50 * (1 - v));
+  const b = Math.round(50 * (1 - v));
+  const a = Math.round(255 * v * alpha);
+  return [r, g, b, a];
+}
+
+/**
+ * Render heatmap to canvas ImageData
+ */
+function renderHeatmapToImageData(
+  heatmap: HeatmapData,
+  alpha: number
+): ImageData {
+  const { width, height, values } = heatmap;
+  const imageData = new ImageData(width, height);
+  const data = imageData.data;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const value = values[y]?.[x] ?? 0;
+      const [r, g, b, a] = applyColormap(value, alpha);
+      const idx = (y * width + x) * 4;
+      data[idx] = r;
+      data[idx + 1] = g;
+      data[idx + 2] = b;
+      data[idx + 3] = a;
+    }
+  }
+
+  return imageData;
+}
+
+/**
+ * HeatmapCanvas — Renders heatmap overlay on canvas
+ */
+function HeatmapCanvas({
+  heatmap,
+  alpha,
+  displayWidth,
+  displayHeight,
+}: {
+  heatmap: HeatmapData;
+  alpha: number;
+  displayWidth: number;
+  displayHeight: number;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Set canvas internal size to heatmap dimensions
+    canvas.width = heatmap.width;
+    canvas.height = heatmap.height;
+
+    // Render heatmap
+    const imageData = renderHeatmapToImageData(heatmap, alpha);
+    ctx.putImageData(imageData, 0, 0);
+  }, [heatmap, alpha]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="heatmap-canvas"
+      style={{
+        width: displayWidth,
+        height: displayHeight,
+      }}
+      data-testid="heatmap-canvas"
+    />
+  );
+}
+
+/**
+ * RegionOverlay — Renders bounding boxes for evidence regions
+ */
+function RegionOverlay({
+  regions,
+  displayWidth,
+  displayHeight,
+}: {
+  regions: OverlayRegion[];
+  displayWidth: number;
+  displayHeight: number;
+}) {
+  return (
+    <div
+      className="region-overlay"
+      style={{ width: displayWidth, height: displayHeight }}
+      data-testid="region-overlay"
+    >
+      {regions.map((region) => {
+        const left = region.x_min * displayWidth;
+        const top = region.y_min * displayHeight;
+        const width = (region.x_max - region.x_min) * displayWidth;
+        const height = (region.y_max - region.y_min) * displayHeight;
+
+        return (
+          <div
+            key={region.region_id}
+            className="region-box"
+            style={{
+              left: `${left}px`,
+              top: `${top}px`,
+              width: `${width}px`,
+              height: `${height}px`,
+            }}
+            title={`${region.region_id} (area: ${region.area.toFixed(4)})`}
+            data-testid={`region-${region.region_id}`}
+          >
+            <span className="region-label">{region.region_id}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/**
+ * GridOverlay — Renders grid mask overlay
+ */
+function GridOverlay({
+  gridSize,
+  displayWidth,
+  displayHeight,
+}: {
+  gridSize: number;
+  displayWidth: number;
+  displayHeight: number;
+}) {
+  const cells: { row: number; col: number }[] = [];
+  for (let row = 0; row < gridSize; row++) {
+    for (let col = 0; col < gridSize; col++) {
+      cells.push({ row, col });
+    }
+  }
+
+  const cellWidth = displayWidth / gridSize;
+  const cellHeight = displayHeight / gridSize;
+
+  return (
+    <div
+      className="grid-overlay"
+      style={{ width: displayWidth, height: displayHeight }}
+      data-testid="grid-overlay"
+    >
+      {cells.map(({ row, col }) => (
+        <div
+          key={`grid_r${row}_c${col}`}
+          className="grid-cell"
+          style={{
+            left: `${col * cellWidth}px`,
+            top: `${row * cellHeight}px`,
+            width: `${cellWidth}px`,
+            height: `${cellHeight}px`,
+          }}
+          data-testid={`grid-cell-r${row}-c${col}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * OverlayVisualization — Combined visualization component
+ */
+function OverlayVisualization({
+  overlayBundle,
+  gridSize,
+  showHeatmap,
+  showRegions,
+  showGrid,
+  heatmapOpacity,
+}: {
+  overlayBundle: OverlayBundle;
+  gridSize: number;
+  showHeatmap: boolean;
+  showRegions: boolean;
+  showGrid: boolean;
+  heatmapOpacity: number;
+}) {
+  // Fixed display dimensions
+  const displayWidth = 300;
+  const displayHeight = 300;
+
+  return (
+    <div
+      className="overlay-visualization"
+      style={{ width: displayWidth, height: displayHeight }}
+      data-testid="overlay-visualization"
+    >
+      {/* Base placeholder (gray background representing image) */}
+      <div
+        className="overlay-base"
+        style={{ width: displayWidth, height: displayHeight }}
+      />
+
+      {/* Heatmap layer */}
+      {showHeatmap && (
+        <HeatmapCanvas
+          heatmap={overlayBundle.heatmap}
+          alpha={heatmapOpacity}
+          displayWidth={displayWidth}
+          displayHeight={displayHeight}
+        />
+      )}
+
+      {/* Grid overlay */}
+      {showGrid && (
+        <GridOverlay
+          gridSize={gridSize}
+          displayWidth={displayWidth}
+          displayHeight={displayHeight}
+        />
+      )}
+
+      {/* Region overlay */}
+      {showRegions && (
+        <RegionOverlay
+          regions={overlayBundle.regions}
+          displayWidth={displayWidth}
+          displayHeight={displayHeight}
+        />
+      )}
+    </div>
+  );
+}
+
+/**
  * CounterfactualConsole — Interactive probe configuration UI
  *
  * M09: Minimal console for counterfactual sweep execution
+ * M10: Added visualization overlays (heatmap, regions, grid)
  */
 export function CounterfactualConsole() {
   // Form state
@@ -84,6 +357,12 @@ export function CounterfactualConsole() {
   const [running, setRunning] = useState<boolean>(false);
   const [result, setResult] = useState<CounterfactualRunResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  // Overlay toggle state (M10)
+  const [showHeatmap, setShowHeatmap] = useState<boolean>(true);
+  const [showRegions, setShowRegions] = useState<boolean>(true);
+  const [showGrid, setShowGrid] = useState<boolean>(false);
+  const [heatmapOpacity, setHeatmapOpacity] = useState<number>(0.7);
 
   // Load available baselines on mount
   useEffect(() => {
@@ -110,7 +389,7 @@ export function CounterfactualConsole() {
   }, []);
 
   // Run counterfactual probe
-  const runProbe = async () => {
+  const runProbe = useCallback(async () => {
     setRunning(true);
     setError(null);
     setResult(null);
@@ -143,7 +422,7 @@ export function CounterfactualConsole() {
     } finally {
       setRunning(false);
     }
-  };
+  }, [baselineId, gridSize, axis, value]);
 
   return (
     <div className="console">
@@ -152,7 +431,7 @@ export function CounterfactualConsole() {
           ← Back
         </Link>
         <h1 className="console-title">Counterfactual Console</h1>
-        <p className="console-subtitle">M09 — Interactive Probe Execution</p>
+        <p className="console-subtitle">M10 — Visualization Overlays</p>
       </header>
 
       <main className="console-main">
@@ -248,7 +527,82 @@ export function CounterfactualConsole() {
           <section className="results-section">
             <h2>Results</h2>
 
+            {/* Visualization Controls (M10) */}
+            {result.overlay_bundle && (
+              <div className="visualization-section">
+                <h3>Evidence Overlay</h3>
+                
+                <div className="overlay-controls">
+                  <label className="toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={showHeatmap}
+                      onChange={(e) => setShowHeatmap(e.target.checked)}
+                      data-testid="toggle-heatmap"
+                    />
+                    Show Heatmap
+                  </label>
+                  <label className="toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={showRegions}
+                      onChange={(e) => setShowRegions(e.target.checked)}
+                      data-testid="toggle-regions"
+                    />
+                    Show Regions
+                  </label>
+                  <label className="toggle-label">
+                    <input
+                      type="checkbox"
+                      checked={showGrid}
+                      onChange={(e) => setShowGrid(e.target.checked)}
+                      data-testid="toggle-grid"
+                    />
+                    Show Grid
+                  </label>
+                  <label className="slider-label">
+                    Opacity: {(heatmapOpacity * 100).toFixed(0)}%
+                    <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      value={heatmapOpacity * 100}
+                      onChange={(e) => setHeatmapOpacity(parseInt(e.target.value) / 100)}
+                      data-testid="opacity-slider"
+                    />
+                  </label>
+                </div>
+
+                <OverlayVisualization
+                  overlayBundle={result.overlay_bundle}
+                  gridSize={result.config.grid_size}
+                  showHeatmap={showHeatmap}
+                  showRegions={showRegions}
+                  showGrid={showGrid}
+                  heatmapOpacity={heatmapOpacity}
+                />
+
+                {/* Region List */}
+                {result.overlay_bundle.regions.length > 0 && (
+                  <div className="region-list">
+                    <h4>Evidence Regions ({result.overlay_bundle.regions.length})</h4>
+                    <ul>
+                      {result.overlay_bundle.regions.map((region) => (
+                        <li key={region.region_id}>
+                          <span className="mono">{region.region_id}</span>
+                          <span className="region-area">
+                            Area: {(region.area * 100).toFixed(1)}%
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Summary Stats */}
+            <h3>Probe Surface Statistics</h3>
             <div className="stats-grid">
               <div className="stat-card">
                 <span className="stat-label">Mean |ΔESI|</span>
@@ -334,7 +688,7 @@ export function CounterfactualConsole() {
 
       <footer className="console-footer">
         <span className="mono text-secondary">
-          CLARITY v0.0.10 — Counterfactual Console
+          CLARITY v0.0.11 — Counterfactual Console
         </span>
       </footer>
     </div>
@@ -342,4 +696,3 @@ export function CounterfactualConsole() {
 }
 
 export default CounterfactualConsole;
-
