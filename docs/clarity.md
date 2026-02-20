@@ -44,8 +44,8 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | ✅ **Closed** | `v0.0.1-m00` | 4.2 |
 | **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ✅ **Closed** | `v0.0.2-m01` | 4.4 |
 | **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ✅ **Closed** | `v0.0.3-m02` | 4.5 |
-| **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ✅ **Closed** | `v0.0.4-m03` | — |
-| **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ⏳ Pending | — | — |
+| **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ✅ **Closed** | `v0.0.4-m03` | 4.6 |
+| **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ✅ **Closed** | `v0.0.5-m04` | 4.7 |
 | **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ⏳ Pending | — | — |
 | **M06** | Robustness Surfaces | Estimate and persist robustness surfaces | ⏳ Pending | — | — |
 | **M07** | Monte Carlo Reasoning Stability | Implement multi-sample decoding + entropy metrics | ⏳ Pending | — | — |
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M04
+## Current Milestone: M05
 
-**Objective**: Execute multi-axis perturbation sweeps.
+**Objective**: Compute ESI and justification drift metrics.
 
-**Branch**: `m04-sweep-orchestrator` (to be created)
+**Branch**: `m05-metrics-core` (to be created)
 
-**Details**: [M04_plan.md](./milestones/M04/M04_plan.md) (pending)
+**Details**: [M05_plan.md](./milestones/M05/M05_plan.md) (pending)
 
 ---
 
@@ -103,7 +103,8 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M00 | `v0.0.1-m00` | `45c5a30` | 4.2 | 2026-02-20 |
 | M01 | `v0.0.2-m01` | `d8192ed` | 4.4 | 2026-02-20 |
 | M02 | `v0.0.3-m02` | `bc87cc5` | 4.5 | 2026-02-20 |
-| M03 | `v0.0.4-m03` | `d6fb692` | — | 2026-02-20 |
+| M03 | `v0.0.4-m03` | `d6fb692` | 4.6 | 2026-02-20 |
+| M04 | `v0.0.5-m04` | `0b79078` | 4.7 | 2026-02-20 |
 
 ---
 
