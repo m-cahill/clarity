@@ -48,7 +48,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ✅ **Closed** | `v0.0.5-m04` | 4.7 |
 | **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ✅ **Closed** | `v0.0.6-m05` | 4.8 |
 | **M06** | Robustness Surfaces | Deterministic surface computation from metrics | ✅ **Closed** | `v0.0.7-m06` | 4.85 |
-| **M07** | Gradient / Stability Estimation | Gradient estimation and stability analysis | ⏳ Pending | — | — |
+| **M07** | Gradient / Stability Estimation | Gradient estimation and stability analysis | ✅ **Closed** | `v0.0.8-m07` | 4.90 |
 | **M08** | Counterfactual Probe | Causal grounding probe via region masking | ⏳ Pending | — | — |
 | **M09** | UI Console Skeleton | Interactive UI for configuring sweeps + viewing results | ⏳ Pending | — | — |
 | **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ⏳ Pending | — | — |
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M07
+## Current Milestone: M08
 
-**Objective**: Gradient estimation and stability analysis from robustness surfaces.
+**Objective**: Causal grounding probe via region masking.
 
-**Branch**: `m07-gradient-stability` (to be created)
+**Branch**: `m08-counterfactual-probe` (to be created)
 
-**Details**: [M07_plan.md](./milestones/M07/M07_plan.md) (pending)
+**Details**: [M08_plan.md](./milestones/M08/M08_plan.md) (pending)
 
 ---
 
@@ -107,6 +107,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M04 | `v0.0.5-m04` | `0b79078` | 4.7 | 2026-02-20 |
 | M05 | `v0.0.6-m05` | `b0f9413` | 4.8 | 2026-02-20 |
 | M06 | `v0.0.7-m06` | `0d3ba66` | 4.85 | 2026-02-20 |
+| M07 | `v0.0.8-m07` | `976412a` | 4.90 | 2026-02-20 |
 
 ---
 
@@ -118,5 +119,10 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SEC-001 | CORS permissive | M00 | Pre-production | — |
 | SCAN-001 | No security scanning | M01 | M12 | — |
 | DEP-001 | No dependency lockfile | M02 | M12 | — |
-| INT-001 | Real sweep → metrics → surface integration | M05 | M07 | — |
+
+### Resolved Issues
+
+| ID | Issue | Discovered | Resolved | Evidence |
+|----|-------|------------|----------|----------|
+| INT-001 | Real sweep → metrics → surface → gradient integration | M05 | M07 | `test_gradient_engine.py::TestINT001RealSweepIntegration` |
 
