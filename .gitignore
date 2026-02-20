@@ -188,8 +188,10 @@ secrets/
 # Local config overrides
 *.local
 
-# Clarity artifacts (generated at runtime)
-clarity/
+# Clarity artifacts (generated at runtime, output directory)
+# Note: backend/app/clarity/ is the source module and should NOT be ignored
+/clarity/
+**/output/clarity/
 *.pdf
 *.png
 *.jpg

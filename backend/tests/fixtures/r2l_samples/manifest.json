@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "run_id": "test-run-001",
+  "timestamp": "2026-02-19T12:00:00Z",
+  "r2l_version": "0.1.0",
+  "seed": 42,
+  "model_id": "medgemma-stub",
+  "spec": {
+    "image_path": "images/chest_xray_001.png",
+    "question": "Describe any abnormalities in this chest X-ray.",
+    "perturbation": null
+  },
+  "status": "completed",
+  "artifacts": [
+    "trace_pack.jsonl",
+    "evaluation_record.json"
+  ]
+}
+

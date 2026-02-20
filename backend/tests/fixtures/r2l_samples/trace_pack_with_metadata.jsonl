@@ -1,0 +1,4 @@
+{"trace_id": "trace-001", "step": 1, "timestamp": "2026-02-19T12:00:01Z", "event": "inference_start", "model_id": "medgemma-stub"}
+{"trace_id": "trace-001", "step": 2, "timestamp": "2026-02-19T12:00:02Z", "event": "inference_complete", "output": "No abnormalities detected.", "adapter_metadata": {"attention_weights": [0.1, 0.2, 0.3], "confidence": 0.95, "evidence_regions": [{"x": 100, "y": 150, "w": 50, "h": 50}]}}
+{"trace_id": "trace-001", "step": 3, "timestamp": "2026-02-19T12:00:03Z", "event": "evaluation_complete", "metrics": {"accuracy": 1.0}}
+
