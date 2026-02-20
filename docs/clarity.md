@@ -46,7 +46,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ✅ **Closed** | `v0.0.3-m02` | 4.5 |
 | **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ✅ **Closed** | `v0.0.4-m03` | 4.6 |
 | **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ✅ **Closed** | `v0.0.5-m04` | 4.7 |
-| **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ⏳ Pending | — | — |
+| **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ✅ **Closed** | `v0.0.6-m05` | 4.8 |
 | **M06** | Robustness Surfaces | Estimate and persist robustness surfaces | ⏳ Pending | — | — |
 | **M07** | Monte Carlo Reasoning Stability | Implement multi-sample decoding + entropy metrics | ⏳ Pending | — | — |
 | **M08** | Counterfactual Probe | Causal grounding probe via region masking | ⏳ Pending | — | — |
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M05
+## Current Milestone: M06
 
-**Objective**: Compute ESI and justification drift metrics.
+**Objective**: Estimate and persist robustness surfaces.
 
-**Branch**: `m05-metrics-core` (to be created)
+**Branch**: `m06-robustness-surfaces` (to be created)
 
-**Details**: [M05_plan.md](./milestones/M05/M05_plan.md) (pending)
+**Details**: [M06_plan.md](./milestones/M06/M06_plan.md) (pending)
 
 ---
 
@@ -105,6 +105,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M02 | `v0.0.3-m02` | `bc87cc5` | 4.5 | 2026-02-20 |
 | M03 | `v0.0.4-m03` | `d6fb692` | 4.6 | 2026-02-20 |
 | M04 | `v0.0.5-m04` | `0b79078` | 4.7 | 2026-02-20 |
+| M05 | `v0.0.6-m05` | `b0f9413` | 4.8 | 2026-02-20 |
 
 ---
 
@@ -116,4 +117,5 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SEC-001 | CORS permissive | M00 | Pre-production | — |
 | SCAN-001 | No security scanning | M01 | M12 | — |
 | DEP-001 | No dependency lockfile | M02 | M12 | — |
+| INT-001 | Real sweep integration test | M05 | M06 | — |
 
