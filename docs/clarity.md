@@ -39,21 +39,21 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ## Milestone Table
 
-| Milestone | Name | Objective | Status |
-|-----------|------|-----------|--------|
-| **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | ✅ CI Green (awaiting merge) |
-| **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ⏳ Pending |
-| **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ⏳ Pending |
-| **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ⏳ Pending |
-| **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ⏳ Pending |
-| **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ⏳ Pending |
-| **M06** | Robustness Surfaces | Estimate and persist robustness surfaces | ⏳ Pending |
-| **M07** | Monte Carlo Reasoning Stability | Implement multi-sample decoding + entropy metrics | ⏳ Pending |
-| **M08** | Counterfactual Probe | Causal grounding probe via region masking | ⏳ Pending |
-| **M09** | UI Console Skeleton | Interactive UI for configuring sweeps + viewing results | ⏳ Pending |
-| **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ⏳ Pending |
-| **M11** | Report Export | Deterministic PDF report generation | ⏳ Pending |
-| **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending |
+| Milestone | Name | Objective | Status | Tag | Score |
+|-----------|------|-----------|--------|-----|-------|
+| **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | ✅ **Closed** | `v0.0.1-m00` | 4.2 |
+| **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ⏳ Pending | — | — |
+| **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ⏳ Pending | — | — |
+| **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ⏳ Pending | — | — |
+| **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ⏳ Pending | — | — |
+| **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ⏳ Pending | — | — |
+| **M06** | Robustness Surfaces | Estimate and persist robustness surfaces | ⏳ Pending | — | — |
+| **M07** | Monte Carlo Reasoning Stability | Implement multi-sample decoding + entropy metrics | ⏳ Pending | — | — |
+| **M08** | Counterfactual Probe | Causal grounding probe via region masking | ⏳ Pending | — | — |
+| **M09** | UI Console Skeleton | Interactive UI for configuring sweeps + viewing results | ⏳ Pending | — | — |
+| **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ⏳ Pending | — | — |
+| **M11** | Report Export | Deterministic PDF report generation | ⏳ Pending | — | — |
+| **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending | — | — |
 
 ---
 
@@ -86,13 +86,19 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M00
+## Current Milestone: M01
 
-**Objective**: Establish a full-stack CLARITY skeleton with backend, frontend, CI, and verified E2E path.
+**Objective**: Freeze CLARITY↔R2L boundary with contract + guardrail tests.
 
-**Success Criteria**: Frontend request successfully reaches backend `/health` in CI and passes E2E tests.
+**Branch**: `m01-boundary-guardrails` (to be created)
 
-**Branch**: `m00-bootstrap`
+**Details**: [M01_plan.md](./milestones/M01/M01_plan.md) (pending)
 
-**Details**: [M00_plan.md](./milestones/M00/M00_plan.md)
+---
+
+## Baseline Reference
+
+| Milestone | Tag | Commit | Score | Date |
+|-----------|-----|--------|-------|------|
+| M00 | `v0.0.1-m00` | `45c5a30` | 4.2 | 2026-02-20 |
 
