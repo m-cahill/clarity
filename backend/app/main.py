@@ -11,13 +11,13 @@ from typing import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.app.health import (
+from app.health import (
     HealthResponse,
     VersionResponse,
     get_health,
     get_version,
 )
-from backend.app.logging_config import configure_logging
+from app.logging_config import configure_logging
 
 logger = logging.getLogger(__name__)
 

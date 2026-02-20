@@ -8,7 +8,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from backend.app import __version__
+from app import __version__
 
 
 class HealthResponse(BaseModel):

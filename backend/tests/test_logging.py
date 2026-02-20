@@ -7,7 +7,7 @@ import json
 import logging
 from io import StringIO
 
-from backend.app.logging_config import StableJsonFormatter, configure_logging
+from app.logging_config import StableJsonFormatter, configure_logging
 
 
 class TestStableJsonFormatter:
