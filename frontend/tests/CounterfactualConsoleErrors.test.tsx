@@ -4,7 +4,7 @@
  * Tests for error states and edge cases to improve branch coverage.
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { http, HttpResponse } from "msw";
