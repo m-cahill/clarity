@@ -46,7 +46,8 @@ test.describe("Health E2E Verification", () => {
   test("should render CLARITY title", async ({ page }) => {
     await page.goto("/");
 
-    const title = page.getByRole("heading", { name: "CLARITY" });
+    // Use exact matching to avoid "About CLARITY" heading
+    const title = page.getByRole("heading", { name: "CLARITY", exact: true });
     await expect(title).toBeVisible();
   });
 
