@@ -20,7 +20,14 @@
 | 2026-02-20T10:11 | write | Create frontend tests | frontend/tests/ | ✅ |
 | 2026-02-20T10:12 | pytest | Run all backend tests (609 passed) | backend/tests/ | ✅ |
 | 2026-02-20T10:13 | npm test | Run all frontend tests (38 passed) | frontend/tests/ | ✅ |
-| 2026-02-20T10:14 | git | Create branch and commit | m09-ui-console | pending |
+| 2026-02-20T10:14 | git | Create branch and commit | m09-ui-console | ✅ |
+| 2026-02-20T10:15 | gh pr | Create PR #11 | main <- m09-ui-console | ✅ |
+| 2026-02-20T10:20 | fix | Fix frontend coverage thresholds | CounterfactualConsoleErrors.test.tsx | ✅ |
+| 2026-02-20T10:22 | fix | Fix E2E test exact heading match | e2e/health.spec.ts | ✅ |
+| 2026-02-20T10:25 | CI | All checks green (4 runs) | PR #11 | ✅ |
+| 2026-02-20T21:55 | gh run view | Retrieve final CI run metadata | Run 22242551473 | ✅ |
+| 2026-02-20T21:56 | write | Generate M09_run1.md CI analysis | docs/milestones/M09/M09_run1.md | ✅ |
+| 2026-02-20T22:00 | gh pr merge | Merge PR #11 to main | PR #11 | ⏳ |
 
 ---
 
