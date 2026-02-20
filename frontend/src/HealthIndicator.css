@@ -1,0 +1,102 @@
+/* HealthIndicator Component Styles */
+
+.health-indicator {
+  background: var(--color-bg-secondary);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  max-width: 400px;
+}
+
+.health-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-md);
+}
+
+.health-status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.status-dot.loading {
+  background: var(--color-text-secondary);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.status-dot.ok {
+  background: var(--color-accent-primary);
+  box-shadow: 0 0 8px var(--color-accent-primary);
+}
+
+.status-dot.error {
+  background: var(--color-accent-error);
+  box-shadow: 0 0 8px var(--color-accent-error);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.health-details {
+  flex: 1;
+}
+
+.health-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--color-bg-tertiary);
+}
+
+.health-row:last-child {
+  border-bottom: none;
+}
+
+.health-row .label {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.health-row .value {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.health-row .value.error {
+  color: var(--color-accent-error);
+}
+
+.error-message .value {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.health-loading span {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.health-ok .value {
+  color: var(--color-accent-primary);
+}
+
