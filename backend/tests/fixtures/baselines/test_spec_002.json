@@ -1,0 +1,10 @@
+{
+  "baseline_id": "test-baseline-002",
+  "prompt": "Evaluate this retinal scan for diabetic retinopathy signs.",
+  "axis": "contrast",
+  "values": ["0p9", "1p0", "1p1"],
+  "expected_answer": "Mild diabetic retinopathy detected.",
+  "expected_justification": "Microaneurysms visible in the temporal region. No hard exudates or hemorrhages observed.",
+  "seed": 123
+}
+

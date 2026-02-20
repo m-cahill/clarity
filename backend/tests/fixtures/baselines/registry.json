@@ -1,0 +1,17 @@
+{
+  "baselines": {
+    "test-baseline-001": {
+      "name": "Test Baseline 001",
+      "description": "Small test baseline for CI",
+      "image_file": "test_image_001.png",
+      "spec_file": "test_spec_001.json"
+    },
+    "test-baseline-002": {
+      "name": "Test Baseline 002",
+      "description": "Alternate test baseline for determinism verification",
+      "image_file": "test_image_002.png",
+      "spec_file": "test_spec_002.json"
+    }
+  }
+}
+

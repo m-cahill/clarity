@@ -11,6 +11,7 @@ from typing import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.counterfactual_router import router as counterfactual_router
 from app.health import (
     HealthResponse,
     VersionResponse,
@@ -64,4 +65,8 @@ def version() -> VersionResponse:
     Returns service version and git SHA (if available).
     """
     return get_version()
+
+
+# Include counterfactual router (M09)
+app.include_router(counterfactual_router)
 

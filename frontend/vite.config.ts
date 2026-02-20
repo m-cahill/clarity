@@ -35,6 +35,7 @@ export default defineConfig({
         "**/*.d.ts",
         "**/*.config.*",
         "**/main.tsx",
+        "**/.eslintrc.cjs",
       ],
     },
   },

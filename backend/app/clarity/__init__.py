@@ -159,6 +159,21 @@ from app.clarity.counterfactual_engine import (
     generate_grid_masks,
 )
 
+# Counterfactual Orchestrator (M09)
+from app.clarity.counterfactual_orchestrator import (
+    BaselineSpec,
+    CounterfactualOrchestrator,
+    OrchestratorConfig,
+    OrchestratorError,
+    OrchestratorResult,
+    RunnerProtocol,
+    RunnerResult,
+    StubbedRunner,
+    list_available_baselines,
+    load_baseline_registry,
+    load_baseline_spec,
+)
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -249,4 +264,16 @@ __all__ = [
     "apply_mask",
     "compute_probe_result",
     "compute_probe_surface",
+    # Counterfactual Orchestrator (M09)
+    "CounterfactualOrchestrator",
+    "OrchestratorConfig",
+    "OrchestratorError",
+    "OrchestratorResult",
+    "BaselineSpec",
+    "RunnerProtocol",
+    "RunnerResult",
+    "StubbedRunner",
+    "load_baseline_registry",
+    "load_baseline_spec",
+    "list_available_baselines",
 ]
