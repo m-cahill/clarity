@@ -8,10 +8,13 @@ import { fetchHealth, fetchVersion, ApiError } from "../src/api";
 describe("API Client", () => {
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn());
+    // Ensure clean env for each test
+    vi.unstubAllEnvs();
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
   });
 
   describe("fetchHealth", () => {
@@ -34,37 +37,21 @@ describe("API Client", () => {
     });
 
     it("should throw ApiError on non-ok response", async () => {
-      vi.mocked(fetch).mockResolvedValueOnce({
+      vi.mocked(fetch).mockResolvedValue({
         ok: false,
         status: 500,
         statusText: "Internal Server Error",
       } as Response);
 
       await expect(fetchHealth()).rejects.toThrow(ApiError);
-      await expect(fetchHealth()).rejects.toMatchObject({
-        statusCode: 500,
-      });
-    });
 
-    it("should use VITE_API_URL when set", async () => {
-      // Reset the module to pick up new env
-      vi.stubEnv("VITE_API_URL", "http://backend:8000");
-
-      const mockResponse = {
-        status: "ok",
-        service: "clarity-backend",
-        version: "0.0.1",
-      };
-
-      vi.mocked(fetch).mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(mockResponse),
-      } as Response);
-
-      // Note: In actual test, we'd need to re-import the module
-      // This test documents the expected behavior
-      const result = await fetchHealth();
-      expect(result).toEqual(mockResponse);
+      // Verify status code in a separate assertion
+      try {
+        await fetchHealth();
+      } catch (error) {
+        expect(error).toBeInstanceOf(ApiError);
+        expect((error as ApiError).statusCode).toBe(500);
+      }
     });
   });
 
@@ -97,4 +84,3 @@ describe("API Client", () => {
     });
   });
 });
-

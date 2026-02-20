@@ -7,8 +7,15 @@ import { render, screen } from "@testing-library/react";
 import App from "../src/App";
 import * as api from "../src/api";
 
-// Mock the API module
-vi.mock("../src/api");
+// Mock the API module but keep ApiError real
+vi.mock("../src/api", async (importOriginal) => {
+  const actual = await importOriginal<typeof api>();
+  return {
+    ...actual,
+    fetchHealth: vi.fn(),
+    fetchVersion: vi.fn(),
+  };
+});
 
 describe("App", () => {
   it("should render the application title", () => {
@@ -65,4 +72,3 @@ describe("App", () => {
     ).toBeInTheDocument();
   });
 });
-

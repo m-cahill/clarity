@@ -7,8 +7,15 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { HealthIndicator } from "../src/HealthIndicator";
 import * as api from "../src/api";
 
-// Mock the API module
-vi.mock("../src/api");
+// Mock the API module but keep ApiError real
+vi.mock("../src/api", async (importOriginal) => {
+  const actual = await importOriginal<typeof api>();
+  return {
+    ...actual,
+    fetchHealth: vi.fn(),
+    fetchVersion: vi.fn(),
+  };
+});
 
 describe("HealthIndicator", () => {
   beforeEach(() => {
@@ -112,4 +119,3 @@ describe("HealthIndicator", () => {
     expect(screen.getByTestId("health-indicator")).toBeInTheDocument();
   });
 });
-
