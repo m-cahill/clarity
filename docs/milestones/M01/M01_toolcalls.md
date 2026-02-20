@@ -23,15 +23,25 @@
 | 2026-02-19 23:15 | search_replace | Add version header to architecture contract | docs/CLARITY_ARCHITECHTURE_CONTRACT.MD | ✅ Complete |
 | 2026-02-19 23:16 | write | Create branch protection documentation | docs/milestones/M01/M01_branch_protection.md | ✅ Complete |
 | 2026-02-19 23:17 | search_replace | Update clarity module exports | backend/app/clarity/__init__.py | ✅ Complete |
-| 2026-02-19 23:18 | run_terminal_cmd | Run local tests to verify | backend/tests/ | 🔄 In Progress |
+| 2026-02-19 23:18 | pytest | Run local tests to verify | backend/tests/ | ✅ 44 tests pass, 95% coverage |
+| 2026-02-19 23:19 | search_replace | Fix .gitignore to allow clarity module | .gitignore | ✅ Complete |
+| 2026-02-19 23:20 | git checkout | Create working branch | m01-boundary-guardrails | ✅ Complete |
+| 2026-02-19 23:21 | git commit | Commit all M01 changes | 14 files, 1308 insertions | ✅ b8dada6 |
+| 2026-02-19 23:22 | git push | Push branch to origin | m01-boundary-guardrails | ✅ Complete |
+| 2026-02-19 23:23 | gh pr create | Create PR #2 | main ← m01-boundary-guardrails | ✅ Complete |
+| 2026-02-19 23:25 | gh pr checks | Monitor CI status | PR #2, Run 22212777860 | ✅ All 6 jobs pass |
+| 2026-02-19 23:30 | write | Create M01_run1.md CI analysis | docs/milestones/M01/M01_run1.md | ✅ Complete |
 
 ---
 
 ## Summary
 
-**Branch**: `m01-boundary-guardrails` (to be created)  
+**Branch**: `m01-boundary-guardrails`  
+**Commit**: `b8dada6`  
+**PR**: #2  
+**CI Run**: 22212777860  
 **Baseline**: M00 (`v0.0.1-m00`)  
-**Status**: Implementation complete, running local tests
+**Status**: 🟢 CI GREEN — Ready for audit
 
 ## Files Created
 
@@ -45,11 +55,13 @@
 - `backend/tests/fixtures/r2l_samples/trace_pack_without_metadata.jsonl`
 - `docs/milestones/M01/M01_plan.md`
 - `docs/milestones/M01/M01_branch_protection.md`
+- `docs/milestones/M01/M01_run1.md`
 
 ## Files Modified
 
 - `.github/workflows/ci.yml` — SHA pinning + permissions block
-- `docs/CLARITY_ARCHITECHTURE_CONTRACT.MD` — version header freeze
+- `.gitignore` — Allow backend/app/clarity/ source module
+- `docs/CLARITY_ARCHITECHTURE_CONTRACT.MD` — Version header freeze
 
 ## SHA Pinning Summary
 
@@ -59,3 +71,14 @@
 | actions/setup-python | v5 | a26af69be951a213d495a4c3e4e4022e16d87065 |
 | actions/setup-node | v4 | 49933ea5288caeca8642d1e84afbd3f7d6820020 |
 | actions/upload-artifact | v4 | ea165f8d65b6e75b540449e92b4886f43607fa02 |
+
+## CI Results
+
+| Job | Status | Duration |
+|-----|--------|----------|
+| Backend (Python 3.10) | ✅ Pass | 26s |
+| Backend (Python 3.11) | ✅ Pass | 23s |
+| Backend (Python 3.12) | ✅ Pass | 17s |
+| Frontend | ✅ Pass | 23s |
+| E2E Tests | ✅ Pass | 1m 9s |
+| CI Success | ✅ Pass | 3s |
