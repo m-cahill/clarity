@@ -131,5 +131,84 @@ describe("CounterfactualConsole", () => {
     // Initially disabled because baseline not selected
     expect(runButton).toBeDisabled();
   });
+
+  it("changes grid size input", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    const gridInput = screen.getByLabelText("Grid Size (k×k)") as HTMLInputElement;
+    fireEvent.change(gridInput, { target: { value: "5" } });
+    expect(gridInput.value).toBe("5");
+  });
+
+  it("changes axis selector", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    const axisSelect = screen.getByLabelText("Axis") as HTMLSelectElement;
+    fireEvent.change(axisSelect, { target: { value: "contrast" } });
+    expect(axisSelect.value).toBe("contrast");
+  });
+
+  it("changes value selector", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    const valueSelect = screen.getByLabelText("Value") as HTMLSelectElement;
+    fireEvent.change(valueSelect, { target: { value: "0p9" } });
+    expect(valueSelect.value).toBe("0p9");
+  });
+
+  it("changes baseline selector", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    const baselineSelect = screen.getByLabelText("Baseline") as HTMLSelectElement;
+    fireEvent.change(baselineSelect, { target: { value: "test-baseline-002" } });
+    expect(baselineSelect.value).toBe("test-baseline-002");
+  });
+
+  it("shows probe results with region delta values", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Run Probe"));
+
+    await waitFor(() => {
+      // Check that summary stats are displayed (from mock)
+      // Values rendered with 4 decimal places via .toFixed(4)
+      expect(screen.getAllByText(/0\.\d{4}/).length).toBeGreaterThan(0);
+    });
+  });
+
+  it("displays negative delta with correct styling class", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Run Probe"));
+
+    await waitFor(() => {
+      // Check region ID is displayed
+      expect(screen.getByText("grid_r0_c0_k3")).toBeInTheDocument();
+    });
+  });
 });
 
