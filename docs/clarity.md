@@ -50,7 +50,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M06** | Robustness Surfaces | Deterministic surface computation from metrics | ✅ **Closed** | `v0.0.7-m06` | 4.85 |
 | **M07** | Gradient / Stability Estimation | Gradient estimation and stability analysis | ✅ **Closed** | `v0.0.8-m07` | 4.90 |
 | **M08** | Counterfactual Probe | Causal grounding probe via region masking | ✅ **Closed** | `v0.0.9-m08` | 4.92 |
-| **M09** | UI Console Skeleton | Interactive UI for configuring sweeps + viewing results | ⏳ Pending | — | — |
+| **M09** | UI Console Skeleton | Interactive UI for counterfactual orchestration + viewing results | ✅ **Closed** | `v0.0.10-m09` | 4.94 |
 | **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ⏳ Pending | — | — |
 | **M11** | Report Export | Deterministic PDF report generation | ⏳ Pending | — | — |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending | — | — |
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M09
+## Current Milestone: M10
 
-**Objective**: Interactive UI for configuring sweeps + viewing results.
+**Objective**: Visualization Overlays — Evidence map overlays + saliency heatmaps.
 
-**Branch**: `m09-ui-console` (to be created)
+**Branch**: `m10-visualization` (to be created)
 
-**Details**: [M09_plan.md](./milestones/M09/M09_plan.md) (pending)
+**Details**: [M10_plan.md](./milestones/M10/M10_plan.md) (pending)
 
 ---
 
@@ -109,6 +109,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M06 | `v0.0.7-m06` | `0d3ba66` | 4.85 | 2026-02-20 |
 | M07 | `v0.0.8-m07` | `976412a` | 4.90 | 2026-02-20 |
 | M08 | `v0.0.9-m08` | `f92e1c5` | 4.92 | 2026-02-20 |
+| M09 | `v0.0.10-m09` | `0c0180f` | 4.94 | 2026-02-20 |
 
 ---
 
@@ -126,4 +127,5 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | ID | Issue | Discovered | Resolved | Evidence |
 |----|-------|------------|----------|----------|
 | INT-001 | Real sweep → metrics → surface → gradient integration | M05 | M07 | `test_gradient_engine.py::TestINT001RealSweepIntegration` |
+| CF-002 | Actual counterfactual sweeps orchestration | M08 | M09 | `CounterfactualOrchestrator` + `POST /counterfactual/run` endpoint |
 
