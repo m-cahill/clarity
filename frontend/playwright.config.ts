@@ -23,23 +23,27 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-  // Web server configuration for local E2E runs
-  webServer: [
-    {
-      command: "cd ../backend && python -m uvicorn app.main:app --port 8000",
-      url: "http://localhost:8000/health",
-      reuseExistingServer: !process.env.CI,
-      timeout: 30000,
-    },
-    {
-      command: "npm run dev",
-      url: "http://localhost:5173",
-      reuseExistingServer: !process.env.CI,
-      timeout: 30000,
-      env: {
-        VITE_API_URL: "http://localhost:8000",
-      },
-    },
-  ],
+  // Web server configuration
+  // In CI, we start servers manually before Playwright, so reuse them
+  // Locally, Playwright can start them for us
+  webServer: process.env.CI
+    ? undefined
+    : [
+        {
+          command: "cd ../backend && python -m uvicorn app.main:app --port 8000",
+          url: "http://localhost:8000/health",
+          reuseExistingServer: true,
+          timeout: 30000,
+        },
+        {
+          command: "npm run dev",
+          url: "http://localhost:5173",
+          reuseExistingServer: true,
+          timeout: 30000,
+          env: {
+            VITE_API_URL: "http://localhost:8000",
+          },
+        },
+      ],
 });
 
