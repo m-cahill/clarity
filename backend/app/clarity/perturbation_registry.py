@@ -4,7 +4,7 @@ Provides centralized registration and lookup of perturbation types.
 Prevents duplicate registration and ensures type safety.
 """
 
-from typing import Any
+from typing import Any, Type
 
 from app.clarity.perturbations.base import Perturbation
 from app.clarity.perturbations.blur import GaussianBlurPerturbation
@@ -13,8 +13,8 @@ from app.clarity.perturbations.contrast import ContrastPerturbation
 from app.clarity.perturbations.gaussian_noise import GaussianNoisePerturbation
 from app.clarity.perturbations.resize import ResizePerturbation
 
-# Type alias for perturbation factory
-type PerturbationClass = type[Perturbation]
+# Type alias for perturbation factory (compatible with Python 3.10+)
+PerturbationClass = Type[Perturbation]
 
 # Registry mapping name -> perturbation class
 _REGISTRY: dict[str, PerturbationClass] = {}
