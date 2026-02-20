@@ -47,8 +47,8 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ✅ **Closed** | `v0.0.4-m03` | 4.6 |
 | **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ✅ **Closed** | `v0.0.5-m04` | 4.7 |
 | **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ✅ **Closed** | `v0.0.6-m05` | 4.8 |
-| **M06** | Robustness Surfaces | Estimate and persist robustness surfaces | ⏳ Pending | — | — |
-| **M07** | Monte Carlo Reasoning Stability | Implement multi-sample decoding + entropy metrics | ⏳ Pending | — | — |
+| **M06** | Robustness Surfaces | Deterministic surface computation from metrics | ✅ **Closed** | `v0.0.7-m06` | 4.85 |
+| **M07** | Gradient / Stability Estimation | Gradient estimation and stability analysis | ⏳ Pending | — | — |
 | **M08** | Counterfactual Probe | Causal grounding probe via region masking | ⏳ Pending | — | — |
 | **M09** | UI Console Skeleton | Interactive UI for configuring sweeps + viewing results | ⏳ Pending | — | — |
 | **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ⏳ Pending | — | — |
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M06
+## Current Milestone: M07
 
-**Objective**: Estimate and persist robustness surfaces.
+**Objective**: Gradient estimation and stability analysis from robustness surfaces.
 
-**Branch**: `m06-robustness-surfaces` (to be created)
+**Branch**: `m07-gradient-stability` (to be created)
 
-**Details**: [M06_plan.md](./milestones/M06/M06_plan.md) (pending)
+**Details**: [M07_plan.md](./milestones/M07/M07_plan.md) (pending)
 
 ---
 
@@ -106,6 +106,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M03 | `v0.0.4-m03` | `d6fb692` | 4.6 | 2026-02-20 |
 | M04 | `v0.0.5-m04` | `0b79078` | 4.7 | 2026-02-20 |
 | M05 | `v0.0.6-m05` | `b0f9413` | 4.8 | 2026-02-20 |
+| M06 | `v0.0.7-m06` | `0d3ba66` | 4.85 | 2026-02-20 |
 
 ---
 
@@ -117,5 +118,5 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SEC-001 | CORS permissive | M00 | Pre-production | — |
 | SCAN-001 | No security scanning | M01 | M12 | — |
 | DEP-001 | No dependency lockfile | M02 | M12 | — |
-| INT-001 | Real sweep integration test | M05 | M06 | — |
+| INT-001 | Real sweep → metrics → surface integration | M05 | M07 | — |
 
