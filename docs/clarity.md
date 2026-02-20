@@ -41,7 +41,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 | Milestone | Name | Objective | Status |
 |-----------|------|-----------|--------|
-| **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | 🔄 In Progress |
+| **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | ✅ CI Green (awaiting merge) |
 | **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ⏳ Pending |
 | **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ⏳ Pending |
 | **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ⏳ Pending |

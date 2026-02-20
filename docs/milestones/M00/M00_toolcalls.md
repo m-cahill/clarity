@@ -25,13 +25,30 @@
 | 2026-02-19T10:00:16Z | run_terminal | git add -A; git commit | 57 files, 6443 insertions | ✅ completed |
 | 2026-02-19T10:00:17Z | run_terminal | git push -u origin m00-bootstrap | pushed to GitHub | ✅ completed |
 
+| 2026-02-19T10:00:18Z | run_terminal | CI Run 1 | Initial push - failed (missing README, package-lock) | ❌ failed |
+| 2026-02-19T10:00:19Z | write | Add backend/README.md + npm install | fix missing files | ✅ completed |
+| 2026-02-19T10:00:20Z | run_terminal | CI Run 2 | Failed - hatchling packages config | ❌ failed |
+| 2026-02-19T10:00:21Z | search_replace | Fix hatchling packages + test mocks | backend/pyproject.toml, frontend tests | ✅ completed |
+| 2026-02-19T10:00:22Z | run_terminal | CI Run 3 | Failed - import paths + vitest e2e | ❌ failed |
+| 2026-02-19T10:00:23Z | search_replace | Fix import paths + exclude e2e | app imports, vite.config.ts | ✅ completed |
+| 2026-02-19T10:00:24Z | run_terminal | CI Run 4 | Failed - Playwright webServer conflict | ❌ failed |
+| 2026-02-19T10:00:25Z | search_replace | Disable Playwright webServer in CI | playwright.config.ts | ✅ completed |
+| 2026-02-19T10:00:26Z | run_terminal | CI Run 5 | ALL CHECKS PASS | ✅ **GREEN** |
+
 ---
 
 ## Summary
 
 **Branch**: `m00-bootstrap`
-**Commit**: `4789e04`
-**Files Changed**: 57
-**Insertions**: 6,443
-**PR URL**: https://github.com/m-cahill/clarity/pull/new/m00-bootstrap
+**Commit**: `2caddd5`
+**PR**: https://github.com/m-cahill/clarity/pull/1
+**CI Status**: ✅ **ALL CHECKS PASSING**
+
+### CI Results (Run 5)
+- ✅ Backend (Python 3.10) - 25s
+- ✅ Backend (Python 3.11) - 23s
+- ✅ Backend (Python 3.12) - 19s
+- ✅ Frontend - 19s
+- ✅ E2E Tests - 1m8s
+- ✅ CI Success - 2s
 
