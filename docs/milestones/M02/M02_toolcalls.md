@@ -34,6 +34,11 @@
 | 2026-02-20 00:14 | gh run view | Verify CI success | CI run 22213527363 | ✅ Complete |
 | 2026-02-20 00:15 | write | Create M02_run1.md analysis | docs/milestones/M02/M02_run1.md | ✅ Complete |
 | 2026-02-20 00:20 | write | Generate M02_audit.md | docs/milestones/M02/M02_audit.md | ✅ Complete |
+| 2026-02-20 00:25 | gh pr merge | Merge PR #4 | PR #4 → main | ✅ Complete |
+| 2026-02-20 00:26 | git tag | Create v0.0.3-m02 tag | git | ✅ Complete |
+| 2026-02-20 00:27 | write | Update clarity.md milestone table | docs/clarity.md | ✅ Complete |
+| 2026-02-20 00:28 | write | Generate M02_summary.md | docs/milestones/M02/M02_summary.md | ✅ Complete |
+| 2026-02-20 00:29 | mkdir/write | Seed M03 folder | docs/milestones/M03/ | ✅ Complete |
 
 ---
 

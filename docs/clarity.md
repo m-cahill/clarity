@@ -43,7 +43,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 |-----------|------|-----------|--------|-----|-------|
 | **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | ✅ **Closed** | `v0.0.1-m00` | 4.2 |
 | **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ✅ **Closed** | `v0.0.2-m01` | 4.4 |
-| **M02** | Perturbation Core | Implement deterministic image perturbation recipes | 🔄 **In Progress** | — | — |
+| **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ✅ **Closed** | `v0.0.3-m02` | 4.5 |
 | **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ⏳ Pending | — | — |
 | **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ⏳ Pending | — | — |
 | **M05** | Metrics Core (ESI + Drift) | Compute ESI and justification drift metrics | ⏳ Pending | — | — |
@@ -86,34 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M02
+## Current Milestone: M03
 
-**Objective**: Implement deterministic image perturbation recipes.
+**Objective**: Add black-box R2L runner invocation + artifact ingestion.
 
-**Branch**: `m02-perturbation-core`
+**Branch**: `m03-r2l-harness` (to be created)
 
-**Details**: [M02_plan.md](./milestones/M02/M02_plan.md)
-
-### M02 Implementation Summary
-
-**New Files (12):**
-- `backend/app/clarity/perturbations/__init__.py`
-- `backend/app/clarity/perturbations/base.py` — Perturbation ABC
-- `backend/app/clarity/perturbations/brightness.py`
-- `backend/app/clarity/perturbations/contrast.py`
-- `backend/app/clarity/perturbations/gaussian_noise.py`
-- `backend/app/clarity/perturbations/blur.py`
-- `backend/app/clarity/perturbations/resize.py`
-- `backend/app/clarity/image_utils.py` — Canonical hashing + conversion
-- `backend/app/clarity/perturbation_registry.py` — Type registry
-- `backend/tests/test_perturbations.py` — 61 tests
-
-**Key Contracts:**
-- All perturbations are frozen dataclasses (immutable)
-- Input: RGB, RGBA, or L mode PIL Image
-- Output: Always RGB mode PIL Image
-- Gaussian noise requires explicit seed (no global randomness)
-- `image_sha256()` hashes canonical pixel bytes + dimensions
+**Details**: [M03_plan.md](./milestones/M03/M03_plan.md) (pending)
 
 ---
 
@@ -123,6 +102,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 |-----------|-----|--------|-------|------|
 | M00 | `v0.0.1-m00` | `45c5a30` | 4.2 | 2026-02-20 |
 | M01 | `v0.0.2-m01` | `d8192ed` | 4.4 | 2026-02-20 |
+| M02 | `v0.0.3-m02` | `bc87cc5` | 4.5 | 2026-02-20 |
 
 ---
 
@@ -133,4 +113,5 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | GOV-001 | Branch protection | M00 | Manual config | [Issue #3](https://github.com/m-cahill/clarity/issues/3) |
 | SEC-001 | CORS permissive | M00 | Pre-production | — |
 | SCAN-001 | No security scanning | M01 | M12 | — |
+| DEP-001 | No dependency lockfile | M02 | M12 | — |
 
