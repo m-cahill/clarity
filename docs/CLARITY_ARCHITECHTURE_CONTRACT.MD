@@ -1,8 +1,17 @@
-## 1-Page Architecture Contract — CLARITY ↔ R2L Boundary Freeze (v0.1)
+## 1-Page Architecture Contract — CLARITY ↔ R2L Boundary Freeze
 
-**Project:** CLARITY (Clinical Localization and Reasoning Integrity Testing) 
-**Consumer Substrate:** R2L deterministpost-M22 state) 
-**Contract Status:** DRAFT → to be acceed as **immutably versioned** thereafter.
+---
+
+**Boundary Contract Version:** `v0.1`  
+**Frozen At:** M01  
+**Date:** 2026-02-20  
+**Status:** ACCEPTED ✅
+
+---
+
+**Project:** CLARITY (Clinical Localization and Reasoning Integrity Testing)  
+**Consumer Substrate:** R2L (deterministic micro-lab engine)  
+**Contract Status:** FROZEN — immutably versioned. Changes require milestone ID + explicit diff section.
 
 ### A. Non-Negotiable Invariants (Must Remain True)
 
