@@ -16,6 +16,8 @@ Module Structure:
 - sweep_models: Sweep data structures (M04)
 - metrics: Metric data structures and helpers (M05)
 - metrics_engine: Metrics computation engine (M05)
+- surfaces: Robustness surface data structures (M06)
+- surface_engine: Surface computation engine (M06)
 - r2l_interface: Namespace utilities (deprecated R2LInterface)
 - serialization: Deterministic JSON serialization
 - sweep_manifest: Sweep manifest model (M01, legacy)
@@ -121,6 +123,17 @@ from app.clarity.metrics import (
 # Metrics Engine (M05)
 from app.clarity.metrics_engine import MetricsEngine
 
+# Surfaces (M06)
+from app.clarity.surfaces import (
+    AxisSurface,
+    RobustnessSurface,
+    SurfaceComputationError,
+    SurfacePoint,
+)
+
+# Surface Engine (M06)
+from app.clarity.surface_engine import SurfaceEngine
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -186,4 +199,11 @@ __all__ = [
     "extract_justification",
     # Metrics Engine (M05)
     "MetricsEngine",
+    # Surfaces (M06)
+    "SurfacePoint",
+    "AxisSurface",
+    "RobustnessSurface",
+    "SurfaceComputationError",
+    # Surface Engine (M06)
+    "SurfaceEngine",
 ]
