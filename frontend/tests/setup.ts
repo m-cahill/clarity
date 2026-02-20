@@ -45,7 +45,7 @@ class MockImageData {
 // This avoids needing to install the canvas npm package
 const mockContext2d = {
   putImageData: () => {},
-  getImageData: (x: number, y: number, w: number, h: number) =>
+  getImageData: (_x: number, _y: number, w: number, h: number) =>
     new MockImageData(w, h),
   createImageData: (w: number, h: number) => new MockImageData(w, h),
   fillRect: () => {},
