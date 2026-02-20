@@ -1,0 +1,62 @@
+# CLARITY Development Docker Compose
+# M00: Backend + Frontend + optional Postgres placeholder
+
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - clarity-net
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - clarity-net
+
+  # Postgres placeholder for future milestones
+  # Uncomment when persistence layer is needed
+  # postgres:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: clarity
+  #     POSTGRES_PASSWORD: clarity_dev
+  #     POSTGRES_DB: clarity
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U clarity"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - clarity-net
+
+networks:
+  clarity-net:
+    driver: bridge
+
+# volumes:
+#   postgres_data:
+

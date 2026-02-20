@@ -1,0 +1,55 @@
+# CLARITY Pre-commit Configuration
+# M00 Decision: Configured but NOT enforced in CI (local developer aid only)
+# Enforcement deferred to M01 quality hardening
+
+repos:
+  # Python formatting and linting with Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.2.2
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # Python type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - fastapi
+          - pydantic
+          - python-json-logger
+        args: [--config-file=backend/pyproject.toml]
+        files: ^backend/
+
+  # General file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  # Frontend ESLint (if eslint is available)
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npm run lint --prefix frontend
+        language: system
+        files: ^frontend/.*\.(ts|tsx)$
+        pass_filenames: false
+
+# Default stages
+default_stages: [commit]
+
+# Don't fail on first error during development
+fail_fast: false
+
