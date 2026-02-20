@@ -144,6 +144,21 @@ from app.clarity.gradient_engine import (
     GradientSurface,
 )
 
+# Counterfactual Engine (M08)
+from app.clarity.counterfactual_engine import (
+    CounterfactualComputationError,
+    CounterfactualEngine,
+    CounterfactualProbe,
+    MASK_FILL_VALUE,
+    ProbeResult,
+    ProbeSurface,
+    RegionMask,
+    apply_mask,
+    compute_probe_result,
+    compute_probe_surface,
+    generate_grid_masks,
+)
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -222,4 +237,16 @@ __all__ = [
     "GradientSurface",
     "GradientComputationError",
     "GradientEngine",
+    # Counterfactual Engine (M08)
+    "RegionMask",
+    "CounterfactualProbe",
+    "ProbeResult",
+    "ProbeSurface",
+    "CounterfactualComputationError",
+    "CounterfactualEngine",
+    "MASK_FILL_VALUE",
+    "generate_grid_masks",
+    "apply_mask",
+    "compute_probe_result",
+    "compute_probe_surface",
 ]
