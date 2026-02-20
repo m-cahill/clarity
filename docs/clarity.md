@@ -51,7 +51,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M07** | Gradient / Stability Estimation | Gradient estimation and stability analysis | ✅ **Closed** | `v0.0.8-m07` | 4.90 |
 | **M08** | Counterfactual Probe | Causal grounding probe via region masking | ✅ **Closed** | `v0.0.9-m08` | 4.92 |
 | **M09** | UI Console Skeleton | Interactive UI for counterfactual orchestration + viewing results | ✅ **Closed** | `v0.0.10-m09` | 4.94 |
-| **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ⏳ Pending | — | — |
+| **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ✅ **Closed** | `v0.0.11-m10` | 4.96 |
 | **M11** | Report Export | Deterministic PDF report generation | ⏳ Pending | — | — |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending | — | — |
 
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M10
+## Current Milestone: M11
 
-**Objective**: Visualization Overlays — Evidence map overlays + saliency heatmaps.
+**Objective**: Report Export — Deterministic PDF report generation.
 
-**Branch**: `m10-visualization` (to be created)
+**Branch**: `m11-report-export` (to be created)
 
-**Details**: [M10_plan.md](./milestones/M10/M10_plan.md) (pending)
+**Details**: [M11_plan.md](./milestones/M11/M11_plan.md) (pending)
 
 ---
 
@@ -110,6 +110,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M07 | `v0.0.8-m07` | `976412a` | 4.90 | 2026-02-20 |
 | M08 | `v0.0.9-m08` | `f92e1c5` | 4.92 | 2026-02-20 |
 | M09 | `v0.0.10-m09` | `0c0180f` | 4.94 | 2026-02-20 |
+| M10 | `v0.0.11-m10` | `92b3959` | 4.96 | 2026-02-20 |
 
 ---
 
