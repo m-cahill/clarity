@@ -42,7 +42,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | Milestone | Name | Objective | Status | Tag | Score |
 |-----------|------|-----------|--------|-----|-------|
 | **M00** | Repo Bootstrap + E2E Proof | Establish runnable CLARITY skeleton with CI and E2E verification | ✅ **Closed** | `v0.0.1-m00` | 4.2 |
-| **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ⏳ Pending | — | — |
+| **M01** | Boundary Guardrails | Freeze CLARITY↔R2L boundary with contract + guardrail tests | ✅ **Closed** | `v0.0.2-m01` | 4.4 |
 | **M02** | Perturbation Core | Implement deterministic image perturbation recipes | ⏳ Pending | — | — |
 | **M03** | R2L Invocation Harness | Add black-box R2L runner invocation + artifact ingestion | ⏳ Pending | — | — |
 | **M04** | Sweep Orchestrator | Execute multi-axis perturbation sweeps | ⏳ Pending | — | — |
@@ -86,13 +86,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M01
+## Current Milestone: M02
 
-**Objective**: Freeze CLARITY↔R2L boundary with contract + guardrail tests.
+**Objective**: Implement deterministic image perturbation recipes.
 
-**Branch**: `m01-boundary-guardrails` (to be created)
+**Branch**: `m02-perturbation-core` (to be created)
 
-**Details**: [M01_plan.md](./milestones/M01/M01_plan.md) (pending)
+**Details**: [M02_plan.md](./milestones/M02/M02_plan.md) (pending)
 
 ---
 
@@ -101,4 +101,15 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | Milestone | Tag | Commit | Score | Date |
 |-----------|-----|--------|-------|------|
 | M00 | `v0.0.1-m00` | `45c5a30` | 4.2 | 2026-02-20 |
+| M01 | `v0.0.2-m01` | `d8192ed` | 4.4 | 2026-02-20 |
+
+---
+
+## Deferred Issues Registry
+
+| ID | Issue | Discovered | Deferred To | Tracking |
+|----|-------|------------|-------------|----------|
+| GOV-001 | Branch protection | M00 | Manual config | [Issue #3](https://github.com/m-cahill/clarity/issues/3) |
+| SEC-001 | CORS permissive | M00 | Pre-production | — |
+| SCAN-001 | No security scanning | M01 | M12 | — |
 
