@@ -15,7 +15,9 @@
 | 2026-02-20 18:06 | run_terminal_cmd | Commit and push changes | git commit, git push | ✅ Done (96b29c9) |
 | 2026-02-20 18:07 | run_terminal_cmd | Create PR | gh pr create | ✅ Done (PR #9) |
 | 2026-02-20 18:08 | run_terminal_cmd | Monitor CI | gh pr checks | ✅ Done (All green first run) |
-| 2026-02-20 18:10 | write | Create M07_run1.md | `docs/milestones/M07/M07_run1.md` | ⏳ Pending |
+| 2026-02-20 18:10 | write | Create M07_run1.md | `docs/milestones/M07/M07_run1.md` | ✅ Done |
+| 2026-02-20 18:11 | run_terminal_cmd | Commit and push docs | git commit, git push | ✅ Done (65d9899) |
+| 2026-02-20 18:15 | run_terminal_cmd | Merge PR #9 | gh pr merge | ⏳ Pending |
 
 ---
 
