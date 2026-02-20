@@ -369,44 +369,77 @@ from r2l.runner import something
 
 
 # =============================================================================
-# R2L INTERFACE TESTS
+# R2L INTERFACE TESTS (DEPRECATED - Testing backward compatibility)
 # =============================================================================
 
 
 class TestR2LInterface:
-    """Test the R2L interface stub."""
+    """Test the R2L interface (deprecated, testing backward compatibility).
+
+    Note: R2LInterface is deprecated since M03. These tests verify backward
+    compatibility and emit deprecation warnings.
+    """
 
     def test_interface_instantiation(self) -> None:
-        """Verify R2L interface can be instantiated."""
-        interface = R2LInterface()
-        assert interface.r2l_bin == Path("r2l")
+        """Verify R2L interface can be instantiated with deprecation warning."""
+        import warnings
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            interface = R2LInterface()
+            assert interface.r2l_bin == Path("r2l")
+
+            # Verify deprecation warning was emitted
+            assert len(w) == 1
+            assert issubclass(w[0].category, DeprecationWarning)
+            assert "deprecated" in str(w[0].message).lower()
 
     def test_interface_custom_bin_path(self) -> None:
         """Verify custom binary path is accepted."""
-        interface = R2LInterface(r2l_bin="/usr/local/bin/r2l")
-        assert interface.r2l_bin == Path("/usr/local/bin/r2l")
+        import warnings
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            interface = R2LInterface(r2l_bin="/usr/local/bin/r2l")
+            assert interface.r2l_bin == Path("/usr/local/bin/r2l")
 
     def test_invoke_returns_stub(self) -> None:
-        """Verify invoke returns stub response (not yet implemented)."""
-        interface = R2LInterface()
-        result = interface.invoke(
-            spec_path=Path("test.json"),
-            output_dir=Path("/tmp/output"),
-            seed=42,
-        )
+        """Verify invoke returns stub response with deprecation warning."""
+        import warnings
 
-        assert result["stub"] is True
-        assert result["returncode"] == 0
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            interface = R2LInterface()
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = interface.invoke(
+                spec_path=Path("test.json"),
+                output_dir=Path("/tmp/output"),
+                seed=42,
+            )
+
+            assert result["stub"] is True
+            assert result["returncode"] == 0
+            # Verify deprecation warning was emitted for invoke()
+            assert len(w) >= 1
+            assert any(issubclass(warning.category, DeprecationWarning) for warning in w)
 
     def test_check_version_returns_stub(self) -> None:
-        """Verify version check returns stub version."""
-        interface = R2LInterface()
-        version = interface.check_version()
+        """Verify version check returns deprecation message."""
+        import warnings
 
-        assert "stub" in version.lower()
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            interface = R2LInterface()
+            version = interface.check_version()
+
+            # Now checks for "deprecated" instead of "stub"
+            assert "deprecated" in version.lower()
 
     def test_forbidden_patterns_defined(self) -> None:
         """Verify forbidden import patterns are defined."""
+        # This doesn't require instantiation, so no warning
         assert len(R2LInterface.FORBIDDEN_IMPORT_PATTERNS) >= 3
         assert "r2l.internal" in R2LInterface.FORBIDDEN_IMPORT_PATTERNS
 
