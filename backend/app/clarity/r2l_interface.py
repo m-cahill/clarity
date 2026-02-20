@@ -1,113 +1,39 @@
-"""R2L Interface for CLARITY.
+"""R2L Interface for CLARITY (Deprecated).
 
-This module defines the boundary between CLARITY and R2L. CLARITY operates
-as a pure consumer of R2L — it invokes R2L via CLI and consumes its artifacts.
+This module is DEPRECATED as of M03. The functionality has been moved to:
+- `r2l_runner.py` — R2LRunner class for CLI invocation
+- `artifact_loader.py` — Artifact loading and validation
 
-CRITICAL CONSTRAINTS:
+This module now provides:
+1. Backward-compatible aliases for R2LInvocationError
+2. Namespace utilities (get_clarity_output_namespace, validate_output_path)
+
+The R2LInterface class is DEPRECATED and will be removed in a future milestone.
+Use R2LRunner from r2l_runner.py instead.
+
+CRITICAL CONSTRAINTS (unchanged):
 1. CLARITY must NOT import internal R2L modules.
 2. CLARITY must NOT modify R2L execution semantics.
 3. All R2L invocation must be through CLI or stable public interface.
-
-This is a stub implementation for M01 boundary guardrails.
-Full implementation will be added in M03 (R2L Invocation Harness).
 """
 
 from __future__ import annotations
 
-import subprocess
+import warnings
 from pathlib import Path
-from typing import Any
 
+# Re-export exceptions from the new location for backward compatibility
+from app.clarity.r2l_runner import R2LInvocationError, R2LRunner, R2LTimeoutError
 
-class R2LInvocationError(Exception):
-    """Raised when R2L CLI invocation fails."""
-
-    pass
-
-
-class R2LInterface:
-    """Thin CLI-based interface to R2L.
-
-    This class provides a minimal interface for invoking R2L runs via CLI.
-    It explicitly prohibits direct internal imports to maintain the
-    consumer-only posture.
-
-    Attributes:
-        r2l_bin: Path to the R2L CLI binary or script.
-    """
-
-    # Forbidden import patterns - enforced by AST test
-    FORBIDDEN_IMPORT_PATTERNS: list[str] = [
-        "r2l.internal",
-        "r2l.runner",
-        "r2l._private",
-    ]
-
-    def __init__(self, r2l_bin: str | Path = "r2l") -> None:
-        """Initialize the R2L interface.
-
-        Args:
-            r2l_bin: Path to the R2L CLI binary. Defaults to "r2l" (assumes on PATH).
-        """
-        self.r2l_bin = Path(r2l_bin) if isinstance(r2l_bin, str) else r2l_bin
-
-    def invoke(
-        self,
-        *,
-        spec_path: Path,
-        output_dir: Path,
-        seed: int | None = None,
-        timeout: int = 300,
-    ) -> dict[str, Any]:
-        """Invoke an R2L run via CLI.
-
-        This is a stub implementation. Full implementation in M03.
-
-        Args:
-            spec_path: Path to the R2L specification file.
-            output_dir: Directory for R2L output artifacts.
-            seed: Optional seed for reproducibility.
-            timeout: Timeout in seconds for the R2L process.
-
-        Returns:
-            A dict containing:
-                - returncode: The process exit code
-                - stdout: Standard output (stub)
-                - stderr: Standard error (stub)
-
-        Raises:
-            R2LInvocationError: If the R2L invocation fails.
-
-        Note:
-            This is a stub. It does NOT actually invoke R2L.
-            Full implementation will be added in M03.
-        """
-        # Stub implementation - does not actually invoke R2L
-        # This exists to establish the interface contract
-        _ = spec_path, output_dir, seed, timeout  # Mark as intentionally unused
-
-        # Return stub response
-        return {
-            "returncode": 0,
-            "stdout": "[STUB] R2L invocation not implemented",
-            "stderr": "",
-            "stub": True,
-        }
-
-    def check_version(self) -> str:
-        """Check the R2L version.
-
-        Returns:
-            The R2L version string.
-
-        Raises:
-            R2LInvocationError: If version check fails.
-
-        Note:
-            This is a stub. Returns a placeholder version.
-        """
-        # Stub implementation
-        return "r2l-stub-0.0.0"
+__all__ = [
+    "R2LInvocationError",
+    "R2LTimeoutError",
+    "R2LRunner",
+    "get_clarity_output_namespace",
+    "validate_output_path",
+    # Deprecated
+    "R2LInterface",
+]
 
 
 def get_clarity_output_namespace() -> str:
@@ -146,3 +72,119 @@ def validate_output_path(path: Path, base_dir: Path) -> bool:
     except ValueError:
         return False
 
+
+class R2LInterface:
+    """DEPRECATED: Thin CLI-based interface to R2L.
+
+    .. deprecated::
+        This class is deprecated as of M03. Use `R2LRunner` from
+        `app.clarity.r2l_runner` instead.
+
+    This class provided a minimal interface for invoking R2L runs via CLI.
+    It has been replaced by `R2LRunner` which provides:
+    - Proper subprocess management with timeout
+    - Structured result objects
+    - Better error handling
+
+    Example migration::
+
+        # Old (deprecated):
+        from app.clarity.r2l_interface import R2LInterface
+        interface = R2LInterface(r2l_bin="r2l")
+        result = interface.invoke(spec_path=..., output_dir=...)
+
+        # New (recommended):
+        from app.clarity.r2l_runner import R2LRunner
+        runner = R2LRunner("r2l", timeout_seconds=300)
+        result = runner.run(config_path=..., output_dir=...)
+    """
+
+    # Forbidden import patterns - enforced by AST test
+    FORBIDDEN_IMPORT_PATTERNS: list[str] = [
+        "r2l.internal",
+        "r2l.runner",
+        "r2l._private",
+    ]
+
+    def __init__(self, r2l_bin: str | Path = "r2l") -> None:
+        """Initialize the R2L interface.
+
+        .. deprecated::
+            Use R2LRunner instead.
+
+        Args:
+            r2l_bin: Path to the R2L CLI binary. Defaults to "r2l" (assumes on PATH).
+        """
+        warnings.warn(
+            "R2LInterface is deprecated since M03. Use R2LRunner instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        self.r2l_bin = Path(r2l_bin) if isinstance(r2l_bin, str) else r2l_bin
+
+    def invoke(
+        self,
+        *,
+        spec_path: Path,
+        output_dir: Path,
+        seed: int | None = None,
+        timeout: int = 300,
+    ) -> dict:
+        """Invoke an R2L run via CLI.
+
+        .. deprecated::
+            Use R2LRunner.run() instead.
+
+        Args:
+            spec_path: Path to the R2L specification file.
+            output_dir: Directory for R2L output artifacts.
+            seed: Optional seed for reproducibility.
+            timeout: Timeout in seconds for the R2L process.
+
+        Returns:
+            A dict containing:
+                - returncode: The process exit code
+                - stdout: Standard output (stub)
+                - stderr: Standard error (stub)
+
+        Raises:
+            R2LInvocationError: If the R2L invocation fails.
+
+        Note:
+            This method returns a stub response. For real functionality,
+            use R2LRunner.run() instead.
+        """
+        warnings.warn(
+            "R2LInterface.invoke() is deprecated. Use R2LRunner.run() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        # Return stub response for backward compatibility
+        _ = spec_path, output_dir, seed, timeout  # Mark as intentionally unused
+
+        return {
+            "returncode": 0,
+            "stdout": "[DEPRECATED] R2LInterface.invoke() - use R2LRunner instead",
+            "stderr": "",
+            "stub": True,
+        }
+
+    def check_version(self) -> str:
+        """Check the R2L version.
+
+        .. deprecated::
+            This method is deprecated.
+
+        Returns:
+            The R2L version string.
+
+        Note:
+            This returns a placeholder. For real functionality,
+            invoke R2L CLI directly.
+        """
+        warnings.warn(
+            "R2LInterface.check_version() is deprecated.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return "r2l-deprecated-use-R2LRunner"
