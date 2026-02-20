@@ -18,6 +18,7 @@ Module Structure:
 - metrics_engine: Metrics computation engine (M05)
 - surfaces: Robustness surface data structures (M06)
 - surface_engine: Surface computation engine (M06)
+- gradient_engine: Gradient estimation and stability metrics (M07)
 - r2l_interface: Namespace utilities (deprecated R2LInterface)
 - serialization: Deterministic JSON serialization
 - sweep_manifest: Sweep manifest model (M01, legacy)
@@ -134,6 +135,15 @@ from app.clarity.surfaces import (
 # Surface Engine (M06)
 from app.clarity.surface_engine import SurfaceEngine
 
+# Gradient Engine (M07)
+from app.clarity.gradient_engine import (
+    AxisGradient,
+    GradientComputationError,
+    GradientEngine,
+    GradientPoint,
+    GradientSurface,
+)
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -206,4 +216,10 @@ __all__ = [
     "SurfaceComputationError",
     # Surface Engine (M06)
     "SurfaceEngine",
+    # Gradient Engine (M07)
+    "GradientPoint",
+    "AxisGradient",
+    "GradientSurface",
+    "GradientComputationError",
+    "GradientEngine",
 ]
