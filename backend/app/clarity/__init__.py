@@ -4,7 +4,7 @@ Clinical Localization and Reasoning Integrity Testing.
 
 This module contains the core CLARITY logic for boundary enforcement,
 deterministic serialization, R2L artifact consumption, image
-perturbation primitives, and sweep orchestration.
+perturbation primitives, sweep orchestration, and metrics computation.
 
 CLARITY operates as a pure consumer of R2L — it never modifies R2L
 execution semantics.
@@ -14,6 +14,8 @@ Module Structure:
 - artifact_loader: R2L artifact loading and validation (M03)
 - sweep_orchestrator: Multi-axis perturbation sweep engine (M04)
 - sweep_models: Sweep data structures (M04)
+- metrics: Metric data structures and helpers (M05)
+- metrics_engine: Metrics computation engine (M05)
 - r2l_interface: Namespace utilities (deprecated R2LInterface)
 - serialization: Deterministic JSON serialization
 - sweep_manifest: Sweep manifest model (M01, legacy)
@@ -103,6 +105,22 @@ from app.clarity.sweep_orchestrator import (
     SweepResult,
 )
 
+# Metrics (M05)
+from app.clarity.metrics import (
+    DriftMetric,
+    ESIMetric,
+    MetricComputationError,
+    MetricsResult,
+    extract_answer,
+    extract_justification,
+    levenshtein_distance,
+    normalized_levenshtein,
+    round_metric,
+)
+
+# Metrics Engine (M05)
+from app.clarity.metrics_engine import MetricsEngine
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -156,4 +174,16 @@ __all__ = [
     "SweepResult",
     "SweepExecutionError",
     "OutputDirectoryExistsError",
+    # Metrics (M05)
+    "ESIMetric",
+    "DriftMetric",
+    "MetricsResult",
+    "MetricComputationError",
+    "levenshtein_distance",
+    "normalized_levenshtein",
+    "round_metric",
+    "extract_answer",
+    "extract_justification",
+    # Metrics Engine (M05)
+    "MetricsEngine",
 ]
