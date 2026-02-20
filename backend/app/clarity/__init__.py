@@ -3,8 +3,8 @@
 Clinical Localization and Reasoning Integrity Testing.
 
 This module contains the core CLARITY logic for boundary enforcement,
-deterministic serialization, R2L artifact consumption, and image
-perturbation primitives.
+deterministic serialization, R2L artifact consumption, image
+perturbation primitives, and sweep orchestration.
 
 CLARITY operates as a pure consumer of R2L — it never modifies R2L
 execution semantics.
@@ -12,9 +12,11 @@ execution semantics.
 Module Structure:
 - r2l_runner: Black-box CLI runner for R2L invocation (M03)
 - artifact_loader: R2L artifact loading and validation (M03)
+- sweep_orchestrator: Multi-axis perturbation sweep engine (M04)
+- sweep_models: Sweep data structures (M04)
 - r2l_interface: Namespace utilities (deprecated R2LInterface)
 - serialization: Deterministic JSON serialization
-- sweep_manifest: Sweep manifest model
+- sweep_manifest: Sweep manifest model (M01, legacy)
 - image_utils: Image canonicalization and hashing
 - perturbations: Deterministic image perturbation primitives
 - perturbation_registry: Perturbation type registry
@@ -80,8 +82,26 @@ from app.clarity.serialization import (
     deterministic_json_dumps_bytes,
 )
 
-# Sweep manifest
+# Sweep manifest (M01 legacy)
 from app.clarity.sweep_manifest import SweepManifest
+
+# Sweep Models (M04)
+from app.clarity.sweep_models import (
+    SweepAxis,
+    SweepConfig,
+    SweepConfigValidationError,
+    SweepRunRecord,
+    build_run_directory_name,
+    encode_axis_value,
+)
+
+# Sweep Orchestrator (M04)
+from app.clarity.sweep_orchestrator import (
+    OutputDirectoryExistsError,
+    SweepExecutionError,
+    SweepOrchestrator,
+    SweepResult,
+)
 
 __all__ = [
     # R2L Runner (M03)
@@ -124,4 +144,16 @@ __all__ = [
     "get_perturbation",
     "list_perturbations",
     "register_perturbation",
+    # Sweep Models (M04)
+    "SweepAxis",
+    "SweepConfig",
+    "SweepConfigValidationError",
+    "SweepRunRecord",
+    "build_run_directory_name",
+    "encode_axis_value",
+    # Sweep Orchestrator (M04)
+    "SweepOrchestrator",
+    "SweepResult",
+    "SweepExecutionError",
+    "OutputDirectoryExistsError",
 ]

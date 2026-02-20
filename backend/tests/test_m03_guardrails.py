@@ -1,6 +1,6 @@
-"""AST Guardrail Tests for M03.
+"""AST Guardrail Tests for M03 and M04.
 
-These tests enforce the M03 hardened boundary:
+These tests enforce the hardened boundary:
 1. No R2L imports at all (not even `import r2l`)
 2. No random module usage in harness
 3. No datetime.now() usage
@@ -8,6 +8,8 @@ These tests enforce the M03 hardened boundary:
 
 This tightens the M01 guardrails per M03 locked answers:
 "No R2L imports at all" — CLI invocation only.
+
+M04 extends these guardrails to sweep_orchestrator.py and sweep_models.py.
 """
 
 from __future__ import annotations
@@ -29,6 +31,12 @@ CLARITY_DIR = Path(__file__).parent.parent / "app" / "clarity"
 M03_MODULES = [
     "r2l_runner.py",
     "artifact_loader.py",
+]
+
+# Modules specifically created/modified in M04
+M04_MODULES = [
+    "sweep_orchestrator.py",
+    "sweep_models.py",
 ]
 
 
@@ -403,6 +411,161 @@ class TestM03ModuleIntegrity:
 
         assert not violations, (
             f"R2L imports found in clarity module (violates M03 boundary):\n"
+            + "\n".join(violations)
+        )
+
+
+# =============================================================================
+# M04 MODULE GUARDRAILS
+# =============================================================================
+
+
+class TestM04ModuleGuardrails:
+    """Guardrail tests for M04 modules (sweep_orchestrator, sweep_models)."""
+
+    ALL_FORBIDDEN_IMPORTS = ["r2l", "random"]
+    ALL_FORBIDDEN_CALLS = ["datetime.now", "datetime.datetime.now", "uuid4", "uuid.uuid4"]
+
+    def test_no_r2l_imports_in_sweep_orchestrator(self) -> None:
+        """Verify sweep_orchestrator.py has no R2L imports."""
+        orchestrator_path = CLARITY_DIR / "sweep_orchestrator.py"
+        if not orchestrator_path.exists():
+            pytest.skip("sweep_orchestrator.py not found")
+
+        violations = scan_file_for_imports(orchestrator_path, ["r2l"])
+
+        assert not violations, (
+            f"sweep_orchestrator.py has forbidden R2L imports:\n" + "\n".join(violations)
+        )
+
+    def test_no_r2l_imports_in_sweep_models(self) -> None:
+        """Verify sweep_models.py has no R2L imports."""
+        models_path = CLARITY_DIR / "sweep_models.py"
+        if not models_path.exists():
+            pytest.skip("sweep_models.py not found")
+
+        violations = scan_file_for_imports(models_path, ["r2l"])
+
+        assert not violations, (
+            f"sweep_models.py has forbidden R2L imports:\n" + "\n".join(violations)
+        )
+
+    def test_no_random_imports_in_sweep_orchestrator(self) -> None:
+        """Verify sweep_orchestrator.py has no random imports."""
+        orchestrator_path = CLARITY_DIR / "sweep_orchestrator.py"
+        if not orchestrator_path.exists():
+            pytest.skip("sweep_orchestrator.py not found")
+
+        violations = scan_file_for_imports(orchestrator_path, ["random"])
+
+        assert not violations, (
+            f"sweep_orchestrator.py has forbidden random imports:\n" + "\n".join(violations)
+        )
+
+    def test_no_random_imports_in_sweep_models(self) -> None:
+        """Verify sweep_models.py has no random imports."""
+        models_path = CLARITY_DIR / "sweep_models.py"
+        if not models_path.exists():
+            pytest.skip("sweep_models.py not found")
+
+        violations = scan_file_for_imports(models_path, ["random"])
+
+        assert not violations, (
+            f"sweep_models.py has forbidden random imports:\n" + "\n".join(violations)
+        )
+
+    def test_no_datetime_now_in_sweep_orchestrator(self) -> None:
+        """Verify sweep_orchestrator.py has no datetime.now() calls."""
+        orchestrator_path = CLARITY_DIR / "sweep_orchestrator.py"
+        if not orchestrator_path.exists():
+            pytest.skip("sweep_orchestrator.py not found")
+
+        violations = scan_file_for_function_calls(
+            orchestrator_path, self.ALL_FORBIDDEN_CALLS
+        )
+
+        assert not violations, (
+            f"sweep_orchestrator.py has forbidden datetime.now() calls:\n"
+            + "\n".join(violations)
+        )
+
+    def test_no_datetime_now_in_sweep_models(self) -> None:
+        """Verify sweep_models.py has no datetime.now() calls."""
+        models_path = CLARITY_DIR / "sweep_models.py"
+        if not models_path.exists():
+            pytest.skip("sweep_models.py not found")
+
+        violations = scan_file_for_function_calls(models_path, self.ALL_FORBIDDEN_CALLS)
+
+        assert not violations, (
+            f"sweep_models.py has forbidden datetime.now() calls:\n"
+            + "\n".join(violations)
+        )
+
+    def test_m04_modules_clean(self) -> None:
+        """Verify all M04 modules pass all guardrail checks."""
+        if not CLARITY_DIR.exists():
+            pytest.skip("clarity module not found")
+
+        all_violations = []
+
+        for module_name in M04_MODULES:
+            module_path = CLARITY_DIR / module_name
+            if not module_path.exists():
+                continue
+
+            # Check imports
+            import_violations = scan_file_for_imports(
+                module_path, self.ALL_FORBIDDEN_IMPORTS
+            )
+            all_violations.extend(import_violations)
+
+            # Check function calls
+            call_violations = scan_file_for_function_calls(
+                module_path, self.ALL_FORBIDDEN_CALLS
+            )
+            all_violations.extend(call_violations)
+
+        assert not all_violations, (
+            f"M04 module guardrail violations:\n" + "\n".join(all_violations)
+        )
+
+
+# =============================================================================
+# NO DIRECT SUBPROCESS IN M04 (Special)
+# =============================================================================
+
+
+class TestNoDirectSubprocessInM04:
+    """Test that M04 modules don't use subprocess directly.
+
+    M04 must use R2LRunner for all R2L invocation - no direct subprocess.
+    """
+
+    def test_no_subprocess_import_in_sweep_orchestrator(self) -> None:
+        """Verify sweep_orchestrator.py doesn't import subprocess."""
+        orchestrator_path = CLARITY_DIR / "sweep_orchestrator.py"
+        if not orchestrator_path.exists():
+            pytest.skip("sweep_orchestrator.py not found")
+
+        violations = scan_file_for_imports(orchestrator_path, ["subprocess"])
+
+        assert not violations, (
+            f"sweep_orchestrator.py has forbidden subprocess import:\n"
+            + "\n".join(violations)
+            + "\nM04 must use R2LRunner for all R2L invocation."
+        )
+
+    def test_no_subprocess_import_in_sweep_models(self) -> None:
+        """Verify sweep_models.py doesn't import subprocess."""
+        models_path = CLARITY_DIR / "sweep_models.py"
+        if not models_path.exists():
+            pytest.skip("sweep_models.py not found")
+
+        violations = scan_file_for_imports(models_path, ["subprocess"])
+
+        assert not violations, (
+            f"sweep_models.py has forbidden subprocess import:\n"
             + "\n".join(violations)
         )
 
