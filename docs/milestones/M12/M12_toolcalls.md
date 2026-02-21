@@ -42,4 +42,7 @@ Track all tool invocations during M12 implementation.
 | 2026-02-21 | gh | Watch CI run | — | ⏳ In Progress |
 | 2026-02-21 | edit | Fix pip-audit CI to use --disable-pip | .github/workflows/ci.yml | ✅ Complete |
 | 2026-02-21 | edit | Fix checksums.json with git blob hashes | demo_artifacts/case_001/checksums.json | ✅ Complete |
+| 2026-02-21 | edit | Fix TypeScript: use globalThis instead of global | frontend/tests/api.test.ts | ✅ Complete |
+| 2026-02-21 | git | Push all fixes | m12-operational-hardening | ✅ Complete |
+| 2026-02-21 | gh | Verify CI green (all 8 jobs passed) | CI run 22251129342 | ✅ Complete |
 
