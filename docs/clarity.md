@@ -55,6 +55,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M10.5** | Demo Deployment Layer | Netlify frontend + Render backend for read-only demo | ✅ **Closed** | — | 4.97 |
 | **M11** | Report Export | Deterministic PDF report generation | ✅ **Closed (Deferred Item)** | `v0.0.12-m11` | 4.98 |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls, security scanning, dependency discipline | ✅ **Closed** | `v0.0.13-m12` | 5.0 |
+| **M13** | MedGemma Integration | Real MedGemma inference via R2L, determinism verification, minimal sweep | ⏳ **In Progress** | — | — |
 
 ---
 
@@ -96,7 +97,24 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M12 ✅ CLOSED
+## Current Milestone: M13 ⏳ IN PROGRESS
+
+**Objective**: MedGemma Integration & Empirical Validation — Replace synthetic adapter outputs with real MedGemma inference via R2L.
+
+**Branch**: `m13-medgemma-integration`
+
+**Details**: [M13_plan.md](./milestones/M13/M13_plan.md)
+
+**Scope**:
+- Wire `google/medgemma-4b` via HuggingFace Transformers
+- Canonical `generate()` only (no rich mode)
+- 1 image, 2 seeds, 1 perturbation axis (minimal sweep)
+- Determinism regression test gated by `CLARITY_REAL_MODEL=true`
+- CI unchanged (synthetic path preserved)
+
+---
+
+## Previous Milestone: M12 ✅ CLOSED
 
 **Objective**: Operational Hardening — Caching, resumability, concurrency controls, security scanning, dependency discipline.
 
@@ -149,4 +167,3 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SCAN-001 | No security scanning | M01 | M12 | `pip-audit` + `npm audit` CI jobs in `.github/workflows/ci.yml` |
 | DEP-001 | No dependency lockfile | M02 | M12 | `requirements.lock` with pip-compile hashes, lockfile-check CI job |
 | COV-002 | Frontend branch coverage reduced 85% → 80% | M11 | M12 | Coverage restored to 87.39%; `downloadUtils.ts` refactor + 27 tests |
-

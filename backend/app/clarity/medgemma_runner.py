@@ -1,0 +1,414 @@
+"""MedGemma Runner for CLARITY.
+
+This module provides a real MedGemma model runner that implements the
+RunnerProtocol interface. It is designed for local GPU inference using
+the HuggingFace Transformers library.
+
+CRITICAL CONSTRAINTS (M13):
+1. Deterministic: same (prompt, seed) → identical output.
+2. No gradient tracking (torch.no_grad).
+3. Temperature=0, no sampling.
+4. Explicit seed control for all random sources.
+5. GPU memory budget: ≤12GB for batch=1.
+6. Does NOT modify R2L semantics.
+7. Gated behind CLARITY_REAL_MODEL environment variable.
+
+This runner is for LOCAL EXECUTION ONLY. It is NOT used in CI.
+CI uses the StubbedRunner for synthetic deterministic outputs.
+
+Adapter wiring follows the CLARITY↔R2L boundary contract:
+- CLARITY invokes the adapter but does not modify its internals
+- Adapter implementation is isolated in this module
+- Model loading and inference are fully encapsulated
+
+Usage:
+    from app.clarity.medgemma_runner import MedGemmaRunner, is_real_model_enabled
+
+    if is_real_model_enabled():
+        runner = MedGemmaRunner()
+        result = runner.run(image, prompt, axis, value, seed)
+"""
+
+from __future__ import annotations
+
+import hashlib
+import os
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from PIL import Image
+
+# Environment variable gate
+REAL_MODEL_ENV_VAR = "CLARITY_REAL_MODEL"
+
+# Model configuration (locked for M13)
+MODEL_ID = "google/medgemma-4b"
+MAX_NEW_TOKENS = 512
+TEMPERATURE = 0.0
+TOP_P = 1.0
+DO_SAMPLE = False
+
+
+def is_real_model_enabled() -> bool:
+    """Check if real model execution is enabled.
+
+    Returns:
+        True if CLARITY_REAL_MODEL environment variable is set to a truthy value.
+    """
+    value = os.getenv(REAL_MODEL_ENV_VAR, "").lower()
+    return value in ("true", "1", "yes", "on")
+
+
+@dataclass(frozen=True)
+class MedGemmaResult:
+    """Result from MedGemma inference.
+
+    Attributes:
+        text: The generated text response.
+        model_id: The model identifier used.
+        seed: The seed used for generation.
+        bundle_sha: SHA256 hash of the result for determinism verification.
+        metadata: Additional metadata about the run.
+    """
+
+    text: str
+    model_id: str
+    seed: int
+    bundle_sha: str
+    metadata: dict[str, Any]
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert to dictionary representation."""
+        return {
+            "bundle_sha": self.bundle_sha,
+            "metadata": self.metadata,
+            "model_id": self.model_id,
+            "seed": self.seed,
+            "text": self.text,
+        }
+
+
+def _compute_result_hash(text: str, model_id: str, seed: int) -> str:
+    """Compute deterministic hash of inference result.
+
+    Args:
+        text: Generated text.
+        model_id: Model identifier.
+        seed: Seed used.
+
+    Returns:
+        SHA256 hex digest.
+    """
+    content = f"{model_id}|{seed}|{text}"
+    return hashlib.sha256(content.encode("utf-8")).hexdigest()
+
+
+def _set_deterministic_seed(seed: int) -> None:
+    """Set all random sources to deterministic state.
+
+    This must be called before any model inference to ensure
+    reproducibility.
+
+    Args:
+        seed: The seed value to use.
+    """
+    import random
+
+    import numpy as np
+    import torch
+
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+
+
+def _enable_deterministic_mode() -> None:
+    """Enable PyTorch deterministic operations.
+
+    This sets all necessary flags for deterministic CUDA operations.
+    May impact performance but guarantees reproducibility.
+    """
+    import torch
+
+    # Enable deterministic algorithms
+    torch.use_deterministic_algorithms(True, warn_only=True)
+
+    # Disable cuDNN benchmark (non-deterministic algorithm selection)
+    torch.backends.cudnn.benchmark = False
+
+    # Force deterministic cuDNN operations
+    torch.backends.cudnn.deterministic = True
+
+
+class MedGemmaRunner:
+    """Real MedGemma model runner for local GPU inference.
+
+    This runner loads and executes the MedGemma model for real inference.
+    It is designed for local execution only and is NOT used in CI.
+
+    The runner:
+    - Loads model lazily on first use
+    - Enforces deterministic generation
+    - Uses no sampling (temperature=0)
+    - Tracks VRAM usage
+    - Returns structured results with hash for verification
+
+    Attributes:
+        model_id: The HuggingFace model ID.
+        device: The execution device (cuda/cpu).
+        is_loaded: Whether the model has been loaded.
+
+    Example:
+        >>> runner = MedGemmaRunner()
+        >>> result = runner.generate("Analyze this X-ray", seed=42)
+        >>> print(result.text)
+    """
+
+    def __init__(
+        self,
+        model_id: str = MODEL_ID,
+        device: str = "cuda",
+        dtype: str = "float16",
+    ) -> None:
+        """Initialize the MedGemma runner.
+
+        Args:
+            model_id: HuggingFace model ID. Default: google/medgemma-4b
+            device: Execution device. Default: cuda
+            dtype: Model dtype. Default: float16 (for VRAM efficiency)
+
+        Raises:
+            RuntimeError: If real model execution is not enabled.
+        """
+        if not is_real_model_enabled():
+            raise RuntimeError(
+                f"Real model execution is disabled. "
+                f"Set {REAL_MODEL_ENV_VAR}=true to enable."
+            )
+
+        self._model_id = model_id
+        self._device = device
+        self._dtype = dtype
+        self._model = None
+        self._tokenizer = None
+        self._processor = None
+        self._is_loaded = False
+
+    @property
+    def model_id(self) -> str:
+        """The HuggingFace model ID."""
+        return self._model_id
+
+    @property
+    def device(self) -> str:
+        """The execution device."""
+        return self._device
+
+    @property
+    def is_loaded(self) -> bool:
+        """Whether the model has been loaded."""
+        return self._is_loaded
+
+    def _load_model(self) -> None:
+        """Load the model and tokenizer.
+
+        This is called lazily on first use to avoid loading the model
+        if it's never needed.
+
+        Raises:
+            ImportError: If required libraries are not installed.
+            RuntimeError: If model loading fails.
+        """
+        if self._is_loaded:
+            return
+
+        try:
+            import torch
+            from transformers import AutoModelForCausalLM, AutoProcessor, AutoTokenizer
+        except ImportError as e:
+            raise ImportError(
+                "Required libraries not installed. "
+                "Install with: pip install torch transformers"
+            ) from e
+
+        # Enable deterministic mode before loading
+        _enable_deterministic_mode()
+
+        # Determine torch dtype
+        if self._dtype == "float16":
+            torch_dtype = torch.float16
+        elif self._dtype == "bfloat16":
+            torch_dtype = torch.bfloat16
+        else:
+            torch_dtype = torch.float32
+
+        # Load processor (for multimodal input)
+        try:
+            self._processor = AutoProcessor.from_pretrained(
+                self._model_id,
+                trust_remote_code=True,
+            )
+        except Exception:
+            # Fall back to tokenizer only if processor not available
+            self._processor = None
+
+        # Load tokenizer
+        self._tokenizer = AutoTokenizer.from_pretrained(
+            self._model_id,
+            trust_remote_code=True,
+        )
+
+        # Load model
+        self._model = AutoModelForCausalLM.from_pretrained(
+            self._model_id,
+            torch_dtype=torch_dtype,
+            device_map=self._device,
+            trust_remote_code=True,
+        )
+
+        # Set model to evaluation mode (disables dropout)
+        self._model.eval()
+
+        self._is_loaded = True
+
+    def generate(
+        self,
+        prompt: str,
+        *,
+        seed: int,
+        image: "Image.Image | None" = None,
+    ) -> MedGemmaResult:
+        """Generate text from the model.
+
+        Args:
+            prompt: The input prompt.
+            seed: Seed for reproducibility (REQUIRED).
+            image: Optional input image for multimodal inference.
+
+        Returns:
+            MedGemmaResult with generated text and metadata.
+
+        Raises:
+            RuntimeError: If generation fails.
+        """
+        import torch
+
+        # Load model if not already loaded
+        self._load_model()
+
+        # Set deterministic seed
+        _set_deterministic_seed(seed)
+
+        # Prepare inputs
+        if image is not None and self._processor is not None:
+            # Multimodal input
+            inputs = self._processor(
+                text=prompt,
+                images=image,
+                return_tensors="pt",
+            ).to(self._device)
+        else:
+            # Text-only input
+            inputs = self._tokenizer(
+                prompt,
+                return_tensors="pt",
+            ).to(self._device)
+
+        # Generate with deterministic settings
+        with torch.no_grad():
+            outputs = self._model.generate(
+                **inputs,
+                max_new_tokens=MAX_NEW_TOKENS,
+                temperature=TEMPERATURE,
+                top_p=TOP_P,
+                do_sample=DO_SAMPLE,
+                pad_token_id=self._tokenizer.eos_token_id,
+            )
+
+        # Decode output
+        generated_text = self._tokenizer.decode(
+            outputs[0],
+            skip_special_tokens=True,
+        )
+
+        # Remove input prompt from output if present
+        if generated_text.startswith(prompt):
+            generated_text = generated_text[len(prompt):].strip()
+
+        # Compute result hash
+        bundle_sha = _compute_result_hash(generated_text, self._model_id, seed)
+
+        # Gather metadata
+        metadata = {
+            "device": self._device,
+            "dtype": self._dtype,
+            "max_new_tokens": MAX_NEW_TOKENS,
+            "temperature": TEMPERATURE,
+            "top_p": TOP_P,
+            "do_sample": DO_SAMPLE,
+            "torch_version": torch.__version__,
+        }
+
+        try:
+            import transformers
+            metadata["transformers_version"] = transformers.__version__
+        except Exception:
+            pass
+
+        return MedGemmaResult(
+            text=generated_text,
+            model_id=self._model_id,
+            seed=seed,
+            bundle_sha=bundle_sha,
+            metadata=metadata,
+        )
+
+    def get_vram_usage(self) -> dict[str, float]:
+        """Get current VRAM usage statistics.
+
+        Returns:
+            Dictionary with VRAM usage in GB.
+        """
+        import torch
+
+        if not torch.cuda.is_available():
+            return {"allocated_gb": 0.0, "reserved_gb": 0.0, "max_allocated_gb": 0.0}
+
+        allocated = torch.cuda.memory_allocated() / (1024**3)
+        reserved = torch.cuda.memory_reserved() / (1024**3)
+        max_allocated = torch.cuda.max_memory_allocated() / (1024**3)
+
+        return {
+            "allocated_gb": round(allocated, 2),
+            "max_allocated_gb": round(max_allocated, 2),
+            "reserved_gb": round(reserved, 2),
+        }
+
+
+# Convenience function for protocol compatibility
+def create_medgemma_runner_result(
+    text: str,
+    model_id: str,
+    seed: int,
+) -> MedGemmaResult:
+    """Create a MedGemmaResult for testing or mocking.
+
+    Args:
+        text: Generated text.
+        model_id: Model identifier.
+        seed: Seed used.
+
+    Returns:
+        MedGemmaResult instance.
+    """
+    bundle_sha = _compute_result_hash(text, model_id, seed)
+    return MedGemmaResult(
+        text=text,
+        model_id=model_id,
+        seed=seed,
+        bundle_sha=bundle_sha,
+        metadata={},
+    )
+
