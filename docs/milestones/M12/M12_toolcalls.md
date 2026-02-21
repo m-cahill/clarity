@@ -40,4 +40,6 @@ Track all tool invocations during M12 implementation.
 | 2026-02-21 | git | Push branch m12-operational-hardening | — | ✅ Complete |
 | 2026-02-21 | gh | Create PR #15 | — | ✅ Complete |
 | 2026-02-21 | gh | Watch CI run | — | ⏳ In Progress |
+| 2026-02-21 | edit | Fix pip-audit CI to use --disable-pip | .github/workflows/ci.yml | ✅ Complete |
+| 2026-02-21 | edit | Fix checksums.json with git blob hashes | demo_artifacts/case_001/checksums.json | ✅ Complete |
 
