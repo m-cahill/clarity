@@ -54,7 +54,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ✅ **Closed** | `v0.0.11-m10` | 4.96 |
 | **M10.5** | Demo Deployment Layer | Netlify frontend + Render backend for read-only demo | ✅ **Closed** | — | 4.97 |
 | **M11** | Report Export | Deterministic PDF report generation | ✅ **Closed (Deferred Item)** | `v0.0.12-m11` | 4.98 |
-| **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending | — | — |
+| **M12** | Operational Hardening | Caching, resumability, concurrency controls, security scanning, dependency discipline | ✅ **Closed** | `v0.0.13-m12` | 5.0 |
 
 ---
 
@@ -96,13 +96,18 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M12
+## Current Milestone: M12 ✅ CLOSED
 
-**Objective**: Operational Hardening — Caching, resumability, concurrency controls.
+**Objective**: Operational Hardening — Caching, resumability, concurrency controls, security scanning, dependency discipline.
 
-**Branch**: `m12-operational-hardening` (to be created)
+**Status**: ✅ Merged and tagged `v0.0.13-m12`
 
-**Details**: [M12_plan.md](./milestones/M12/M12_plan.md) (pending)
+**Details**: [M12_plan.md](./milestones/M12/M12_plan.md)
+
+**Closed Items**:
+- COV-002: Frontend branch coverage restored to 87.39% (≥85% threshold)
+- DEP-001: Deterministic lockfile (`requirements.lock` with pip-compile hashes)
+- SCAN-001: Security scanning (pip-audit + npm audit) enforced in CI
 
 ---
 
@@ -123,6 +128,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M10 | `v0.0.11-m10` | `92b3959` | 4.96 | 2026-02-20 |
 | M10.5 | — | `330dac7` | 4.97 | 2026-02-21 |
 | M11 | `v0.0.12-m11` | `c5d740a` | 4.98 | 2026-02-21 |
+| M12 | `v0.0.13-m12` | `d51f195` | 5.0 | 2026-02-21 |
 
 ---
 
@@ -131,10 +137,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | ID | Issue | Discovered | Deferred To | Tracking |
 |----|-------|------------|-------------|----------|
 | GOV-001 | Branch protection | M00 | Manual config | [Issue #3](https://github.com/m-cahill/clarity/issues/3) |
-| SEC-001 | CORS permissive | M00 | Pre-production | — |
-| SCAN-001 | No security scanning | M01 | M12 | — |
-| DEP-001 | No dependency lockfile | M02 | M12 | — |
-| COV-002 | Frontend branch coverage temporarily reduced from 85% → 80% | M11 | M12 | jsdom file-download branch + legacy ternary branches; non-functional regression. Exit criteria: Restore ≥85% branch coverage and remove threshold exception |
+| SEC-001 | CORS permissive (partially addressed M12) | M00 | Pre-production | CORS tightened in M12; full lockdown deferred to production |
 
 ### Resolved Issues
 
@@ -143,4 +146,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | INT-001 | Real sweep → metrics → surface → gradient integration | M05 | M07 | `test_gradient_engine.py::TestINT001RealSweepIntegration` |
 | CF-002 | Actual counterfactual sweeps orchestration | M08 | M09 | `CounterfactualOrchestrator` + `POST /counterfactual/run` endpoint |
 | CF-001 | Evidence-map-derived regions | M08 | M10 | `evidence_overlay.py::extract_regions_from_heatmap` + BFS region extraction |
+| SCAN-001 | No security scanning | M01 | M12 | `pip-audit` + `npm audit` CI jobs in `.github/workflows/ci.yml` |
+| DEP-001 | No dependency lockfile | M02 | M12 | `requirements.lock` with pip-compile hashes, lockfile-check CI job |
+| COV-002 | Frontend branch coverage reduced 85% → 80% | M11 | M12 | Coverage restored to 87.39%; `downloadUtils.ts` refactor + 27 tests |
 

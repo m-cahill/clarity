@@ -46,4 +46,9 @@ Track all tool invocations during M12 implementation.
 | 2026-02-21 | git | Push all fixes | m12-operational-hardening | ✅ Complete |
 | 2026-02-21 | gh | Verify CI green (all 8 jobs passed) | CI run 22251129342 | ✅ Complete |
 | 2026-02-21 | write | Create M12_run1.md analysis | docs/milestones/M12/M12_run1.md | ✅ Complete |
+| 2026-02-21 | gh | Merge PR #15 → main | — | ✅ Complete |
+| 2026-02-21 | git | Create tag v0.0.13-m12 | d51f195 | ✅ Complete |
+| 2026-02-21 | edit | Update clarity.md (milestone table, baseline, deferred) | docs/clarity.md | ✅ Complete |
+| 2026-02-21 | write | Create M12_audit.md | docs/milestones/M12/M12_audit.md | ✅ Complete |
+| 2026-02-21 | write | Create M12_summary.md | docs/milestones/M12/M12_summary.md | ✅ Complete |
 
