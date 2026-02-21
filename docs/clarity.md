@@ -53,7 +53,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M09** | UI Console Skeleton | Interactive UI for counterfactual orchestration + viewing results | ✅ **Closed** | `v0.0.10-m09` | 4.94 |
 | **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ✅ **Closed** | `v0.0.11-m10` | 4.96 |
 | **M10.5** | Demo Deployment Layer | Netlify frontend + Render backend for read-only demo | ✅ **Closed** | — | 4.97 |
-| **M11** | Report Export | Deterministic PDF report generation | ⏳ Pending | — | — |
+| **M11** | Report Export | Deterministic PDF report generation | ✅ **Closed (Deferred Item)** | `v0.0.12-m11` | 4.98 |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending | — | — |
 
 ---
@@ -96,13 +96,13 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M11
+## Current Milestone: M12
 
-**Objective**: Report Export — Deterministic PDF report generation.
+**Objective**: Operational Hardening — Caching, resumability, concurrency controls.
 
-**Branch**: `m11-report-export` (to be created)
+**Branch**: `m12-operational-hardening` (to be created)
 
-**Details**: [M11_plan.md](./milestones/M11/M11_plan.md) (pending)
+**Details**: [M12_plan.md](./milestones/M12/M12_plan.md) (pending)
 
 ---
 
@@ -122,6 +122,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M09 | `v0.0.10-m09` | `0c0180f` | 4.94 | 2026-02-20 |
 | M10 | `v0.0.11-m10` | `92b3959` | 4.96 | 2026-02-20 |
 | M10.5 | — | `330dac7` | 4.97 | 2026-02-21 |
+| M11 | `v0.0.12-m11` | `c5d740a` | 4.98 | 2026-02-21 |
 
 ---
 
@@ -133,6 +134,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SEC-001 | CORS permissive | M00 | Pre-production | — |
 | SCAN-001 | No security scanning | M01 | M12 | — |
 | DEP-001 | No dependency lockfile | M02 | M12 | — |
+| COV-002 | Frontend branch coverage temporarily reduced from 85% → 80% | M11 | M12 | jsdom file-download branch + legacy ternary branches; non-functional regression. Exit criteria: Restore ≥85% branch coverage and remove threshold exception |
 
 ### Resolved Issues
 
