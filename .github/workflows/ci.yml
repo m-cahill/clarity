@@ -219,7 +219,7 @@ jobs:
       - name: Run pip-audit (backend)
         working-directory: backend
         run: |
-          pip-audit -r requirements.lock --strict --desc on || {
+          pip-audit -r requirements.lock --strict --no-deps --desc on || {
             echo "::warning::pip-audit found vulnerabilities"
             exit 1
           }

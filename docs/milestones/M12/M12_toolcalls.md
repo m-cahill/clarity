@@ -37,4 +37,7 @@ Track all tool invocations during M12 implementation.
 | 2026-02-21 | edit | Fix demo_artifacts checksums | demo_artifacts/case_001/checksums.json | ✅ Complete |
 | 2026-02-21 | test | Run backend tests (875 pass) | backend/tests/ | ✅ Complete |
 | 2026-02-21 | test | Run frontend tests (137 pass, 87.39% branch) | frontend/tests/ | ✅ Complete |
+| 2026-02-21 | git | Push branch m12-operational-hardening | — | ✅ Complete |
+| 2026-02-21 | gh | Create PR #15 | — | ✅ Complete |
+| 2026-02-21 | gh | Watch CI run | — | ⏳ In Progress |
 
