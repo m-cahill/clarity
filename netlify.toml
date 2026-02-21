@@ -2,9 +2,14 @@
 # M10.5: Demo deployment configuration
 
 [build]
-  # Build is handled by GitHub Actions, not Netlify
-  # This is just for redirects and headers
-  publish = "frontend/dist"
+  # Build commands for Netlify's native builder
+  base = "frontend"
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+[build.environment]
+  VITE_APP_MODE = "demo"
+  VITE_API_BASE_URL = "https://clarity-demo.onrender.com"
 
 # SPA routing - redirect all paths to index.html
 [[redirects]]
