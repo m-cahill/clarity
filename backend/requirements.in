@@ -1,0 +1,20 @@
+# CLARITY Backend Dependencies
+# Source of truth for pip-compile → requirements.lock
+#
+# Usage:
+#   pip-compile requirements.in --generate-hashes -o requirements.lock
+#
+# M12: Dependency discipline (DEP-001 exit)
+
+# Core dependencies
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+python-json-logger>=2.0.7
+numpy>=1.26.0
+pillow>=10.2.0
+reportlab>=4.1.0
+
+# pip-tools for lockfile generation
+pip-tools>=7.3.0
+

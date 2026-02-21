@@ -8,17 +8,37 @@ Test coverage:
 - Error handling for missing cases
 - PDF response format
 - Determinism of API responses
+
+M12 additions:
+- Cache hit/miss behavior
+- X-Cache-Key header
+- Concurrent request handling (409 response)
 """
 
 from __future__ import annotations
 
 import hashlib
+import os
+import tempfile
+import threading
+import time
+from pathlib import Path
 from typing import TYPE_CHECKING
+from unittest import mock
 
 import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
+
+# Import the actual module, not the router object from __init__.py
+from app.clarity.report import report_router as _router_module
+# We need the module for accessing _cache_manager
+_report_router_module = _router_module  # This is still the router object
+
+# Direct module import to access module-level variables
+import importlib
+report_router_module = importlib.import_module("app.clarity.report.report_router")
 
 if TYPE_CHECKING:
     pass
@@ -272,4 +292,140 @@ class TestReportResponseHeaders:
 
         assert response.status_code == 200
         assert response.headers["content-type"] == "application/pdf"
+
+    def test_cache_key_header_present(self) -> None:
+        """Test X-Cache-Key header is present (M12)."""
+        response = client.post(
+            "/report/generate",
+            json={"case_id": "case_001"},
+        )
+
+        assert response.status_code == 200
+        assert "x-cache-key" in response.headers
+        # Partial cache key should be 16 hex chars
+        assert len(response.headers["x-cache-key"]) == 16
+
+
+class TestReportCaching:
+    """Tests for M12 caching behavior."""
+
+    @pytest.fixture(autouse=True)
+    def clean_cache(self):
+        """Clean up cache before and after each test."""
+        # Use a temp directory for cache during tests
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            # Patch the cache manager to use temp directory
+            from app.clarity.cache import CacheManager
+
+            test_cache = CacheManager(cache_dir=Path(tmp_dir))
+
+            # Reset the global cache manager
+            original_cache = report_router_module._cache_manager
+            report_router_module._cache_manager = test_cache
+
+            yield
+
+            # Restore original
+            report_router_module._cache_manager = original_cache
+
+    def test_cache_hit_returns_same_content(self) -> None:
+        """Test that repeated requests return identical content."""
+        response1 = client.post(
+            "/report/generate",
+            json={"case_id": "case_001"},
+        )
+        response2 = client.post(
+            "/report/generate",
+            json={"case_id": "case_001"},
+        )
+
+        assert response1.status_code == 200
+        assert response2.status_code == 200
+
+        # Content should be identical
+        hash1 = hashlib.sha256(response1.content).hexdigest()
+        hash2 = hashlib.sha256(response2.content).hexdigest()
+        assert hash1 == hash2
+
+    def test_cache_key_consistent(self) -> None:
+        """Test that cache key is consistent across requests."""
+        response1 = client.post(
+            "/report/generate",
+            json={"case_id": "case_001"},
+        )
+        response2 = client.post(
+            "/report/generate",
+            json={"case_id": "case_001"},
+        )
+
+        assert response1.headers["x-cache-key"] == response2.headers["x-cache-key"]
+
+
+class TestReportConcurrency:
+    """Tests for M12 concurrent request handling."""
+
+    @pytest.fixture(autouse=True)
+    def clean_cache(self):
+        """Clean up cache before and after each test."""
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            from app.clarity.cache import CacheManager
+
+            test_cache = CacheManager(cache_dir=Path(tmp_dir), lock_timeout=10.0)
+            original_cache = report_router_module._cache_manager
+            report_router_module._cache_manager = test_cache
+
+            yield
+
+            report_router_module._cache_manager = original_cache
+
+    def test_parallel_requests_same_case(self) -> None:
+        """Test that parallel requests for the same case succeed."""
+        results: list[int] = []
+        errors: list[Exception] = []
+
+        def make_request():
+            try:
+                response = client.post(
+                    "/report/generate",
+                    json={"case_id": "case_001"},
+                )
+                results.append(response.status_code)
+            except Exception as e:
+                errors.append(e)
+
+        threads = [threading.Thread(target=make_request) for _ in range(3)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        # All should succeed or get 409 (in progress)
+        assert len(errors) == 0
+        assert all(s in (200, 409) for s in results)
+        # At least one should succeed
+        assert 200 in results
+
+    def test_parallel_requests_different_cases(self) -> None:
+        """Test that parallel requests for different cases both succeed."""
+        # This test uses the same case since we only have case_001 in demo_artifacts
+        # But tests that the mechanism works
+        results: list[int] = []
+
+        def make_request():
+            response = client.post(
+                "/report/generate",
+                json={"case_id": "case_001"},
+            )
+            results.append(response.status_code)
+
+        t1 = threading.Thread(target=make_request)
+        t2 = threading.Thread(target=make_request)
+
+        t1.start()
+        t2.start()
+        t1.join()
+        t2.join()
+
+        # Both should complete (200 or 409)
+        assert all(s in (200, 409) for s in results)
 

@@ -28,13 +28,58 @@ logger = logging.getLogger(__name__)
 # Environment configuration
 APP_ENV = os.environ.get("APP_ENV", "development")
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "")
+CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "")
+
+# M12: Default localhost origins for non-demo mode
+DEFAULT_LOCALHOST_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+
+def get_cors_origins() -> list[str]:
+    """Get CORS allowed origins based on environment.
+
+    M12: CORS tightening (SEC-001 progress).
+
+    Priority:
+    1. CORS_ALLOWED_ORIGINS env var (comma-separated)
+    2. ALLOWED_ORIGIN env var (demo mode, comma-separated)
+    3. In demo mode without explicit origins: ["*"] (permissive for demo)
+    4. In non-demo mode: localhost only
+
+    Returns:
+        List of allowed origins.
+    """
+    # Explicit CORS_ALLOWED_ORIGINS takes highest priority
+    if CORS_ALLOWED_ORIGINS:
+        origins = [o.strip() for o in CORS_ALLOWED_ORIGINS.split(",") if o.strip()]
+        logger.info(f"CORS: Using explicit CORS_ALLOWED_ORIGINS: {origins}")
+        return origins
+
+    # Demo mode with ALLOWED_ORIGIN
+    if APP_ENV == "demo" and ALLOWED_ORIGIN:
+        origins = [o.strip() for o in ALLOWED_ORIGIN.split(",") if o.strip()]
+        logger.info(f"CORS: Demo mode with ALLOWED_ORIGIN: {origins}")
+        return origins
+
+    # Demo mode without explicit origins - permissive (documented exception)
+    if APP_ENV == "demo":
+        logger.warning("CORS: Demo mode without explicit origins - using permissive ['*']")
+        return ["*"]
+
+    # Non-demo mode: restrict to localhost by default (M12)
+    logger.info(f"CORS: Non-demo mode - localhost only: {DEFAULT_LOCALHOST_ORIGINS}")
+    return DEFAULT_LOCALHOST_ORIGINS
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Application lifespan handler for startup/shutdown."""
     configure_logging()
-    logger.info("CLARITY backend starting", extra={"event": "startup"})
+    logger.info("CLARITY backend starting", extra={"event": "startup", "env": APP_ENV})
     yield
     logger.info("CLARITY backend shutting down", extra={"event": "shutdown"})
 
@@ -46,13 +91,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS configuration for frontend access
-# In demo mode, restrict to ALLOWED_ORIGIN if set
-# ALLOWED_ORIGIN can be comma-separated for multiple origins
-if APP_ENV == "demo" and ALLOWED_ORIGIN:
-    cors_origins = [origin.strip() for origin in ALLOWED_ORIGIN.split(",")]
-else:
-    cors_origins = ["*"]  # Permissive for dev
+# CORS configuration (M12: tightened for non-demo mode)
+cors_origins = get_cors_origins()
 
 app.add_middleware(
     CORSMiddleware,

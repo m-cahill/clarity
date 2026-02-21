@@ -199,6 +199,9 @@ secrets/
 !docs/**/*.png
 !docs/**/*.jpg
 
+# CLARITY cache directory (M12)
+.clarity_cache/
+
 # Temporary files
 tmp/
 temp/

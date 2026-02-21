@@ -239,6 +239,38 @@ describe("CounterfactualConsole", () => {
     });
   });
 
+  it("displays all delta styling classes (positive, negative, zero)", async () => {
+    renderWithRouter(<CounterfactualConsole />);
+    
+    await waitFor(() => {
+      expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText("Run Probe"));
+
+    await waitFor(() => {
+      // Verify table rows exist with different delta values
+      // grid_r1_c1_k3 has delta_esi = 0, delta_drift = 0 (no styling class)
+      expect(screen.getByText("grid_r1_c1_k3")).toBeInTheDocument();
+      // grid_r1_c2_k3 has delta_esi = 0.2 (positive), delta_drift = -0.2 (negative)
+      expect(screen.getByText("grid_r1_c2_k3")).toBeInTheDocument();
+      // grid_r0_c0_k3 has delta_esi = -0.1 (negative), delta_drift = 0.1 (positive)
+      expect(screen.getByText("grid_r0_c0_k3")).toBeInTheDocument();
+    });
+
+    // Find cells in the delta table and verify styling
+    const table = document.querySelector(".delta-table tbody");
+    expect(table).toBeInTheDocument();
+    
+    if (table) {
+      const cells = table.querySelectorAll("td");
+      // Check that delta-negative and delta-positive classes are used
+      const cellClasses = Array.from(cells).map(c => c.className);
+      expect(cellClasses.some(c => c.includes("delta-negative"))).toBe(true);
+      expect(cellClasses.some(c => c.includes("delta-positive"))).toBe(true);
+    }
+  });
+
   // M11 Export Report Tests
   describe("Export Report (M11)", () => {
     it("shows Export Report button after running probe", async () => {
