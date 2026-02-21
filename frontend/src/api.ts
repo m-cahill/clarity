@@ -30,17 +30,39 @@ export class ApiError extends Error {
 
 /**
  * Get the base URL for API calls.
- * In development with Vite proxy, use /api prefix.
- * In production or E2E, use VITE_API_URL env var.
+ * Priority:
+ * 1. VITE_API_BASE_URL (production/demo deployment)
+ * 2. VITE_API_URL (E2E tests, legacy)
+ * 3. /api (development with Vite proxy)
  */
 function getBaseUrl(): string {
-  // Check for explicit API URL (used in E2E tests)
+  // Check for explicit API base URL (production/demo)
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+  if (baseUrl) {
+    return baseUrl;
+  }
+  // Check for legacy API URL (used in E2E tests)
   const envUrl = import.meta.env.VITE_API_URL;
   if (envUrl) {
     return envUrl;
   }
   // Default to proxy path for dev
   return "/api";
+}
+
+/**
+ * Get the current app mode.
+ * Returns 'demo' if VITE_APP_MODE is set to demo, otherwise 'development'.
+ */
+export function getAppMode(): string {
+  return import.meta.env.VITE_APP_MODE || "development";
+}
+
+/**
+ * Check if the app is running in demo mode.
+ */
+export function isDemoMode(): boolean {
+  return getAppMode() === "demo";
 }
 
 /**

@@ -1,0 +1,11 @@
+# CLARITY Backend Dependencies
+# Generated from pyproject.toml for Render compatibility
+# For development, use: pip install -e ".[dev]"
+
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+python-json-logger>=2.0.7
+numpy>=1.26.0
+pillow>=10.2.0
+

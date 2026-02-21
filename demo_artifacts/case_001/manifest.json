@@ -1,0 +1,19 @@
+{
+  "case_id": "case_001",
+  "title": "Synthetic Demo Case",
+  "description": "Precomputed CLARITY artifacts for demonstration purposes. All data is synthetic and does not represent actual model inference results.",
+  "synthetic": true,
+  "generated_at": "2026-02-20T00:00:00Z",
+  "clarity_version": "v0.0.11-m10",
+  "baseline_id": "demo_baseline_001",
+  "image_dimensions": {
+    "width": 224,
+    "height": 224
+  },
+  "config": {
+    "grid_size": 4,
+    "mask_value": 0.0,
+    "perturbation_axes": ["brightness", "contrast"]
+  }
+}
+

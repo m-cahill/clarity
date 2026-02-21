@@ -1,0 +1,49 @@
+{
+  "evidence_map": {
+    "width": 224,
+    "height": 224,
+    "values": "[[SYNTHETIC_PLACEHOLDER]]",
+    "_note": "Full 224x224 matrix omitted for brevity. Use /demo/cases/case_001/evidence_matrix for raw data."
+  },
+  "heatmap": {
+    "width": 224,
+    "height": 224,
+    "values": "[[SYNTHETIC_PLACEHOLDER]]",
+    "_note": "Full 224x224 normalized matrix omitted for brevity."
+  },
+  "regions": [
+    {
+      "region_id": "evidence_r0",
+      "x_min": 56,
+      "y_min": 56,
+      "x_max": 112,
+      "y_max": 112,
+      "area": 3136,
+      "mean_evidence": 0.82345678,
+      "_synthetic": true
+    },
+    {
+      "region_id": "evidence_r1",
+      "x_min": 140,
+      "y_min": 28,
+      "x_max": 196,
+      "y_max": 84,
+      "area": 3136,
+      "mean_evidence": 0.78123456,
+      "_synthetic": true
+    },
+    {
+      "region_id": "evidence_r2",
+      "x_min": 28,
+      "y_min": 140,
+      "x_max": 84,
+      "y_max": 196,
+      "area": 3136,
+      "mean_evidence": 0.75678901,
+      "_synthetic": true
+    }
+  ],
+  "_synthetic": true,
+  "_generated_for": "demo"
+}
+

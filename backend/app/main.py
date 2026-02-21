@@ -5,6 +5,7 @@ Provides health and version endpoints for service verification.
 """
 
 import logging
+import os
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
@@ -12,6 +13,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.counterfactual_router import router as counterfactual_router
+from app.demo_router import router as demo_router
 from app.health import (
     HealthResponse,
     VersionResponse,
@@ -21,6 +23,10 @@ from app.health import (
 from app.logging_config import configure_logging
 
 logger = logging.getLogger(__name__)
+
+# Environment configuration
+APP_ENV = os.environ.get("APP_ENV", "development")
+ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "")
 
 
 @asynccontextmanager
@@ -40,9 +46,15 @@ app = FastAPI(
 )
 
 # CORS configuration for frontend access
+# In demo mode, restrict to ALLOWED_ORIGIN if set
+if APP_ENV == "demo" and ALLOWED_ORIGIN:
+    cors_origins = [ALLOWED_ORIGIN]
+else:
+    cors_origins = ["*"]  # Permissive for dev
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permissive for dev; restrict in production
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -69,4 +81,7 @@ def version() -> VersionResponse:
 
 # Include counterfactual router (M09)
 app.include_router(counterfactual_router)
+
+# Include demo router (M10.5) - always available for artifact serving
+app.include_router(demo_router)
 

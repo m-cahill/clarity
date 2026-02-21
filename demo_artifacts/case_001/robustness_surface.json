@@ -1,0 +1,39 @@
+{
+  "axes": [
+    {
+      "axis": "brightness",
+      "mean_drift": 0.12500000,
+      "mean_esi": 0.83333333,
+      "points": [
+        {"axis": "brightness", "drift": 0.10000000, "esi": 0.90000000, "value": "0p8"},
+        {"axis": "brightness", "drift": 0.12000000, "esi": 0.85000000, "value": "0p9"},
+        {"axis": "brightness", "drift": 0.08000000, "esi": 0.95000000, "value": "1p0"},
+        {"axis": "brightness", "drift": 0.15000000, "esi": 0.78000000, "value": "1p1"},
+        {"axis": "brightness", "drift": 0.17000000, "esi": 0.68000000, "value": "1p2"}
+      ],
+      "variance_drift": 0.00111111,
+      "variance_esi": 0.00888889
+    },
+    {
+      "axis": "contrast",
+      "mean_drift": 0.11000000,
+      "mean_esi": 0.86666667,
+      "points": [
+        {"axis": "contrast", "drift": 0.09000000, "esi": 0.92000000, "value": "0p8"},
+        {"axis": "contrast", "drift": 0.11000000, "esi": 0.88000000, "value": "0p9"},
+        {"axis": "contrast", "drift": 0.07000000, "esi": 0.96000000, "value": "1p0"},
+        {"axis": "contrast", "drift": 0.13000000, "esi": 0.82000000, "value": "1p1"},
+        {"axis": "contrast", "drift": 0.15000000, "esi": 0.75000000, "value": "1p2"}
+      ],
+      "variance_drift": 0.00088889,
+      "variance_esi": 0.00544444
+    }
+  ],
+  "global_mean_drift": 0.11750000,
+  "global_mean_esi": 0.85000000,
+  "global_variance_drift": 0.00100000,
+  "global_variance_esi": 0.00716667,
+  "_synthetic": true,
+  "_generated_for": "demo"
+}
+
