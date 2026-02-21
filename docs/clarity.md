@@ -52,6 +52,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M08** | Counterfactual Probe | Causal grounding probe via region masking | ✅ **Closed** | `v0.0.9-m08` | 4.92 |
 | **M09** | UI Console Skeleton | Interactive UI for counterfactual orchestration + viewing results | ✅ **Closed** | `v0.0.10-m09` | 4.94 |
 | **M10** | Visualization Overlays | Evidence map overlays + saliency heatmaps | ✅ **Closed** | `v0.0.11-m10` | 4.96 |
+| **M10.5** | Demo Deployment Layer | Netlify frontend + Render backend for read-only demo | ✅ **Closed** | — | 4.97 |
 | **M11** | Report Export | Deterministic PDF report generation | ⏳ Pending | — | — |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls | ⏳ Pending | — | — |
 
@@ -111,6 +112,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M08 | `v0.0.9-m08` | `f92e1c5` | 4.92 | 2026-02-20 |
 | M09 | `v0.0.10-m09` | `0c0180f` | 4.94 | 2026-02-20 |
 | M10 | `v0.0.11-m10` | `92b3959` | 4.96 | 2026-02-20 |
+| M10.5 | — | `330dac7` | 4.97 | 2026-02-21 |
 
 ---
 
