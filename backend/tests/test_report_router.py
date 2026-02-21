@@ -222,8 +222,8 @@ class TestReportErrorHandling:
             json={"case_id": "x" * 10000},
         )
 
-        # Should fail gracefully
-        assert response.status_code == 404
+        # Should fail with validation error (422) due to max_length constraint
+        assert response.status_code == 422
 
 
 class TestReportRouterPresence:

@@ -56,7 +56,12 @@ class ReportGenerateRequest(BaseModel):
         case_id: The case ID to generate a report for.
     """
 
-    case_id: str = Field(..., description="The case ID to generate a report for")
+    case_id: str = Field(
+        ...,
+        description="The case ID to generate a report for",
+        min_length=1,
+        max_length=255,
+    )
 
 
 class ReportGenerateError(Exception):
