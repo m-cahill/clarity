@@ -112,28 +112,28 @@ describe("API Module", () => {
 
     it("throws ApiError on non-2xx response", async () => {
       // Mock fetch to return error
-      const originalFetch = global.fetch;
-      global.fetch = vi.fn().mockResolvedValue({
+      const originalFetch = globalThis.fetch;
+      globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 500,
         statusText: "Internal Server Error",
-      });
+      }) as typeof fetch;
 
       const { fetchHealth, ApiError } = await import("../src/api");
 
       await expect(fetchHealth()).rejects.toThrow(ApiError);
       await expect(fetchHealth()).rejects.toThrow("Health check failed");
 
-      global.fetch = originalFetch;
+      globalThis.fetch = originalFetch;
     });
 
     it("ApiError includes status code", async () => {
-      const originalFetch = global.fetch;
-      global.fetch = vi.fn().mockResolvedValue({
+      const originalFetch = globalThis.fetch;
+      globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 503,
         statusText: "Service Unavailable",
-      });
+      }) as typeof fetch;
 
       const { fetchHealth, ApiError } = await import("../src/api");
 
@@ -145,7 +145,7 @@ describe("API Module", () => {
         expect((error as InstanceType<typeof ApiError>).statusCode).toBe(503);
       }
 
-      global.fetch = originalFetch;
+      globalThis.fetch = originalFetch;
     });
   });
 
@@ -159,28 +159,28 @@ describe("API Module", () => {
     });
 
     it("throws ApiError on non-2xx response", async () => {
-      const originalFetch = global.fetch;
-      global.fetch = vi.fn().mockResolvedValue({
+      const originalFetch = globalThis.fetch;
+      globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 404,
         statusText: "Not Found",
-      });
+      }) as typeof fetch;
 
       const { fetchVersion, ApiError } = await import("../src/api");
 
       await expect(fetchVersion()).rejects.toThrow(ApiError);
       await expect(fetchVersion()).rejects.toThrow("Version check failed");
 
-      global.fetch = originalFetch;
+      globalThis.fetch = originalFetch;
     });
 
     it("ApiError includes status code for version", async () => {
-      const originalFetch = global.fetch;
-      global.fetch = vi.fn().mockResolvedValue({
+      const originalFetch = globalThis.fetch;
+      globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 401,
         statusText: "Unauthorized",
-      });
+      }) as typeof fetch;
 
       const { fetchVersion, ApiError } = await import("../src/api");
 
@@ -192,7 +192,7 @@ describe("API Module", () => {
         expect((error as InstanceType<typeof ApiError>).statusCode).toBe(401);
       }
 
-      global.fetch = originalFetch;
+      globalThis.fetch = originalFetch;
     });
   });
 
