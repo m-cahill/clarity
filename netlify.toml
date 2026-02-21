@@ -9,7 +9,7 @@
 
 [build.environment]
   VITE_APP_MODE = "demo"
-  VITE_API_BASE_URL = "https://clarity-demo.onrender.com"
+  VITE_API_BASE_URL = "https://clarity-7yej.onrender.com"
 
 # SPA routing - redirect all paths to index.html
 [[redirects]]

@@ -47,8 +47,9 @@ app = FastAPI(
 
 # CORS configuration for frontend access
 # In demo mode, restrict to ALLOWED_ORIGIN if set
+# ALLOWED_ORIGIN can be comma-separated for multiple origins
 if APP_ENV == "demo" and ALLOWED_ORIGIN:
-    cors_origins = [ALLOWED_ORIGIN]
+    cors_origins = [origin.strip() for origin in ALLOWED_ORIGIN.split(",")]
 else:
     cors_origins = ["*"]  # Permissive for dev
 
