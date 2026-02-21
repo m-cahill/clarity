@@ -181,7 +181,7 @@ class TestRealAdapterMetadata:
         result = runner.generate("Test prompt", seed=42)
 
         # Check required metadata fields
-        assert result.model_id == "google/medgemma-4b"
+        assert result.model_id == "google/medgemma-4b-it"
         assert result.seed == 42
         assert result.bundle_sha is not None
         assert len(result.bundle_sha) == 64  # SHA256 hex

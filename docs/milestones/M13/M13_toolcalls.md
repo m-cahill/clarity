@@ -43,14 +43,39 @@
 | 2026-02-22T00:17:00Z | gh run watch | Monitor CI run 22253280967 | GitHub Actions | ✅ Complete |
 | 2026-02-22T00:20:00Z | write | Create M13_run1.md | `docs/milestones/M13/M13_run1.md` | ✅ Complete |
 
+| 2026-02-22T01:00:00Z | gh pr merge | Merge PR #16 | GitHub | ⏳ Awaiting permission |
+| 2026-02-22T01:30:00Z | huggingface_hub | Save HF token for MedGemma access | ~/.cache/huggingface/token | ✅ Complete |
+| 2026-02-22T01:35:00Z | pip install | Install accelerate for device_map | Python packages | ✅ Complete |
+| 2026-02-22T01:40:00Z | search_replace | Update MedGemmaRunner to use AutoModelForImageTextToText | `medgemma_runner.py` | ✅ Complete |
+| 2026-02-22T01:45:00Z | search_replace | Fix image token format (use boi_token) | `medgemma_runner.py` | ✅ Complete |
+| 2026-02-22T01:50:00Z | pytest | Run real adapter tests with CLARITY_REAL_MODEL=true | `test_real_adapter_determinism.py` | ✅ 7 passed |
+| 2026-02-22T02:00:00Z | python | Run minimal real sweep (run 1) | `scripts/m13_real_sweep.py` | ✅ Complete |
+| 2026-02-22T02:05:00Z | python | Run minimal real sweep (run 2) | `scripts/m13_real_sweep.py` | ✅ Complete |
+
 ---
 
 ## Recovery Context
 
-**Last Action:** CI passed, M13_run1.md created  
-**Next Step:** Await permission to tag v0.0.14-m13  
+**Last Action:** Minimal real sweep completed, determinism verified  
+**Next Step:** Await permission to merge PR #16 and tag v0.0.14-m13  
 **Previous Tool Call Status:** ✅ Complete  
 **CI Status:** ✅ GREEN (Run 22253280967)
+
+---
+
+## Real Sweep Results (M13 Empirical Validation)
+
+| Metric | Run 1 | Run 2 | Match |
+|--------|-------|-------|-------|
+| Manifest Hash | `01e9c46d...` | `01e9c46d...` | ✅ Identical |
+| Seed 42 bundle_sha | `194f1642...` | `194f1642...` | ✅ Identical |
+| Seed 123 bundle_sha | `8f280dc3...` | `8f280dc3...` | ✅ Identical |
+| VRAM Allocated | 8.02 GB | 8.02 GB | ✅ |
+| VRAM Max | 8.17 GB | 8.17 GB | ✅ |
+| VRAM Budget (≤12GB) | PASS | PASS | ✅ |
+
+**Determinism: VERIFIED**  
+**Full Manifest Hash:** `01e9c46d1c18bc86d007abb7308b878aa704940cd79e091faec4959788455826`
 
 ---
 

@@ -43,7 +43,8 @@ if TYPE_CHECKING:
 REAL_MODEL_ENV_VAR = "CLARITY_REAL_MODEL"
 
 # Model configuration (locked for M13)
-MODEL_ID = "google/medgemma-4b"
+# Note: medgemma-4b-it is the instruction-tuned variant with multimodal support
+MODEL_ID = "google/medgemma-4b-it"
 MAX_NEW_TOKENS = 512
 TEMPERATURE = 0.0
 TOP_P = 1.0
@@ -226,11 +227,11 @@ class MedGemmaRunner:
 
         try:
             import torch
-            from transformers import AutoModelForCausalLM, AutoProcessor, AutoTokenizer
+            from transformers import AutoModelForImageTextToText, AutoProcessor, AutoTokenizer
         except ImportError as e:
             raise ImportError(
                 "Required libraries not installed. "
-                "Install with: pip install torch transformers"
+                "Install with: pip install torch transformers accelerate"
             ) from e
 
         # Enable deterministic mode before loading
@@ -260,11 +261,11 @@ class MedGemmaRunner:
             trust_remote_code=True,
         )
 
-        # Load model
-        self._model = AutoModelForCausalLM.from_pretrained(
+        # Load model (ImageTextToText for multimodal MedGemma/Gemma3)
+        self._model = AutoModelForImageTextToText.from_pretrained(
             self._model_id,
             torch_dtype=torch_dtype,
-            device_map=self._device,
+            device_map="auto",  # Use auto for proper device placement
             trust_remote_code=True,
         )
 
@@ -303,9 +304,18 @@ class MedGemmaRunner:
 
         # Prepare inputs
         if image is not None and self._processor is not None:
-            # Multimodal input
+            # Multimodal input - MedGemma/Gemma3 requires <start_of_image> token in prompt
+            # The processor looks for boi_token to know where to insert image features
+            boi_token = getattr(self._processor, "boi_token", "<start_of_image>")
+            
+            # Insert boi_token at the beginning if not already present
+            if boi_token not in prompt:
+                formatted_prompt = f"{boi_token}{prompt}"
+            else:
+                formatted_prompt = prompt
+            
             inputs = self._processor(
-                text=prompt,
+                text=formatted_prompt,
                 images=image,
                 return_tensors="pt",
             ).to(self._device)

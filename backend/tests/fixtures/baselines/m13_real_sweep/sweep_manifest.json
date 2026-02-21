@@ -1,0 +1,31 @@
+{
+  "image_path": "tests\\fixtures\\baselines\\clinical_sample_01.png",
+  "model_id": "google/medgemma-4b-it",
+  "prompt": "Analyze this medical image for any anomalies.",
+  "results": [
+    {
+      "bundle_sha": "194f1642b238fa84571e822557d3ddbb0fabe851d5f5ac1e673319b333920236",
+      "model_id": "google/medgemma-4b-it",
+      "seed": 42,
+      "text": "\n\n\n\nAnalyze this medical image for any anomalies.",
+      "text_preview": "\n\n\n\nAnalyze this medical image for any anomalies."
+    },
+    {
+      "bundle_sha": "8f280dc3e69f5a708666d3ef4e1f9dae2074dcfd8fd5813df4bf046d07f0001f",
+      "model_id": "google/medgemma-4b-it",
+      "seed": 123,
+      "text": "\n\n\n\nAnalyze this medical image for any anomalies.",
+      "text_preview": "\n\n\n\nAnalyze this medical image for any anomalies."
+    }
+  ],
+  "seeds": [
+    42,
+    123
+  ],
+  "sweep_id": "m13-real-sweep-verification",
+  "vram_usage": {
+    "allocated_gb": 8.02,
+    "max_allocated_gb": 8.17,
+    "reserved_gb": 8.32
+  }
+}
