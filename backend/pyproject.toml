@@ -12,6 +12,7 @@ dependencies = [
     "python-json-logger>=2.0.7",
     "numpy>=1.26.0",
     "pillow>=10.2.0",
+    "reportlab>=4.1.0",
 ]
 
 [project.optional-dependencies]

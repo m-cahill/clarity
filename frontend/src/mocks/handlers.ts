@@ -158,5 +158,43 @@ export const handlers = [
       version: "0.0.11",
     });
   }),
+
+  // POST /report/generate (M11)
+  http.post("http://localhost:8000/report/generate", async ({ request }) => {
+    const body = (await request.json()) as { case_id?: string };
+
+    // Return 404 for invalid case
+    if (!body.case_id || body.case_id === "invalid") {
+      return HttpResponse.json(
+        { detail: `Case not found: ${body.case_id || 'none'}` },
+        { status: 404 }
+      );
+    }
+
+    // Return a minimal valid PDF for testing
+    // This is the smallest valid PDF structure
+    const minimalPdf = `%PDF-1.4
+1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
+2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
+3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R>>endobj
+xref
+0 4
+0000000000 65535 f 
+0000000009 00000 n 
+0000000052 00000 n 
+0000000101 00000 n 
+trailer<</Size 4/Root 1 0 R>>
+startxref
+170
+%%EOF`;
+
+    return new HttpResponse(minimalPdf, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="clarity_report_${body.case_id}.pdf"`,
+      },
+    });
+  }),
 ];
 

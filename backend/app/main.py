@@ -12,6 +12,7 @@ from typing import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.clarity.report import report_router
 from app.counterfactual_router import router as counterfactual_router
 from app.demo_router import router as demo_router
 from app.health import (
@@ -85,4 +86,7 @@ app.include_router(counterfactual_router)
 
 # Include demo router (M10.5) - always available for artifact serving
 app.include_router(demo_router)
+
+# Include report router (M11) - PDF report generation
+app.include_router(report_router)
 

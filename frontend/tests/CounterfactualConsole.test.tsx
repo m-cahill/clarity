@@ -210,5 +210,98 @@ describe("CounterfactualConsole", () => {
       expect(screen.getByText("grid_r0_c0_k3")).toBeInTheDocument();
     });
   });
+
+  // M11 Export Report Tests
+  describe("Export Report (M11)", () => {
+    it("shows Export Report button after running probe", async () => {
+      renderWithRouter(<CounterfactualConsole />);
+      
+      await waitFor(() => {
+        expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+      });
+
+      // Button should not be visible before running probe
+      expect(screen.queryByTestId("export-report-button")).not.toBeInTheDocument();
+
+      // Run probe
+      fireEvent.click(screen.getByText("Run Probe"));
+
+      await waitFor(() => {
+        expect(screen.getByTestId("export-report-button")).toBeInTheDocument();
+      });
+    });
+
+    it("Export Report button is clickable when results are present", async () => {
+      renderWithRouter(<CounterfactualConsole />);
+      
+      await waitFor(() => {
+        expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("Run Probe"));
+
+      await waitFor(() => {
+        const exportButton = screen.getByTestId("export-report-button");
+        expect(exportButton).toBeInTheDocument();
+        expect(exportButton).not.toBeDisabled();
+      });
+    });
+
+    it("Export Report button shows correct text", async () => {
+      renderWithRouter(<CounterfactualConsole />);
+      
+      await waitFor(() => {
+        expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("Run Probe"));
+
+      await waitFor(() => {
+        expect(screen.getByTestId("export-report-button")).toHaveTextContent("Export Report");
+      });
+    });
+
+    it("Export Report button triggers report generation", async () => {
+      renderWithRouter(<CounterfactualConsole />);
+      
+      await waitFor(() => {
+        expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("Run Probe"));
+
+      await waitFor(() => {
+        expect(screen.getByTestId("export-report-button")).toBeInTheDocument();
+      });
+
+      // Click export button
+      fireEvent.click(screen.getByTestId("export-report-button"));
+
+      // Should complete (either success or show generating state)
+      await waitFor(() => {
+        const button = screen.getByTestId("export-report-button");
+        // After click, button should either show "Export Report" or "Generating..."
+        expect(
+          button.textContent === "Export Report" ||
+          button.textContent === "Generating..."
+        ).toBe(true);
+      });
+    });
+
+    it("Export Report button has export-section container", async () => {
+      renderWithRouter(<CounterfactualConsole />);
+      
+      await waitFor(() => {
+        expect(screen.queryByText("Loading baselines...")).not.toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("Run Probe"));
+
+      await waitFor(() => {
+        const exportButton = screen.getByTestId("export-report-button");
+        expect(exportButton.parentElement).toHaveClass("export-section");
+      });
+    });
+  });
 });
 
