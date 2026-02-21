@@ -111,6 +111,24 @@ const mockProbeResult = {
         masked_drift: 0.4,
         delta_drift: 0.4,
       },
+      {
+        probe: { region_id: "grid_r1_c1_k3", axis: "brightness", value: "1p0" },
+        baseline_esi: 1.0,
+        masked_esi: 1.0,
+        delta_esi: 0,  // Zero delta for branch coverage
+        baseline_drift: 0.0,
+        masked_drift: 0.0,
+        delta_drift: 0,  // Zero delta for branch coverage
+      },
+      {
+        probe: { region_id: "grid_r1_c2_k3", axis: "brightness", value: "1p0" },
+        baseline_esi: 0.8,
+        masked_esi: 1.0,
+        delta_esi: 0.2,  // Positive delta for branch coverage
+        baseline_drift: 0.2,
+        masked_drift: 0.0,
+        delta_drift: -0.2,  // Negative drift delta for branch coverage
+      },
     ],
     mean_abs_delta_esi: 0.25,
     max_abs_delta_esi: 0.4,
@@ -156,6 +174,22 @@ export const handlers = [
       status: "healthy",
       service: "clarity-backend",
       version: "0.0.11",
+    });
+  }),
+
+  // Version endpoint - full URL
+  http.get("http://localhost:8000/version", () => {
+    return HttpResponse.json({
+      version: "0.0.13",
+      git_sha: "abc123def",
+    });
+  }),
+
+  // Version endpoint - relative URL for API proxy
+  http.get("/api/version", () => {
+    return HttpResponse.json({
+      version: "0.0.13",
+      git_sha: "abc123def",
     });
   }),
 

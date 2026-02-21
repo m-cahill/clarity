@@ -99,4 +99,126 @@ describe("API Module", () => {
       expect(import.meta.env.VITE_API_URL).toBeUndefined();
     });
   });
+
+  describe("fetchHealth", () => {
+    it("returns health response on success", async () => {
+      const { fetchHealth } = await import("../src/api");
+      
+      // MSW handler returns health response
+      const health = await fetchHealth();
+      expect(health).toHaveProperty("status");
+      expect(health).toHaveProperty("service");
+    });
+
+    it("throws ApiError on non-2xx response", async () => {
+      // Mock fetch to return error
+      const originalFetch = global.fetch;
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 500,
+        statusText: "Internal Server Error",
+      });
+
+      const { fetchHealth, ApiError } = await import("../src/api");
+
+      await expect(fetchHealth()).rejects.toThrow(ApiError);
+      await expect(fetchHealth()).rejects.toThrow("Health check failed");
+
+      global.fetch = originalFetch;
+    });
+
+    it("ApiError includes status code", async () => {
+      const originalFetch = global.fetch;
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 503,
+        statusText: "Service Unavailable",
+      });
+
+      const { fetchHealth, ApiError } = await import("../src/api");
+
+      try {
+        await fetchHealth();
+        expect.fail("Should have thrown");
+      } catch (error) {
+        expect(error).toBeInstanceOf(ApiError);
+        expect((error as InstanceType<typeof ApiError>).statusCode).toBe(503);
+      }
+
+      global.fetch = originalFetch;
+    });
+  });
+
+  describe("fetchVersion", () => {
+    it("returns version response on success", async () => {
+      const { fetchVersion } = await import("../src/api");
+      
+      // MSW handler returns version response
+      const version = await fetchVersion();
+      expect(version).toHaveProperty("version");
+    });
+
+    it("throws ApiError on non-2xx response", async () => {
+      const originalFetch = global.fetch;
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 404,
+        statusText: "Not Found",
+      });
+
+      const { fetchVersion, ApiError } = await import("../src/api");
+
+      await expect(fetchVersion()).rejects.toThrow(ApiError);
+      await expect(fetchVersion()).rejects.toThrow("Version check failed");
+
+      global.fetch = originalFetch;
+    });
+
+    it("ApiError includes status code for version", async () => {
+      const originalFetch = global.fetch;
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false,
+        status: 401,
+        statusText: "Unauthorized",
+      });
+
+      const { fetchVersion, ApiError } = await import("../src/api");
+
+      try {
+        await fetchVersion();
+        expect.fail("Should have thrown");
+      } catch (error) {
+        expect(error).toBeInstanceOf(ApiError);
+        expect((error as InstanceType<typeof ApiError>).statusCode).toBe(401);
+      }
+
+      global.fetch = originalFetch;
+    });
+  });
+
+  describe("ApiError", () => {
+    it("is an instance of Error", async () => {
+      const { ApiError } = await import("../src/api");
+      const error = new ApiError("Test error", 500);
+      expect(error).toBeInstanceOf(Error);
+    });
+
+    it("has correct name", async () => {
+      const { ApiError } = await import("../src/api");
+      const error = new ApiError("Test error", 500);
+      expect(error.name).toBe("ApiError");
+    });
+
+    it("has correct message", async () => {
+      const { ApiError } = await import("../src/api");
+      const error = new ApiError("Custom message", 404);
+      expect(error.message).toBe("Custom message");
+    });
+
+    it("has correct statusCode", async () => {
+      const { ApiError } = await import("../src/api");
+      const error = new ApiError("Test error", 418);
+      expect(error.statusCode).toBe(418);
+    });
+  });
 });

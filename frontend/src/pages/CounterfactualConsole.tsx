@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { downloadBlob, generateReportFilename } from "../utils/downloadUtils";
 import "./CounterfactualConsole.css";
 
 /**
@@ -449,16 +450,10 @@ export function CounterfactualConsole() {
         throw new Error(errorData.detail || `Export failed: ${response.status}`);
       }
 
-      // Get the PDF blob and trigger download
+      // Get the PDF blob and trigger download using extracted helper
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `clarity_report_${baselineId}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      const filename = generateReportFilename(baselineId);
+      downloadBlob(blob, filename);
     } catch (err) {
       setReportError(err instanceof Error ? err.message : "Report export failed");
     } finally {

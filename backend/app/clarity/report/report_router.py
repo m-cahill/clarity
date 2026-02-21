@@ -9,6 +9,12 @@ CRITICAL CONSTRAINTS (M11):
 4. Only supports demo cases in M11.
 5. Streams PDF bytes directly.
 
+M12 ADDITIONS:
+- Deterministic caching with SHA256 keys
+- Atomic writes for cache safety
+- File locking for concurrency control
+- 409 response for concurrent identical requests
+
 Endpoints:
 - POST /report/generate - Generate a PDF report for a case
 """
@@ -17,12 +23,18 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
 from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import Response
 from pydantic import BaseModel, Field
+
+from app.clarity.cache import CacheManager, compute_case_hash
+from app.clarity.cache.cache_manager import CacheInProgressError
+
+logger = logging.getLogger(__name__)
 
 from app.clarity.report.report_model import (
     SERIALIZATION_VERSION,
@@ -47,6 +59,21 @@ DEMO_ARTIFACTS_DIR = Path(__file__).parent.parent.parent.parent.parent / "demo_a
 
 # Fixed fallback timestamp
 FALLBACK_TIMESTAMP = "1970-01-01T00:00:00Z"
+
+# Global cache manager instance (M12)
+_cache_manager: CacheManager | None = None
+
+
+def get_cache_manager() -> CacheManager:
+    """Get or create the global cache manager.
+
+    Returns:
+        CacheManager instance.
+    """
+    global _cache_manager
+    if _cache_manager is None:
+        _cache_manager = CacheManager()
+    return _cache_manager
 
 
 class ReportGenerateRequest(BaseModel):
@@ -319,6 +346,11 @@ def generate_report(request: ReportGenerateRequest) -> Response:
     This endpoint loads demo case artifacts, builds a ClarityReport,
     and renders it to a deterministic PDF.
 
+    M12: Added caching and concurrency control.
+    - Cache hit: Returns cached PDF immediately
+    - Cache miss: Generates, caches, and returns PDF
+    - Concurrent request: Returns 409 if another request is generating
+
     Args:
         request: The report generation request.
 
@@ -326,14 +358,32 @@ def generate_report(request: ReportGenerateRequest) -> Response:
         PDF file as application/pdf response.
 
     Raises:
-        HTTPException: If case not found or generation fails.
+        HTTPException: If case not found, generation fails, or concurrent request.
     """
-    try:
-        # Load case data
-        report = load_demo_case(request.case_id)
+    case_dir = DEMO_ARTIFACTS_DIR / request.case_id
 
-        # Render to PDF
-        pdf_bytes = render_report_to_pdf(report)
+    if not case_dir.exists():
+        raise HTTPException(status_code=404, detail=f"Case not found: {request.case_id}")
+
+    try:
+        # Compute cache key from case artifacts (M12)
+        cache_key = compute_case_hash(case_dir)
+        cache = get_cache_manager()
+
+        def generate_pdf() -> bytes:
+            """Generate PDF for caching."""
+            logger.info(f"Generating report for case: {request.case_id}")
+            report = load_demo_case(request.case_id)
+            return render_report_to_pdf(report)
+
+        # Get from cache or generate (M12)
+        pdf_bytes = cache.get_or_create(
+            cache_key=cache_key,
+            generator=generate_pdf,
+            extension=".pdf",
+        )
+
+        logger.debug(f"Report served for case: {request.case_id}, cache_key: {cache_key[:16]}...")
 
         # Return as PDF response
         return Response(
@@ -341,12 +391,26 @@ def generate_report(request: ReportGenerateRequest) -> Response:
             media_type="application/pdf",
             headers={
                 "Content-Disposition": f'attachment; filename="clarity_report_{request.case_id}.pdf"',
+                "X-Cache-Key": cache_key[:16],  # Partial key for debugging
             },
         )
 
+    except CacheInProgressError as e:
+        # Another request is generating the same report (M12)
+        logger.warning(f"Concurrent report generation blocked: {request.case_id}")
+        raise HTTPException(
+            status_code=409,
+            detail=f"Report generation in progress for case: {request.case_id}",
+        ) from e
+
     except ReportGenerateError as e:
         raise HTTPException(status_code=404, detail=str(e)) from e
+
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e)) from e
+
     except Exception as e:
+        logger.exception(f"Report generation failed for case: {request.case_id}")
         raise HTTPException(
             status_code=500, detail=f"Report generation failed: {e}"
         ) from e
