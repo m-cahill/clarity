@@ -4,6 +4,8 @@
 
 DELTA AUDIT
 
+**CI Trigger Note**: Testing workflow activation.
+
 ## Status
 
 **Status:** 🔄 In Progress  
