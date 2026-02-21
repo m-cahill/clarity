@@ -24,7 +24,7 @@ services:
       - key: ALLOWED_ORIGIN
         value: https://majestic-dodol-25e71c.netlify.app
       - key: ARTIFACT_ROOT
-        value: demo_artifacts
+        value: ../demo_artifacts
       - key: LOG_LEVEL
         value: INFO
       - key: PYTHON_VERSION
