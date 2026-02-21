@@ -4,7 +4,7 @@ This module provides data structures for representing robustness surfaces
 computed from M05 metrics output. Surfaces aggregate ESI and Drift metrics
 into analyzable structures suitable for gradient estimation and visualization.
 
-CRITICAL CONSTRAINTS (M06):
+CRITICAL CONSTRAINTS (M06+M14):
 1. All structures must be deterministic given identical input.
 2. No randomness, no datetime.now, no uuid.
 3. No numpy — pure Python only.
@@ -19,6 +19,10 @@ Structures defined:
 - AxisSurface: Aggregated surface for one axis with mean/variance.
 - RobustnessSurface: Full surface across all axes with global statistics.
 - SurfaceComputationError: Raised when surface computation fails.
+- (M14) ConfidenceSurfacePoint: Single axis value point with confidence metrics.
+- (M14) ConfidenceSurface: Aggregated confidence surface for one axis.
+- (M14) EntropySurfacePoint: Single axis value point with entropy metrics.
+- (M14) EntropySurface: Aggregated entropy surface for one axis.
 """
 
 from __future__ import annotations
@@ -193,5 +197,237 @@ class RobustnessSurface:
             "global_mean_esi": self.global_mean_esi,
             "global_variance_drift": self.global_variance_drift,
             "global_variance_esi": self.global_variance_esi,
+        }
+
+
+# M14 Rich Mode Surfaces
+
+
+@dataclass(frozen=True)
+class ConfidenceSurfacePoint:
+    """Single point on a confidence surface (M14).
+
+    Represents confidence metrics for a single axis value.
+
+    Attributes:
+        axis: The name of the perturbation axis.
+        value: The encoded axis value (string).
+        mean_confidence: Mean confidence score across seeds.
+        csi: Confidence Stability Index for this value.
+        confidence_variance: Variance of confidence scores.
+
+    Example:
+        >>> point = ConfidenceSurfacePoint(
+        ...     axis="brightness",
+        ...     value="0p8",
+        ...     mean_confidence=0.85,
+        ...     csi=0.95,
+        ...     confidence_variance=0.0025,
+        ... )
+    """
+
+    axis: str
+    value: str
+    mean_confidence: float
+    csi: float
+    confidence_variance: float
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert to dictionary representation.
+
+        Returns a deterministic dictionary with sorted keys.
+
+        Returns:
+            Dictionary with alphabetically sorted keys.
+        """
+        return {
+            "axis": self.axis,
+            "confidence_variance": self.confidence_variance,
+            "csi": self.csi,
+            "mean_confidence": self.mean_confidence,
+            "value": self.value,
+        }
+
+
+@dataclass(frozen=True)
+class ConfidenceSurface:
+    """Aggregated confidence surface for a single axis (M14).
+
+    Attributes:
+        axis: The name of the perturbation axis.
+        points: Tuple of ConfidenceSurfacePoint objects.
+        mean_csi: Mean CSI across all values.
+        overall_mean_confidence: Mean confidence across all values.
+        overall_variance: Variance of confidence across all values.
+
+    Example:
+        >>> surface = ConfidenceSurface(
+        ...     axis="brightness",
+        ...     points=(point1, point2),
+        ...     mean_csi=0.95,
+        ...     overall_mean_confidence=0.85,
+        ...     overall_variance=0.0025,
+        ... )
+    """
+
+    axis: str
+    points: tuple[ConfidenceSurfacePoint, ...]
+    mean_csi: float
+    overall_mean_confidence: float
+    overall_variance: float
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert to dictionary representation.
+
+        Returns a deterministic dictionary with sorted keys.
+
+        Returns:
+            Dictionary with alphabetically sorted keys.
+        """
+        return {
+            "axis": self.axis,
+            "mean_csi": self.mean_csi,
+            "overall_mean_confidence": self.overall_mean_confidence,
+            "overall_variance": self.overall_variance,
+            "points": [p.to_dict() for p in self.points],
+        }
+
+
+@dataclass(frozen=True)
+class EntropySurfacePoint:
+    """Single point on an entropy surface (M14).
+
+    Represents entropy metrics for a single axis value.
+
+    Attributes:
+        axis: The name of the perturbation axis.
+        value: The encoded axis value (string).
+        mean_entropy: Mean entropy across seeds.
+        edm: Entropy Drift Metric for this value.
+        entropy_variance: Variance of entropy scores.
+
+    Example:
+        >>> point = EntropySurfacePoint(
+        ...     axis="brightness",
+        ...     value="0p8",
+        ...     mean_entropy=2.3,
+        ...     edm=0.05,
+        ...     entropy_variance=0.01,
+        ... )
+    """
+
+    axis: str
+    value: str
+    mean_entropy: float
+    edm: float
+    entropy_variance: float
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert to dictionary representation.
+
+        Returns a deterministic dictionary with sorted keys.
+
+        Returns:
+            Dictionary with alphabetically sorted keys.
+        """
+        return {
+            "axis": self.axis,
+            "edm": self.edm,
+            "entropy_variance": self.entropy_variance,
+            "mean_entropy": self.mean_entropy,
+            "value": self.value,
+        }
+
+
+@dataclass(frozen=True)
+class EntropySurface:
+    """Aggregated entropy surface for a single axis (M14).
+
+    Attributes:
+        axis: The name of the perturbation axis.
+        points: Tuple of EntropySurfacePoint objects.
+        mean_edm: Mean EDM across all values.
+        overall_mean_entropy: Mean entropy across all values.
+        overall_variance: Variance of entropy across all values.
+        baseline_entropy: Entropy of the baseline run.
+
+    Example:
+        >>> surface = EntropySurface(
+        ...     axis="brightness",
+        ...     points=(point1, point2),
+        ...     mean_edm=0.05,
+        ...     overall_mean_entropy=2.3,
+        ...     overall_variance=0.01,
+        ...     baseline_entropy=2.3,
+        ... )
+    """
+
+    axis: str
+    points: tuple[EntropySurfacePoint, ...]
+    mean_edm: float
+    overall_mean_entropy: float
+    overall_variance: float
+    baseline_entropy: float | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert to dictionary representation.
+
+        Returns a deterministic dictionary with sorted keys.
+
+        Returns:
+            Dictionary with alphabetically sorted keys.
+        """
+        result = {
+            "axis": self.axis,
+            "mean_edm": self.mean_edm,
+            "overall_mean_entropy": self.overall_mean_entropy,
+            "overall_variance": self.overall_variance,
+            "points": [p.to_dict() for p in self.points],
+        }
+        if self.baseline_entropy is not None:
+            result["baseline_entropy"] = self.baseline_entropy
+        return result
+
+
+@dataclass(frozen=True)
+class RichSurfaces:
+    """Collection of M14 rich mode surfaces.
+
+    Combines confidence and entropy surfaces into a single structure
+    for convenient serialization.
+
+    Attributes:
+        confidence_surfaces: Tuple of ConfidenceSurface objects.
+        entropy_surfaces: Tuple of EntropySurface objects.
+        global_mean_csi: Global mean CSI across all axes.
+        global_mean_edm: Global mean EDM across all axes.
+
+    Example:
+        >>> rich = RichSurfaces(
+        ...     confidence_surfaces=(conf1, conf2),
+        ...     entropy_surfaces=(ent1, ent2),
+        ...     global_mean_csi=0.95,
+        ...     global_mean_edm=0.05,
+        ... )
+    """
+
+    confidence_surfaces: tuple[ConfidenceSurface, ...]
+    entropy_surfaces: tuple[EntropySurface, ...]
+    global_mean_csi: float
+    global_mean_edm: float
+
+    def to_dict(self) -> dict[str, Any]:
+        """Convert to dictionary representation.
+
+        Returns a deterministic dictionary with sorted keys.
+
+        Returns:
+            Dictionary with alphabetically sorted keys.
+        """
+        return {
+            "confidence_surfaces": [s.to_dict() for s in self.confidence_surfaces],
+            "entropy_surfaces": [s.to_dict() for s in self.entropy_surfaces],
+            "global_mean_csi": self.global_mean_csi,
+            "global_mean_edm": self.global_mean_edm,
         }
 

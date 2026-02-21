@@ -4,7 +4,7 @@ This module provides a real MedGemma model runner that implements the
 RunnerProtocol interface. It is designed for local GPU inference using
 the HuggingFace Transformers library.
 
-CRITICAL CONSTRAINTS (M13):
+CRITICAL CONSTRAINTS (M13+M14):
 1. Deterministic: same (prompt, seed) → identical output.
 2. No gradient tracking (torch.no_grad).
 3. Temperature=0, no sampling.
@@ -12,6 +12,9 @@ CRITICAL CONSTRAINTS (M13):
 5. GPU memory budget: ≤12GB for batch=1.
 6. Does NOT modify R2L semantics.
 7. Gated behind CLARITY_REAL_MODEL environment variable.
+8. (M14) Rich mode: optional logprobs/entropy extraction via generate_rich().
+9. (M14) Rich mode gated behind CLARITY_RICH_MODE environment variable.
+10. (M14) Full logits hash opt-in via CLARITY_RICH_LOGITS_HASH.
 
 This runner is for LOCAL EXECUTION ONLY. It is NOT used in CI.
 CI uses the StubbedRunner for synthetic deterministic outputs.
@@ -27,17 +30,33 @@ Usage:
     if is_real_model_enabled():
         runner = MedGemmaRunner()
         result = runner.run(image, prompt, axis, value, seed)
+
+    # Rich mode (M14)
+    from app.clarity.rich_generation import is_rich_mode_enabled
+    if is_real_model_enabled() and is_rich_mode_enabled():
+        rich_result = runner.generate_rich("Analyze this X-ray", seed=42, image=img)
 """
 
 from __future__ import annotations
 
 import hashlib
+import math
 import os
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from PIL import Image
+
+# Import rich generation types (M14)
+from app.clarity.rich_generation import (
+    RichGenerationResult,
+    RichMetricsSummary,
+    compute_logits_hash_streaming,
+    create_rich_metrics_summary,
+    is_rich_logits_hash_enabled,
+    is_rich_mode_enabled,
+)
 
 # Environment variable gate
 REAL_MODEL_ENV_VAR = "CLARITY_REAL_MODEL"
@@ -374,6 +393,220 @@ class MedGemmaRunner:
             bundle_sha=bundle_sha,
             metadata=metadata,
         )
+
+    def generate_rich(
+        self,
+        prompt: str,
+        *,
+        seed: int,
+        image: "Image.Image | None" = None,
+    ) -> RichGenerationResult:
+        """Generate text with rich inference signals (M14).
+
+        This method extends generate() to also extract:
+        - Per-token log probabilities
+        - Mean log probability (confidence)
+        - Output entropy
+        - Optional full logits hash (if CLARITY_RICH_LOGITS_HASH=true)
+
+        Requires BOTH CLARITY_REAL_MODEL=true AND CLARITY_RICH_MODE=true.
+
+        Args:
+            prompt: The input prompt.
+            seed: Seed for reproducibility (REQUIRED).
+            image: Optional input image for multimodal inference.
+
+        Returns:
+            RichGenerationResult with generated text, metadata, and rich signals.
+
+        Raises:
+            RuntimeError: If rich mode is not enabled or generation fails.
+        """
+        import torch
+
+        if not is_rich_mode_enabled():
+            raise RuntimeError(
+                "Rich mode is disabled. Set CLARITY_RICH_MODE=true to enable."
+            )
+
+        # Load model if not already loaded
+        self._load_model()
+
+        # Set deterministic seed
+        _set_deterministic_seed(seed)
+
+        # Prepare inputs
+        if image is not None and self._processor is not None:
+            # Multimodal input - MedGemma/Gemma3 requires <start_of_image> token
+            boi_token = getattr(self._processor, "boi_token", "<start_of_image>")
+
+            if boi_token not in prompt:
+                formatted_prompt = f"{boi_token}{prompt}"
+            else:
+                formatted_prompt = prompt
+
+            inputs = self._processor(
+                text=formatted_prompt,
+                images=image,
+                return_tensors="pt",
+            ).to(self._device)
+        else:
+            # Text-only input
+            inputs = self._tokenizer(
+                prompt,
+                return_tensors="pt",
+            ).to(self._device)
+
+        # Generate with deterministic settings AND return logits
+        with torch.no_grad():
+            outputs = self._model.generate(
+                **inputs,
+                max_new_tokens=MAX_NEW_TOKENS,
+                temperature=TEMPERATURE,
+                top_p=TOP_P,
+                do_sample=DO_SAMPLE,
+                pad_token_id=self._tokenizer.eos_token_id,
+                return_dict_in_generate=True,
+                output_scores=True,  # Return logits for each position
+            )
+
+        # Extract generated token IDs (excluding input)
+        input_length = inputs["input_ids"].shape[1]
+        generated_ids = outputs.sequences[0, input_length:]
+
+        # Decode output
+        generated_text = self._tokenizer.decode(
+            generated_ids,
+            skip_special_tokens=True,
+        )
+
+        # Compute result hash (same as basic generate)
+        bundle_sha = _compute_result_hash(generated_text, self._model_id, seed)
+
+        # Extract per-token log probabilities from scores
+        token_logprobs = self._extract_token_logprobs(outputs.scores, generated_ids)
+
+        # Compute mean entropy across positions (average uncertainty)
+        output_probs = self._compute_output_entropy_probs(outputs.scores)
+
+        # Create rich summary
+        rich_summary = create_rich_metrics_summary(
+            token_logprobs=token_logprobs,
+            output_probs=output_probs,
+        )
+
+        # Optionally compute full logits hash (streaming, no storage)
+        logits_hash = None
+        if is_rich_logits_hash_enabled():
+            logits_hash = self._compute_logits_hash(outputs.scores)
+
+        # Gather metadata
+        metadata = {
+            "device": self._device,
+            "dtype": self._dtype,
+            "max_new_tokens": MAX_NEW_TOKENS,
+            "temperature": TEMPERATURE,
+            "top_p": TOP_P,
+            "do_sample": DO_SAMPLE,
+            "torch_version": torch.__version__,
+            "rich_mode": True,
+        }
+
+        try:
+            import transformers
+            metadata["transformers_version"] = transformers.__version__
+        except Exception:
+            pass
+
+        return RichGenerationResult(
+            text=generated_text,
+            model_id=self._model_id,
+            seed=seed,
+            bundle_sha=bundle_sha,
+            metadata=metadata,
+            token_logprobs=tuple(token_logprobs) if token_logprobs else None,
+            rich_summary=rich_summary,
+            logits_hash=logits_hash,
+        )
+
+    def _extract_token_logprobs(
+        self,
+        scores: tuple[Any, ...],
+        generated_ids: Any,
+    ) -> list[float]:
+        """Extract per-token log probabilities from generation scores.
+
+        Args:
+            scores: Tuple of logit tensors, one per generated position.
+            generated_ids: The generated token IDs.
+
+        Returns:
+            List of log probabilities for each generated token.
+        """
+        import torch
+
+        token_logprobs = []
+
+        for i, (score, token_id) in enumerate(zip(scores, generated_ids)):
+            # score shape: [1, vocab_size]
+            # Apply log_softmax to get log probabilities
+            log_probs = torch.log_softmax(score[0], dim=-1)
+
+            # Get log prob of the actual generated token
+            token_logprob = log_probs[token_id].item()
+            token_logprobs.append(round(token_logprob, 8))
+
+        return token_logprobs
+
+    def _compute_output_entropy_probs(
+        self,
+        scores: tuple[Any, ...],
+    ) -> list[float]:
+        """Compute mean probability distribution for entropy calculation.
+
+        We compute the mean softmax distribution across all positions,
+        then use this for entropy calculation.
+
+        Args:
+            scores: Tuple of logit tensors, one per generated position.
+
+        Returns:
+            Mean probability distribution across all positions.
+        """
+        import torch
+
+        if not scores:
+            return []
+
+        # Stack all scores and compute mean softmax
+        # Shape: [num_positions, vocab_size]
+        all_scores = torch.stack([s[0] for s in scores], dim=0)
+
+        # Compute softmax for each position
+        all_probs = torch.softmax(all_scores, dim=-1)
+
+        # Mean across positions
+        mean_probs = all_probs.mean(dim=0)
+
+        # Convert to list
+        return [round(p, 8) for p in mean_probs.tolist()]
+
+    def _compute_logits_hash(self, scores: tuple[Any, ...]) -> str:
+        """Compute hash of all logits (streaming, no storage).
+
+        Args:
+            scores: Tuple of logit tensors.
+
+        Returns:
+            SHA256 hex digest of all logits.
+        """
+        def logits_iterator():
+            for score in scores:
+                # score shape: [1, vocab_size]
+                for value in score[0].flatten().tolist():
+                    yield value
+
+        return compute_logits_hash_streaming(logits_iterator())
 
     def get_vram_usage(self) -> dict[str, float]:
         """Get current VRAM usage statistics.
