@@ -1,0 +1,10 @@
+{
+  "baseline_id": "clinical-sample-01",
+  "prompt": "Analyze this chest X-ray image. Describe any findings and provide a differential diagnosis.",
+  "axis": "blur",
+  "values": ["none", "light"],
+  "expected_answer": "Normal chest radiograph with no acute cardiopulmonary abnormality.",
+  "expected_justification": "The lungs are clear without focal consolidation, pleural effusion, or pneumothorax. The cardiac silhouette is normal in size. The mediastinal contours are unremarkable. No acute osseous abnormality.",
+  "seed": 42
+}
+

@@ -11,6 +11,12 @@
       "description": "Alternate test baseline for determinism verification",
       "image_file": "test_image_002.png",
       "spec_file": "test_spec_002.json"
+    },
+    "clinical-sample-01": {
+      "name": "Clinical Sample 01",
+      "description": "224x224 clinical-style synthetic image for M13 MedGemma integration",
+      "image_file": "clinical_sample_01.png",
+      "spec_file": "clinical_spec_01.json"
     }
   }
 }

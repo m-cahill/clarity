@@ -191,6 +191,14 @@ from app.clarity.evidence_overlay import (
     normalize_evidence_to_heatmap,
 )
 
+# MedGemma Runner (M13) - Gated behind CLARITY_REAL_MODEL
+from app.clarity.medgemma_runner import (
+    MedGemmaResult,
+    MedGemmaRunner,
+    create_medgemma_runner_result,
+    is_real_model_enabled,
+)
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -307,4 +315,9 @@ __all__ = [
     "normalize_evidence_to_heatmap",
     "extract_regions_from_heatmap",
     "create_overlay_bundle",
+    # MedGemma Runner (M13)
+    "MedGemmaRunner",
+    "MedGemmaResult",
+    "is_real_model_enabled",
+    "create_medgemma_runner_result",
 ]
