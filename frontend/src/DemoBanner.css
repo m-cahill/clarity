@@ -1,0 +1,41 @@
+/* Demo Mode Banner Styles */
+
+.demo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ff6b35 0%, #f7c331 100%);
+  color: #1a1a1a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.demo-banner-icon {
+  font-size: 1rem;
+}
+
+.demo-banner-text {
+  letter-spacing: 0.02em;
+}
+
+.demo-banner-text strong {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Add top padding to body when banner is present */
+body:has(.demo-banner) {
+  padding-top: 2.5rem;
+}
+
