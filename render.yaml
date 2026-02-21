@@ -1,0 +1,32 @@
+# Render Blueprint for CLARITY
+# M10.5: Demo deployment configuration
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: clarity-demo
+    runtime: python
+    region: oregon
+    plan: free
+    
+    # Build configuration
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    
+    # Health check
+    healthCheckPath: /health
+    
+    # Environment variables
+    envVars:
+      - key: APP_ENV
+        value: demo
+      - key: ALLOWED_ORIGIN
+        value: https://majestic-dodol-25e71c.netlify.app
+      - key: ARTIFACT_ROOT
+        value: demo_artifacts
+      - key: LOG_LEVEL
+        value: INFO
+      - key: PYTHON_VERSION
+        value: "3.11"
+
