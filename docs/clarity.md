@@ -55,7 +55,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M10.5** | Demo Deployment Layer | Netlify frontend + Render backend for read-only demo | ✅ **Closed** | — | 4.97 |
 | **M11** | Report Export | Deterministic PDF report generation | ✅ **Closed (Deferred Item)** | `v0.0.12-m11` | 4.98 |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls, security scanning, dependency discipline | ✅ **Closed** | `v0.0.13-m12` | 5.0 |
-| **M13** | MedGemma Integration | Real MedGemma inference via R2L, determinism verification, minimal sweep | ⏳ **In Progress** | — | — |
+| **M13** | MedGemma Integration | Real MedGemma inference via R2L, determinism verification, minimal sweep | ✅ **Closed** | `v0.0.14-m13` | 5.0 |
 
 ---
 
@@ -97,20 +97,20 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M13 ⏳ IN PROGRESS
+## Current Milestone: M13 ✅ CLOSED
 
 **Objective**: MedGemma Integration & Empirical Validation — Replace synthetic adapter outputs with real MedGemma inference via R2L.
 
-**Branch**: `m13-medgemma-integration`
+**Tag**: `v0.0.14-m13`
 
-**Details**: [M13_plan.md](./milestones/M13/M13_plan.md)
+**Details**: [M13_plan.md](./milestones/M13/M13_plan.md) | [M13_audit.md](./milestones/M13/M13_audit.md)
 
-**Scope**:
-- Wire `google/medgemma-4b` via HuggingFace Transformers
-- Canonical `generate()` only (no rich mode)
-- 1 image, 2 seeds, 1 perturbation axis (minimal sweep)
-- Determinism regression test gated by `CLARITY_REAL_MODEL=true`
-- CI unchanged (synthetic path preserved)
+**Deliverables**:
+- ✅ Real MedGemma inference via `google/medgemma-4b-it` (HuggingFace)
+- ✅ Determinism verified: manifest hash `01e9c46d1c18bc86...` stable across runs
+- ✅ VRAM: 8.17 GB max (within 12 GB budget)
+- ✅ Competition HAI-DEF requirement satisfied
+- ✅ CI unchanged (synthetic path preserved)
 
 ---
 
@@ -147,6 +147,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M10.5 | — | `330dac7` | 4.97 | 2026-02-21 |
 | M11 | `v0.0.12-m11` | `c5d740a` | 4.98 | 2026-02-21 |
 | M12 | `v0.0.13-m12` | `d51f195` | 5.0 | 2026-02-21 |
+| M13 | `v0.0.14-m13` | `1fe3da9` | 5.0 | 2026-02-21 |
 
 ---
 
@@ -167,3 +168,17 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SCAN-001 | No security scanning | M01 | M12 | `pip-audit` + `npm audit` CI jobs in `.github/workflows/ci.yml` |
 | DEP-001 | No dependency lockfile | M02 | M12 | `requirements.lock` with pip-compile hashes, lockfile-check CI job |
 | COV-002 | Frontend branch coverage reduced 85% → 80% | M11 | M12 | Coverage restored to 87.39%; `downloadUtils.ts` refactor + 27 tests |
+
+---
+
+## M13 Empirical Validation Evidence
+
+| Metric | Value |
+|--------|-------|
+| **Model ID** | `google/medgemma-4b-it` |
+| **Manifest Hash** | `01e9c46d1c18bc86d007abb7308b878aa704940cd79e091faec4959788455826` |
+| **VRAM Max** | 8.17 GB |
+| **VRAM Budget** | 12 GB |
+| **Seeds Tested** | 42, 123 |
+| **Determinism** | ✅ Verified (identical hash across runs) |
+| **Competition HAI-DEF** | ✅ Satisfied |
