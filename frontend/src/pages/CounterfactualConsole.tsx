@@ -364,6 +364,10 @@ export function CounterfactualConsole() {
   const [showGrid, setShowGrid] = useState<boolean>(false);
   const [heatmapOpacity, setHeatmapOpacity] = useState<number>(0.7);
 
+  // Report export state (M11)
+  const [exportingReport, setExportingReport] = useState<boolean>(false);
+  const [reportError, setReportError] = useState<string | null>(null);
+
   // Load available baselines on mount
   useEffect(() => {
     const loadBaselines = async () => {
@@ -423,6 +427,44 @@ export function CounterfactualConsole() {
       setRunning(false);
     }
   }, [baselineId, gridSize, axis, value]);
+
+  // Export report as PDF (M11)
+  const exportReport = useCallback(async () => {
+    if (!baselineId) return;
+
+    setExportingReport(true);
+    setReportError(null);
+
+    try {
+      const response = await fetch(`${API_BASE}/report/generate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ case_id: baselineId }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Export failed: ${response.status}`);
+      }
+
+      // Get the PDF blob and trigger download
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `clarity_report_${baselineId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setReportError(err instanceof Error ? err.message : "Report export failed");
+    } finally {
+      setExportingReport(false);
+    }
+  }, [baselineId]);
 
   return (
     <div className="console">
@@ -600,6 +642,23 @@ export function CounterfactualConsole() {
                 )}
               </div>
             )}
+
+            {/* Export Report Button (M11) */}
+            <div className="export-section">
+              <button
+                className="export-button"
+                onClick={exportReport}
+                disabled={exportingReport || !baselineId}
+                data-testid="export-report-button"
+              >
+                {exportingReport ? "Generating..." : "Export Report"}
+              </button>
+              {reportError && (
+                <span className="export-error" data-testid="export-error">
+                  {reportError}
+                </span>
+              )}
+            </div>
 
             {/* Summary Stats */}
             <h3>Probe Surface Statistics</h3>
