@@ -1,8 +1,8 @@
 # M14 Tool Calls Log
 
-**Milestone:** M14 — (Objective TBD)  
-**Started:** —  
-**Status:** Not Started
+**Milestone:** M14 — Rich Mode Evidence Ingestion & Attribution Surfaces  
+**Started:** 2026-02-21  
+**Status:** In Progress
 
 ---
 
@@ -10,16 +10,63 @@
 
 | Timestamp | Tool | Purpose | Files/Target | Status |
 |-----------|------|---------|--------------|--------|
-| — | — | — | — | — |
+| 2026-02-21T23:00:00Z | read_file | Read clarity.md source of truth | `docs/clarity.md` | ✅ Complete |
+| 2026-02-21T23:00:01Z | read_file | Read M13 summary for baseline | `docs/milestones/M13/M13_summary.md` | ✅ Complete |
+| 2026-02-21T23:00:02Z | read_file | Read M13 audit | `docs/milestones/M13/M13_audit.md` | ✅ Complete |
+| 2026-02-21T23:00:03Z | read_file | Read architecture contract | `docs/CLARITY_ARCHITECHTURE_CONTRACT.MD` | ✅ Complete |
+| 2026-02-21T23:00:04Z | read_file | Read current MedGemmaRunner | `backend/app/clarity/medgemma_runner.py` | ✅ Complete |
+| 2026-02-21T23:00:05Z | list_dir | Explore clarity module structure | `backend/app/clarity/` | ✅ Complete |
+| 2026-02-21T23:05:00Z | git checkout | Create branch m14-rich-mode-evidence from v0.0.14-m13 | Repository | ✅ Complete |
+| 2026-02-21T23:06:00Z | write | Create rich_generation.py module | `backend/app/clarity/rich_generation.py` | ✅ Complete |
+| 2026-02-21T23:07:00Z | search_replace | Update __init__.py with M14 exports | `backend/app/clarity/__init__.py` | ✅ Complete |
+| 2026-02-21T23:15:00Z | search_replace | Add generate_rich() to MedGemmaRunner | `backend/app/clarity/medgemma_runner.py` | ✅ Complete |
+| 2026-02-21T23:16:00Z | search_replace | Add logits extraction helpers | `backend/app/clarity/medgemma_runner.py` | ✅ Complete |
+| 2026-02-21T23:25:00Z | search_replace | Add CSI/EDM dataclasses to metrics.py | `backend/app/clarity/metrics.py` | ✅ Complete |
+| 2026-02-21T23:26:00Z | search_replace | Add CSI/EDM computation functions | `backend/app/clarity/metrics.py` | ✅ Complete |
+| 2026-02-21T23:30:00Z | search_replace | Add Confidence/Entropy surfaces to surfaces.py | `backend/app/clarity/surfaces.py` | ✅ Complete |
+| 2026-02-21T23:31:00Z | search_replace | Update __init__.py exports for Phase 3+4 | `backend/app/clarity/__init__.py` | ✅ Complete |
+| 2026-02-21T23:40:00Z | write | Create test_rich_mode_determinism.py | `backend/tests/test_rich_mode_determinism.py` | ✅ Complete |
+| 2026-02-21T23:41:00Z | write | Create test_rich_generation_unit.py | `backend/tests/test_rich_generation_unit.py` | ✅ Complete |
+| 2026-02-21T23:45:00Z | pytest | Run unit tests | `tests/test_rich_generation_unit.py` | ✅ 36 passed |
+| 2026-02-21T23:50:00Z | pytest | Run full backend tests | `backend/tests/` | ✅ 910 passed, 1 pre-existing fail |
+| 2026-02-21T23:55:00Z | git commit | Commit M14 changes | Repository | ✅ Complete |
+| 2026-02-21T23:56:00Z | git push | Push branch to origin | `m14-rich-mode-evidence` | ✅ Complete |
+| 2026-02-21T23:57:00Z | gh pr create | Create PR #17 | GitHub | ✅ Complete |
+| 2026-02-21T23:08:00Z | git merge | Resolve merge conflicts with main | `docs/milestones/M14/` | ✅ Complete |
+| 2026-02-21T23:13:00Z | gh run view | CI run 22266143038 | GitHub Actions | ✅ GREEN |
 
 ---
 
 ## Recovery Context
 
-**Last Action:** M13 closed  
-**Next Step:** Await M14 objective definition  
-**Previous Tool Call Status:** N/A  
-**CI Status:** N/A
+**Last Action:** CI run 22266143038 completed successfully - all checks green  
+**Next Step:** Await permission to merge PR #17  
+**Previous Tool Call Status:** ✅ Complete  
+**CI Status:** ✅ GREEN (Run 22266143038)
 
 ---
 
+## CI Run Summary (Run 22266143038)
+
+| Job | Status | Duration |
+|-----|--------|----------|
+| Backend (Python 3.10) | ✅ pass | 1m53s |
+| Backend (Python 3.11) | ✅ pass | 1m45s |
+| Backend (Python 3.12) | ✅ pass | 1m44s |
+| Frontend | ✅ pass | 27s |
+| E2E Tests | ✅ pass | 1m32s |
+| Security Scan | ✅ pass | 36s |
+| Lockfile Check | ✅ pass | 5s |
+| CI Success | ✅ pass | — |
+
+---
+
+## Locked Answers Reference
+
+1. **Milestone:** Option A (Rich Mode Evidence Ingestion) ✅
+2. **Attention:** Deferred entirely ✅
+3. **Surfaces:** JSON artifacts only (no UI) ✅
+4. **Determinism:** Summary metrics hash default, full logits hash opt-in ✅
+5. **Gating:** Both `CLARITY_REAL_MODEL` and `CLARITY_RICH_MODE` required ✅
+
+---
