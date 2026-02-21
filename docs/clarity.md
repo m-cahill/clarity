@@ -76,6 +76,15 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 - **Render**: Use Deploy Hooks for backend deploy triggers
 - **Workflow security**: Prefer pinning actions to SHAs (document exceptions)
 
+### Live Demo Environment (M10.5)
+
+| Component | URL |
+|-----------|-----|
+| Frontend | https://majestic-dodol-25e71c.netlify.app |
+| Backend | https://clarity-1sra.onrender.com |
+
+*Demo serves synthetic/precomputed artifacts only. No GPU execution in cloud.*
+
 ---
 
 ## Key Documents

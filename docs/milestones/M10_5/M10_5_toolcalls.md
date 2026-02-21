@@ -19,4 +19,11 @@
 | 2026-02-21T00:10:00Z | write | Create backend tests for demo_router | test_demo_router.py | ✅ |
 | 2026-02-21T00:12:00Z | write | Create frontend tests for demo mode | DemoBanner.test.tsx, api.test.ts | ✅ |
 | 2026-02-21T00:14:00Z | write | Create E2E smoke tests | demo.spec.ts | ✅ |
-
+| 2026-02-21T02:30:00Z | run_terminal_cmd | Merge PR #13 to main | git | ✅ |
+| 2026-02-21T02:35:00Z | write | Generate M10_5_audit.md | M10_5_audit.md | ✅ |
+| 2026-02-21T02:36:00Z | write | Generate M10_5_summary.md | M10_5_summary.md | ✅ |
+| 2026-02-21T02:37:00Z | search_replace | Update clarity.md with M10.5 | clarity.md | ✅ |
+| 2026-02-21T02:45:00Z | search_replace | Fix Render URL in netlify.toml | netlify.toml | ✅ |
+| 2026-02-21T02:50:00Z | search_replace | Support comma-separated CORS origins | main.py | ✅ |
+| 2026-02-21T03:00:00Z | search_replace | Update to final Render URL | netlify.toml | ✅ |
+| 2026-02-21T03:10:00Z | search_replace | Update docs with live URLs | summary, audit, clarity.md | ✅ |

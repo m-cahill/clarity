@@ -109,18 +109,17 @@ Deploy a **read-only, deterministic demo instance** of CLARITY for external view
 
 ## Deployment Status
 
-| Platform | Status |
-|----------|--------|
-| Netlify | ✅ Configured via netlify.toml |
-| Render | ⚙️ Configured via render.yaml (manual service creation needed) |
+| Platform | URL | Status |
+|----------|-----|--------|
+| Netlify (Frontend) | https://majestic-dodol-25e71c.netlify.app | ✅ **LIVE** |
+| Render (Backend) | https://clarity-1sra.onrender.com | ✅ **LIVE** |
 
 ---
 
 ## Next Steps
 
-1. **Render manual setup**: Create service from render.yaml blueprint
-2. **M11**: Report Export Hardening
-3. **M12**: Operational Hardening
+1. **M11**: Report Export Hardening
+2. **M12**: Operational Hardening
 
 ---
 

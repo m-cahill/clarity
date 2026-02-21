@@ -37,9 +37,9 @@ M10.5 establishes the **demo deployment infrastructure** for CLARITY, enabling a
    - *Mitigation*: `_synthetic: true` flag in all artifacts, banner in UI
    - *Risk Level*: LOW
 
-2. **Render backend not yet live** — Requires manual Render configuration
-   - *Status*: Expected, documented in render.yaml
-   - *Risk Level*: LOW
+2. **Render backend** — Now live at https://clarity-1sra.onrender.com
+   - *Status*: ✅ RESOLVED — manually configured and deployed
+   - *Risk Level*: NONE
 
 ---
 
