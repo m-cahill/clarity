@@ -12,10 +12,13 @@ import { CounterfactualConsole } from "../src/pages/CounterfactualConsole";
 // Mock URL.createObjectURL and URL.revokeObjectURL for download tests
 const mockCreateObjectURL = vi.fn(() => "blob:mock-url");
 const mockRevokeObjectURL = vi.fn();
+// Store originals for restoration
+const originalCreateObjectURL = URL.createObjectURL;
+const originalRevokeObjectURL = URL.revokeObjectURL;
 
 beforeAll(() => {
-  global.URL.createObjectURL = mockCreateObjectURL;
-  global.URL.revokeObjectURL = mockRevokeObjectURL;
+  URL.createObjectURL = mockCreateObjectURL;
+  URL.revokeObjectURL = mockRevokeObjectURL;
   // Mock document.createElement to prevent navigation
   const originalCreateElement = document.createElement.bind(document);
   vi.spyOn(document, "createElement").mockImplementation((tag: string) => {
@@ -29,6 +32,9 @@ beforeAll(() => {
 
 afterAll(() => {
   vi.restoreAllMocks();
+  // Restore URL functions
+  URL.createObjectURL = originalCreateObjectURL;
+  URL.revokeObjectURL = originalRevokeObjectURL;
 });
 
 // Helper to render with router
