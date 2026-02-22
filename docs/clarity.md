@@ -179,7 +179,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M12 | `v0.0.13-m12` | `d51f195` | 5.0 | 2026-02-21 |
 | M13 | `v0.0.14-m13` | `1fe3da9` | 5.0 | 2026-02-21 |
 | M14 | `v0.0.15-m14` | `c4e61c6` | 5.0 | 2026-02-22 |
-| M15 | `v0.0.16-m15` | *pending* | 5.0 | 2026-02-22 |
+| M15 | `v0.0.16-m15` | `0cb6e4e` | 5.0 | 2026-02-22 |
 
 ---
 
