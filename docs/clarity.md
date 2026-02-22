@@ -57,6 +57,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls, security scanning, dependency discipline | ✅ **Closed** | `v0.0.13-m12` | 5.0 |
 | **M13** | MedGemma Integration | Real MedGemma inference via R2L, determinism verification, minimal sweep | ✅ **Closed** | `v0.0.14-m13` | 5.0 |
 | **M14** | Rich Mode Evidence Ingestion | Token-level probabilities, CSI, EDM, confidence/entropy surfaces | ✅ **Closed** | `v0.0.15-m14` | 5.0 |
+| **M15** | Real Artifact UI Validation | End-to-end validation with real MedGemma artifacts in UI | ✅ **Closed** | `v0.0.16-m15` | 5.0 |
 
 ---
 
@@ -98,21 +99,31 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M14 ✅ CLOSED
+## Current Milestone: M15 ✅ CLOSED
+
+**Objective**: Real Artifact UI Validation & Demo Hardening — Validate end-to-end system with real MedGemma artifacts rendering in UI.
+
+**Tag**: `v0.0.16-m15`
+
+**Details**: [M15_plan.md](./milestones/M15/M15_plan.md) | [M15_audit.md](./milestones/M15/M15_audit.md)
+
+**Deliverables**:
+- ✅ Real rich-mode sweep artifacts generated (12 runs, 2 seeds, 2 axes)
+- ✅ Bundle SHA256: `fa6fdb5dbe017076fd6cdf01f28f9a7773edef551e977b18bff918e1622d3236`
+- ✅ Backend API validation passed (7 tests)
+- ✅ Frontend console validation passed (zero console errors, no NaN)
+- ✅ Cross-platform checksum verification fixed
+- ✅ CI green, demo stable
+
+---
+
+## Previous Milestone: M14 ✅ CLOSED
 
 **Objective**: Rich Mode Evidence Ingestion & Attribution Surfaces — Extract token-level probabilities, entropy, and confidence metrics for reasoning-signal stability analysis.
 
 **Tag**: `v0.0.15-m14`
 
 **Details**: [M14_plan.md](./milestones/M14/M14_plan.md) | [M14_audit.md](./milestones/M14/M14_audit.md)
-
-**Deliverables**:
-- ✅ `generate_rich()` method for token-level probability extraction
-- ✅ CSI (Confidence Stability Index) and EDM (Entropy Drift Metric)
-- ✅ Confidence and entropy surfaces as JSON artifacts
-- ✅ GPU determinism verified: summary hash stable across runs
-- ✅ 36 unit tests + 5 GPU-gated determinism tests
-- ✅ CI unchanged (synthetic path preserved)
 
 ---
 
@@ -168,6 +179,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M12 | `v0.0.13-m12` | `d51f195` | 5.0 | 2026-02-21 |
 | M13 | `v0.0.14-m13` | `1fe3da9` | 5.0 | 2026-02-21 |
 | M14 | `v0.0.15-m14` | `c4e61c6` | 5.0 | 2026-02-22 |
+| M15 | `v0.0.16-m15` | *pending* | 5.0 | 2026-02-22 |
 
 ---
 
@@ -189,6 +201,22 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | DEP-001 | No dependency lockfile | M02 | M12 | `requirements.lock` with pip-compile hashes, lockfile-check CI job |
 | COV-002 | Frontend branch coverage reduced 85% → 80% | M11 | M12 | Coverage restored to 87.39%; `downloadUtils.ts` refactor + 27 tests |
 | ARCH-001 | Rich mode evidence ingestion | M13 | M14 | `generate_rich()` + CSI/EDM metrics + confidence/entropy surfaces |
+
+---
+
+## M15 Real Artifact UI Validation Evidence
+
+| Metric | Value |
+|--------|-------|
+| **Bundle SHA256** | `fa6fdb5dbe017076fd6cdf01f28f9a7773edef551e977b18bff918e1622d3236` |
+| **Summary Hash** | `c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1` |
+| **Inference Runs** | 12 (2 axes × 3 values × 2 seeds) |
+| **VRAM Max** | 9.71 GB |
+| **Backend Tests** | 911 passed |
+| **Frontend Tests** | 137 passed |
+| **Console Errors** | 0 |
+| **NaN Values** | 0 |
+| **Cross-Platform Fix** | CRLF→LF normalization for checksum verification |
 
 ---
 
