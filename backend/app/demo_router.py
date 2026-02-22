@@ -361,13 +361,11 @@ def verify_artifact_integrity(case_id: str) -> dict[str, bool]:
             results[filename] = False
             continue
 
-        # Compute actual hash
-        sha256_hash = hashlib.sha256()
-        with open(file_path, "rb") as f:
-            for chunk in iter(lambda: f.read(4096), b""):
-                sha256_hash.update(chunk)
-
-        actual_hash = sha256_hash.hexdigest().upper()
+        # Compute actual hash (normalize line endings for cross-platform)
+        content = file_path.read_bytes()
+        # Normalize CRLF to LF for consistent hashing across platforms
+        content_normalized = content.replace(b"\r\n", b"\n")
+        actual_hash = hashlib.sha256(content_normalized).hexdigest().upper()
         results[filename] = actual_hash == expected_hash.upper()
 
     return results
