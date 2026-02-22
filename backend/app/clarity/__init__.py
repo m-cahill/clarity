@@ -108,14 +108,20 @@ from app.clarity.sweep_orchestrator import (
     SweepResult,
 )
 
-# Metrics (M05)
+# Metrics (M05 + M14)
 from app.clarity.metrics import (
+    CSIMetric,
     DriftMetric,
+    EDMMetric,
     ESIMetric,
     MetricComputationError,
     MetricsResult,
+    compute_csi_from_confidences,
+    compute_edm_from_entropies,
     extract_answer,
+    extract_confidence_score,
     extract_justification,
+    extract_output_entropy,
     levenshtein_distance,
     normalized_levenshtein,
     round_metric,
@@ -124,9 +130,14 @@ from app.clarity.metrics import (
 # Metrics Engine (M05)
 from app.clarity.metrics_engine import MetricsEngine
 
-# Surfaces (M06)
+# Surfaces (M06 + M14)
 from app.clarity.surfaces import (
     AxisSurface,
+    ConfidenceSurface,
+    ConfidenceSurfacePoint,
+    EntropySurface,
+    EntropySurfacePoint,
+    RichSurfaces,
     RobustnessSurface,
     SurfaceComputationError,
     SurfacePoint,
@@ -199,6 +210,20 @@ from app.clarity.medgemma_runner import (
     is_real_model_enabled,
 )
 
+# Rich Generation (M14) - Gated behind CLARITY_RICH_MODE
+from app.clarity.rich_generation import (
+    RichGenerationResult,
+    RichMetricsSummary,
+    compute_confidence_score,
+    compute_entropy,
+    compute_logits_hash_streaming,
+    compute_mean_logprob,
+    compute_summary_hash,
+    create_rich_metrics_summary,
+    is_rich_logits_hash_enabled,
+    is_rich_mode_enabled,
+)
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -252,9 +277,11 @@ __all__ = [
     "SweepResult",
     "SweepExecutionError",
     "OutputDirectoryExistsError",
-    # Metrics (M05)
+    # Metrics (M05 + M14)
     "ESIMetric",
     "DriftMetric",
+    "CSIMetric",
+    "EDMMetric",
     "MetricsResult",
     "MetricComputationError",
     "levenshtein_distance",
@@ -262,13 +289,22 @@ __all__ = [
     "round_metric",
     "extract_answer",
     "extract_justification",
+    "extract_confidence_score",
+    "extract_output_entropy",
+    "compute_csi_from_confidences",
+    "compute_edm_from_entropies",
     # Metrics Engine (M05)
     "MetricsEngine",
-    # Surfaces (M06)
+    # Surfaces (M06 + M14)
     "SurfacePoint",
     "AxisSurface",
     "RobustnessSurface",
     "SurfaceComputationError",
+    "ConfidenceSurfacePoint",
+    "ConfidenceSurface",
+    "EntropySurfacePoint",
+    "EntropySurface",
+    "RichSurfaces",
     # Surface Engine (M06)
     "SurfaceEngine",
     # Gradient Engine (M07)
@@ -320,4 +356,15 @@ __all__ = [
     "MedGemmaResult",
     "is_real_model_enabled",
     "create_medgemma_runner_result",
+    # Rich Generation (M14)
+    "RichGenerationResult",
+    "RichMetricsSummary",
+    "is_rich_mode_enabled",
+    "is_rich_logits_hash_enabled",
+    "compute_entropy",
+    "compute_mean_logprob",
+    "compute_confidence_score",
+    "compute_summary_hash",
+    "compute_logits_hash_streaming",
+    "create_rich_metrics_summary",
 ]
