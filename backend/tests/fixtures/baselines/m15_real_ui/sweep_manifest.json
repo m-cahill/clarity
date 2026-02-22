@@ -1,0 +1,222 @@
+{
+  "axes": {
+    "brightness": [
+      0.8,
+      1.0,
+      1.2
+    ],
+    "contrast": [
+      0.9,
+      1.0,
+      1.1
+    ]
+  },
+  "image_path": "tests\\fixtures\\baselines\\clinical_sample_01.png",
+  "model_id": "google/medgemma-4b-it",
+  "prompt": "Analyze this medical image for any anomalies.",
+  "results": [
+    {
+      "axis": "brightness",
+      "bundle_sha": "0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 42,
+      "text_preview": "",
+      "value": 0.8,
+      "value_str": "0p8"
+    },
+    {
+      "axis": "brightness",
+      "bundle_sha": "87d0d6c1cfcd71e219c7cf62d7939b53affc94234c72987a1fac11162dc5e727",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 123,
+      "text_preview": "",
+      "value": 0.8,
+      "value_str": "0p8"
+    },
+    {
+      "axis": "brightness",
+      "bundle_sha": "0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 42,
+      "text_preview": "",
+      "value": 1.0,
+      "value_str": "1p0"
+    },
+    {
+      "axis": "brightness",
+      "bundle_sha": "87d0d6c1cfcd71e219c7cf62d7939b53affc94234c72987a1fac11162dc5e727",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 123,
+      "text_preview": "",
+      "value": 1.0,
+      "value_str": "1p0"
+    },
+    {
+      "axis": "brightness",
+      "bundle_sha": "0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 42,
+      "text_preview": "",
+      "value": 1.2,
+      "value_str": "1p2"
+    },
+    {
+      "axis": "brightness",
+      "bundle_sha": "87d0d6c1cfcd71e219c7cf62d7939b53affc94234c72987a1fac11162dc5e727",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 123,
+      "text_preview": "",
+      "value": 1.2,
+      "value_str": "1p2"
+    },
+    {
+      "axis": "contrast",
+      "bundle_sha": "0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 42,
+      "text_preview": "",
+      "value": 0.9,
+      "value_str": "0p9"
+    },
+    {
+      "axis": "contrast",
+      "bundle_sha": "87d0d6c1cfcd71e219c7cf62d7939b53affc94234c72987a1fac11162dc5e727",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 123,
+      "text_preview": "",
+      "value": 0.9,
+      "value_str": "0p9"
+    },
+    {
+      "axis": "contrast",
+      "bundle_sha": "0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 42,
+      "text_preview": "",
+      "value": 1.0,
+      "value_str": "1p0"
+    },
+    {
+      "axis": "contrast",
+      "bundle_sha": "87d0d6c1cfcd71e219c7cf62d7939b53affc94234c72987a1fac11162dc5e727",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 123,
+      "text_preview": "",
+      "value": 1.0,
+      "value_str": "1p0"
+    },
+    {
+      "axis": "contrast",
+      "bundle_sha": "0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 42,
+      "text_preview": "",
+      "value": 1.1,
+      "value_str": "1p1"
+    },
+    {
+      "axis": "contrast",
+      "bundle_sha": "87d0d6c1cfcd71e219c7cf62d7939b53affc94234c72987a1fac11162dc5e727",
+      "model_id": "google/medgemma-4b-it",
+      "rich_summary": {
+        "confidence_score": 0.0,
+        "mean_logprob": -100.0,
+        "output_entropy": 0.0,
+        "summary_hash": "c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1",
+        "token_count": 512
+      },
+      "seed": 123,
+      "text_preview": "",
+      "value": 1.1,
+      "value_str": "1p1"
+    }
+  ],
+  "rich_mode": true,
+  "seeds": [
+    42,
+    123
+  ],
+  "sweep_id": "m15-real-ui-validation",
+  "vram_usage": {
+    "allocated_gb": 8.02,
+    "max_allocated_gb": 9.71,
+    "reserved_gb": 9.86
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "confidence_surfaces": [
+    {
+      "axis": "brightness",
+      "mean_csi": 1.0,
+      "overall_mean_confidence": 0.0,
+      "overall_variance": 0.0,
+      "points": [
+        {
+          "axis": "brightness",
+          "confidence_variance": 0.0,
+          "csi": 1.0,
+          "mean_confidence": 0.0,
+          "value": "0p8"
+        },
+        {
+          "axis": "brightness",
+          "confidence_variance": 0.0,
+          "csi": 1.0,
+          "mean_confidence": 0.0,
+          "value": "1p0"
+        },
+        {
+          "axis": "brightness",
+          "confidence_variance": 0.0,
+          "csi": 1.0,
+          "mean_confidence": 0.0,
+          "value": "1p2"
+        }
+      ]
+    },
+    {
+      "axis": "contrast",
+      "mean_csi": 1.0,
+      "overall_mean_confidence": 0.0,
+      "overall_variance": 0.0,
+      "points": [
+        {
+          "axis": "contrast",
+          "confidence_variance": 0.0,
+          "csi": 1.0,
+          "mean_confidence": 0.0,
+          "value": "0p9"
+        },
+        {
+          "axis": "contrast",
+          "confidence_variance": 0.0,
+          "csi": 1.0,
+          "mean_confidence": 0.0,
+          "value": "1p0"
+        },
+        {
+          "axis": "contrast",
+          "confidence_variance": 0.0,
+          "csi": 1.0,
+          "mean_confidence": 0.0,
+          "value": "1p1"
+        }
+      ]
+    }
+  ],
+  "global_mean_confidence": 0.0,
+  "global_mean_csi": 1.0
+}

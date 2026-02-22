@@ -1,0 +1,28 @@
+{
+  "axes": [
+    "brightness",
+    "contrast"
+  ],
+  "monte_carlo": {
+    "confidence": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "std": 0.0,
+      "variance": 0.0
+    },
+    "entropy": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0,
+      "std": 0.0,
+      "variance": 0.0
+    },
+    "n_samples": 12,
+    "seeds": [
+      42,
+      123
+    ]
+  },
+  "total_runs": 12
+}

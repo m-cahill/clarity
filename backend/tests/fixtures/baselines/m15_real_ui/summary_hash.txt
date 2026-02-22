@@ -1,0 +1,16 @@
+M15 Real UI Validation Artifacts
+================================
+Generated: deterministic
+Model: google/medgemma-4b-it
+Seeds: [42, 123]
+Axes: ['brightness', 'contrast']
+
+Artifact Hashes:
+  manifest_sha256: 71c78d84cc0a67ed5c8802015989642804690d095d1f50cf97970f0326c6d013
+  robustness_sha256: d3114c3d731f6953e73034859cc0f5bdc28bfe9961657a44de9c1660c024dd39
+  confidence_sha256: 75d4c53c0e95325f25c4971442f354a9005ae7c5b0a8eafdb3fd5ae7119b2537
+  entropy_sha256: 384f87de19801f890d525e198ee32a7bfde284e00c60b48b5770b9baaba32a83
+  bundle_sha256: fa6fdb5dbe017076fd6cdf01f28f9a7773edef551e977b18bff918e1622d3236
+
+VRAM:
+  max_allocated_gb: 9.71

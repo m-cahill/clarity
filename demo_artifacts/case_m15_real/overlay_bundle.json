@@ -1,0 +1,18 @@
+{
+  "evidence_map": {
+    "width": 224,
+    "height": 224,
+    "values": "[[REAL_PLACEHOLDER]]",
+    "_note": "Real evidence map not generated for M15 validation scope. Use synthetic case for overlay visualization."
+  },
+  "heatmap": {
+    "width": 224,
+    "height": 224,
+    "values": "[[REAL_PLACEHOLDER]]",
+    "_note": "Real heatmap not generated for M15 validation scope."
+  },
+  "regions": [],
+  "_synthetic": false,
+  "_generated_for": "m15_validation",
+  "_note": "M15 scope: surface validation only. Overlay generation requires attention extraction (ATTN-001, deferred)."
+}

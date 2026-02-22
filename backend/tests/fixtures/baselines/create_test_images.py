@@ -40,6 +40,48 @@ def create_test_image(width: int, height: int, base_color: tuple[int, int, int],
     return img
 
 
+def create_clinical_sample_image(width: int, height: int) -> Image.Image:
+    """Create a deterministic clinical sample image for testing.
+    
+    Creates a 224x224 image that simulates a chest X-ray-like appearance
+    with a dark center gradient and lighter edges.
+    
+    Args:
+        width: Image width.
+        height: Image height.
+        
+    Returns:
+        RGB PIL Image suitable for medical image model input.
+    """
+    img = Image.new("RGB", (width, height))
+    pixels = img.load()
+    
+    center_x, center_y = width // 2, height // 2
+    max_dist = ((width // 2) ** 2 + (height // 2) ** 2) ** 0.5
+    
+    for y in range(height):
+        for x in range(width):
+            # Create radial gradient (lighter at edges, darker at center)
+            dist = ((x - center_x) ** 2 + (y - center_y) ** 2) ** 0.5
+            normalized_dist = dist / max_dist
+            
+            # Base grayscale with some structure
+            base = int(80 + normalized_dist * 100)
+            
+            # Add some deterministic structure (ribcage-like horizontal bands)
+            if 0.3 < abs(y - center_y) / height < 0.45:
+                band_intensity = 20 if (y % 15) < 5 else 0
+                base = min(255, base + band_intensity)
+            
+            # Add central darker region (heart silhouette area)
+            if dist < max_dist * 0.25:
+                base = int(base * 0.7)
+            
+            pixels[x, y] = (base, base, base)
+    
+    return img
+
+
 def main() -> None:
     """Create test images for baselines."""
     # Test image 001: 64x64 grayscale-ish pattern
@@ -51,6 +93,11 @@ def main() -> None:
     img2 = create_test_image(64, 64, (100, 120, 140), 123)
     img2.save("test_image_002.png")
     print("Created test_image_002.png (64x64)")
+    
+    # Clinical sample: 224x224 medical image simulation
+    clinical = create_clinical_sample_image(224, 224)
+    clinical.save("clinical_sample_01.png")
+    print("Created clinical_sample_01.png (224x224)")
 
 
 if __name__ == "__main__":

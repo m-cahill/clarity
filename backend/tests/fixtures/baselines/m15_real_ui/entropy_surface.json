@@ -1,0 +1,67 @@
+{
+  "baseline_entropy": 0.0,
+  "entropy_surfaces": [
+    {
+      "axis": "brightness",
+      "baseline_entropy": 0.0,
+      "mean_edm": 0.0,
+      "overall_mean_entropy": 0.0,
+      "overall_variance": 0.0,
+      "points": [
+        {
+          "axis": "brightness",
+          "edm": 0.0,
+          "entropy_variance": 0.0,
+          "mean_entropy": 0.0,
+          "value": "0p8"
+        },
+        {
+          "axis": "brightness",
+          "edm": 0.0,
+          "entropy_variance": 0.0,
+          "mean_entropy": 0.0,
+          "value": "1p0"
+        },
+        {
+          "axis": "brightness",
+          "edm": 0.0,
+          "entropy_variance": 0.0,
+          "mean_entropy": 0.0,
+          "value": "1p2"
+        }
+      ]
+    },
+    {
+      "axis": "contrast",
+      "baseline_entropy": 0.0,
+      "mean_edm": 0.0,
+      "overall_mean_entropy": 0.0,
+      "overall_variance": 0.0,
+      "points": [
+        {
+          "axis": "contrast",
+          "edm": 0.0,
+          "entropy_variance": 0.0,
+          "mean_entropy": 0.0,
+          "value": "0p9"
+        },
+        {
+          "axis": "contrast",
+          "edm": 0.0,
+          "entropy_variance": 0.0,
+          "mean_entropy": 0.0,
+          "value": "1p0"
+        },
+        {
+          "axis": "contrast",
+          "edm": 0.0,
+          "entropy_variance": 0.0,
+          "mean_entropy": 0.0,
+          "value": "1p1"
+        }
+      ]
+    }
+  ],
+  "global_mean_edm": 0.0,
+  "global_mean_entropy": 0.0
+}

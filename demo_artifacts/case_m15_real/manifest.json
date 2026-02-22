@@ -1,0 +1,21 @@
+{
+  "case_id": "case_m15_real",
+  "title": "M15 Real Artifact Validation",
+  "description": "Real MedGemma inference artifacts for UI validation. Generated with rich mode (confidence/entropy surfaces).",
+  "synthetic": false,
+  "generated_at": "2026-02-21T20:35:00Z",
+  "clarity_version": "v0.0.16-m15",
+  "baseline_id": "m15_real_ui_validation",
+  "image_dimensions": {
+    "width": 224,
+    "height": 224
+  },
+  "config": {
+    "grid_size": 4,
+    "mask_value": 0.0,
+    "perturbation_axes": ["brightness", "contrast"]
+  },
+  "rich_mode": true,
+  "model_id": "google/medgemma-4b-it",
+  "seeds": [42, 123]
+}
