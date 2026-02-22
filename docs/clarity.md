@@ -56,6 +56,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M11** | Report Export | Deterministic PDF report generation | ✅ **Closed (Deferred Item)** | `v0.0.12-m11` | 4.98 |
 | **M12** | Operational Hardening | Caching, resumability, concurrency controls, security scanning, dependency discipline | ✅ **Closed** | `v0.0.13-m12` | 5.0 |
 | **M13** | MedGemma Integration | Real MedGemma inference via R2L, determinism verification, minimal sweep | ✅ **Closed** | `v0.0.14-m13` | 5.0 |
+| **M14** | Rich Mode Evidence Ingestion | Token-level probabilities, CSI, EDM, confidence/entropy surfaces | ✅ **Closed** | `v0.0.15-m14` | 5.0 |
 
 ---
 
@@ -97,7 +98,25 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M13 ✅ CLOSED
+## Current Milestone: M14 ✅ CLOSED
+
+**Objective**: Rich Mode Evidence Ingestion & Attribution Surfaces — Extract token-level probabilities, entropy, and confidence metrics for reasoning-signal stability analysis.
+
+**Tag**: `v0.0.15-m14`
+
+**Details**: [M14_plan.md](./milestones/M14/M14_plan.md) | [M14_audit.md](./milestones/M14/M14_audit.md)
+
+**Deliverables**:
+- ✅ `generate_rich()` method for token-level probability extraction
+- ✅ CSI (Confidence Stability Index) and EDM (Entropy Drift Metric)
+- ✅ Confidence and entropy surfaces as JSON artifacts
+- ✅ GPU determinism verified: summary hash stable across runs
+- ✅ 36 unit tests + 5 GPU-gated determinism tests
+- ✅ CI unchanged (synthetic path preserved)
+
+---
+
+## Previous Milestone: M13 ✅ CLOSED
 
 **Objective**: MedGemma Integration & Empirical Validation — Replace synthetic adapter outputs with real MedGemma inference via R2L.
 
@@ -148,6 +167,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M11 | `v0.0.12-m11` | `c5d740a` | 4.98 | 2026-02-21 |
 | M12 | `v0.0.13-m12` | `d51f195` | 5.0 | 2026-02-21 |
 | M13 | `v0.0.14-m13` | `1fe3da9` | 5.0 | 2026-02-21 |
+| M14 | `v0.0.15-m14` | `c4e61c6` | 5.0 | 2026-02-22 |
 
 ---
 
@@ -168,6 +188,24 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | SCAN-001 | No security scanning | M01 | M12 | `pip-audit` + `npm audit` CI jobs in `.github/workflows/ci.yml` |
 | DEP-001 | No dependency lockfile | M02 | M12 | `requirements.lock` with pip-compile hashes, lockfile-check CI job |
 | COV-002 | Frontend branch coverage reduced 85% → 80% | M11 | M12 | Coverage restored to 87.39%; `downloadUtils.ts` refactor + 27 tests |
+| ARCH-001 | Rich mode evidence ingestion | M13 | M14 | `generate_rich()` + CSI/EDM metrics + confidence/entropy surfaces |
+
+---
+
+## M14 Rich Mode Validation Evidence
+
+| Metric | Value |
+|--------|-------|
+| **Summary Hash** | `c52ead26746d271526b05831f4b34de275fb2c620d69c85bb31a0e4cb5652fa1` |
+| **Bundle SHA** | `0cb6551750922165cf7391f7c75c7ccfe77ea918478f3bb24e4172d0efa44026` |
+| **Mean Logprob** | -100.0 |
+| **Output Entropy** | 0.0 |
+| **Confidence Score** | 0.0 |
+| **Token Count** | 512 |
+| **Determinism** | ✅ Verified (identical hash across runs) |
+| **New Unit Tests** | 36 |
+| **GPU Determinism Tests** | 5 |
+| **Environment Flags** | `CLARITY_REAL_MODEL`, `CLARITY_RICH_MODE`, `CLARITY_RICH_LOGITS_HASH` |
 
 ---
 
