@@ -550,10 +550,18 @@ class MedGemmaRunner:
         for i, (score, token_id) in enumerate(zip(scores, generated_ids)):
             # score shape: [1, vocab_size]
             # Apply log_softmax to get log probabilities
-            log_probs = torch.log_softmax(score[0], dim=-1)
+            # Use float32 for numerical stability before converting back
+            score_f32 = score[0].float()
+            log_probs = torch.log_softmax(score_f32, dim=-1)
 
             # Get log prob of the actual generated token
             token_logprob = log_probs[token_id].item()
+            
+            # Handle NaN/inf values - clamp to valid range
+            if math.isnan(token_logprob) or math.isinf(token_logprob):
+                # Use a large negative value for invalid logprobs
+                token_logprob = -100.0
+            
             token_logprobs.append(round(token_logprob, 8))
 
         return token_logprobs
