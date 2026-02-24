@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
+import { getBaseUrl } from "../api";
 import { downloadBlob, generateReportFilename } from "../utils/downloadUtils";
 import "./CounterfactualConsole.css";
 
@@ -92,8 +93,6 @@ interface CounterfactualRunResponse {
 interface BaselinesResponse {
   baselines: string[];
 }
-
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 /**
  * Fixed colormap: red scale (0 = transparent, 1 = full red)
@@ -381,7 +380,7 @@ export function CounterfactualConsole() {
   useEffect(() => {
     const loadBaselines = async () => {
       try {
-        const response = await fetch(`${API_BASE}/counterfactual/baselines`);
+        const response = await fetch(`${getBaseUrl()}/counterfactual/baselines`);
         if (!response.ok) {
           throw new Error(`Failed to load baselines: ${response.status}`);
         }
@@ -415,7 +414,7 @@ export function CounterfactualConsole() {
         value: value,
       };
 
-      const response = await fetch(`${API_BASE}/counterfactual/run`, {
+      const response = await fetch(`${getBaseUrl()}/counterfactual/run`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -445,7 +444,7 @@ export function CounterfactualConsole() {
     setReportError(null);
 
     try {
-      const response = await fetch(`${API_BASE}/report/generate`, {
+      const response = await fetch(`${getBaseUrl()}/report/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

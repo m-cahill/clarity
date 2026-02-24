@@ -18,9 +18,9 @@ const renderWithRouter = (component: React.ReactNode) => {
 
 describe("CounterfactualConsole Error Handling", () => {
   it("displays error when baseline fetch fails", async () => {
-    // Override handler to return error
+    // Override handler to return error (app uses getBaseUrl() -> /api in tests)
     server.use(
-      http.get("http://localhost:8000/counterfactual/baselines", () => {
+      http.get("/api/counterfactual/baselines", () => {
         return new HttpResponse(null, { status: 500 });
       })
     );
@@ -36,9 +36,9 @@ describe("CounterfactualConsole Error Handling", () => {
   });
 
   it("displays error when probe run fails", async () => {
-    // Override handler to return error for run
+    // Override handler to return error for run (app uses getBaseUrl() -> /api in tests)
     server.use(
-      http.post("http://localhost:8000/counterfactual/run", () => {
+      http.post("/api/counterfactual/run", () => {
         return HttpResponse.json(
           { detail: "Baseline not found: test-baseline-001" },
           { status: 400 }
@@ -62,9 +62,9 @@ describe("CounterfactualConsole Error Handling", () => {
   });
 
   it("handles non-ok response during fetch", async () => {
-    // Override handler to return 503 error
+    // Override handler to return 503 error (app uses getBaseUrl() -> /api in tests)
     server.use(
-      http.get("http://localhost:8000/counterfactual/baselines", () => {
+      http.get("/api/counterfactual/baselines", () => {
         return new HttpResponse(null, { status: 503 });
       })
     );
@@ -81,7 +81,7 @@ describe("CounterfactualConsole Error Handling", () => {
 
   it("handles empty baselines list", async () => {
     server.use(
-      http.get("http://localhost:8000/counterfactual/baselines", () => {
+      http.get("/api/counterfactual/baselines", () => {
         return HttpResponse.json({ baselines: [] });
       })
     );
@@ -98,9 +98,9 @@ describe("CounterfactualConsole Error Handling", () => {
   });
 
   it("shows running state during probe execution", async () => {
-    // Use a delayed response
+    // Use a delayed response (app uses getBaseUrl() -> /api in tests)
     server.use(
-      http.post("http://localhost:8000/counterfactual/run", async () => {
+      http.post("/api/counterfactual/run", async () => {
         await new Promise(resolve => setTimeout(resolve, 100));
         return HttpResponse.json({
           baseline_id: "test",

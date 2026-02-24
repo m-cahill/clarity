@@ -138,26 +138,36 @@ const mockProbeResult = {
   overlay_bundle: mockOverlayBundle,
 };
 
+// Shared handler logic for counterfactual run (used for both absolute and /api paths)
+const counterfactualRunHandler = async ({ request }: { request: Request }) => {
+  const body = (await request.json()) as { baseline_id?: string };
+
+  if (body.baseline_id === "invalid") {
+    return HttpResponse.json(
+      { detail: "Baseline not found: invalid" },
+      { status: 400 }
+    );
+  }
+
+  return HttpResponse.json(mockProbeResult);
+};
+
 export const handlers = [
-  // GET /counterfactual/baselines
+  // GET /counterfactual/baselines (localhost - e.g. Playwright VITE_API_URL)
   http.get("http://localhost:8000/counterfactual/baselines", () => {
     return HttpResponse.json(mockBaselines);
   }),
 
-  // POST /counterfactual/run
-  http.post("http://localhost:8000/counterfactual/run", async ({ request }) => {
-    const body = (await request.json()) as { baseline_id?: string };
-
-    // Return error for invalid baseline
-    if (body.baseline_id === "invalid") {
-      return HttpResponse.json(
-        { detail: "Baseline not found: invalid" },
-        { status: 400 }
-      );
-    }
-
-    return HttpResponse.json(mockProbeResult);
+  // GET /api/counterfactual/baselines (getBaseUrl() default in tests)
+  http.get("/api/counterfactual/baselines", () => {
+    return HttpResponse.json(mockBaselines);
   }),
+
+  // POST /counterfactual/run (localhost)
+  http.post("http://localhost:8000/counterfactual/run", counterfactualRunHandler),
+
+  // POST /api/counterfactual/run (getBaseUrl() default in tests)
+  http.post("/api/counterfactual/run", counterfactualRunHandler),
 
   // Health endpoint - full URL
   http.get("http://localhost:8000/health", () => {
@@ -193,7 +203,7 @@ export const handlers = [
     });
   }),
 
-  // POST /report/generate (M11)
+  // POST /report/generate (M11) - localhost
   http.post("http://localhost:8000/report/generate", async ({ request }) => {
     const body = (await request.json()) as { case_id?: string };
 
@@ -207,6 +217,41 @@ export const handlers = [
 
     // Return a minimal valid PDF for testing
     // This is the smallest valid PDF structure
+    const minimalPdf = `%PDF-1.4
+1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
+2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
+3 0 obj<</Type/Page/MediaBox[0 0 612 792]/Parent 2 0 R>>endobj
+xref
+0 4
+0000000000 65535 f 
+0000000009 00000 n 
+0000000052 00000 n 
+0000000101 00000 n 
+trailer<</Size 4/Root 1 0 R>>
+startxref
+170
+%%EOF`;
+
+    return new HttpResponse(minimalPdf, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="clarity_report_${body.case_id}.pdf"`,
+      },
+    });
+  }),
+
+  // POST /api/report/generate (getBaseUrl() default in tests)
+  http.post("/api/report/generate", async ({ request }) => {
+    const body = (await request.json()) as { case_id?: string };
+
+    if (!body.case_id || body.case_id === "invalid") {
+      return HttpResponse.json(
+        { detail: `Case not found: ${body.case_id || "none"}` },
+        { status: 404 }
+      );
+    }
+
     const minimalPdf = `%PDF-1.4
 1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj

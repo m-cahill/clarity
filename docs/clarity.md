@@ -89,6 +89,15 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 *Demo serves synthetic/precomputed artifacts only. No GPU execution in cloud.*
 
+### M17 — Demo connectivity (required env)
+
+| Where | Variable | Value |
+|-------|----------|--------|
+| **Netlify** | `VITE_API_BASE_URL` | `https://clarity-1sra.onrender.com` (no trailing slash) |
+| **Render** | `CORS_ALLOWED_ORIGINS` | `https://majestic-dodol-25e71c.netlify.app` |
+
+Without these, production frontend may show "Failed to fetch" when calling the backend.
+
 ---
 
 ## Key Documents

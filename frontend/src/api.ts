@@ -35,7 +35,7 @@ export class ApiError extends Error {
  * 2. VITE_API_URL (E2E tests, legacy)
  * 3. /api (development with Vite proxy)
  */
-function getBaseUrl(): string {
+export function getBaseUrl(): string {
   // Check for explicit API base URL (production/demo)
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   if (baseUrl) {
