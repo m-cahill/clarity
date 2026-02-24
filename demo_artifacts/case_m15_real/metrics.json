@@ -1,21 +1,21 @@
 {
   "baseline_id": "m15_real_ui_validation",
   "baseline_metrics": {
-    "esi": 0.0,
+    "esi": 0.80611376,
     "drift": 0.0
   },
   "monte_carlo": {
     "confidence": {
-      "max": 0.0,
-      "mean": 0.0,
-      "min": 0.0,
+      "max": 0.80611376,
+      "mean": 0.80611376,
+      "min": 0.80611376,
       "std": 0.0,
       "variance": 0.0
     },
     "entropy": {
-      "max": 0.0,
-      "mean": 0.0,
-      "min": 0.0,
+      "max": 4.99646272,
+      "mean": 4.99646272,
+      "min": 4.99646272,
       "std": 0.0,
       "variance": 0.0
     },
@@ -23,8 +23,10 @@
     "seeds": [42, 123]
   },
   "rich_mode": true,
+  "mean_logprob": -0.2155304,
+  "token_count": 342,
   "global_mean_csi": 1.0,
   "global_mean_edm": 0.0,
   "_synthetic": false,
-  "_generated_for": "m15_validation"
+  "_generated_for": "m16_correction"
 }

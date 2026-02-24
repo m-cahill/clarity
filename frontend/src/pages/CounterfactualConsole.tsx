@@ -369,6 +369,14 @@ export function CounterfactualConsole() {
   const [exportingReport, setExportingReport] = useState<boolean>(false);
   const [reportError, setReportError] = useState<string | null>(null);
 
+  // Derived: regions sorted by |ΔESI| descending (M16 — shallow copy, no mutation)
+  const sortedRegions = result
+    ? [...result.probe_surface.results].sort(
+        (a, b) => Math.abs(b.delta_esi) - Math.abs(a.delta_esi)
+      )
+    : [];
+  const mostImpactful = sortedRegions[0] ?? null;
+
   // Load available baselines on mount
   useEffect(() => {
     const loadBaselines = async () => {
@@ -562,7 +570,10 @@ export function CounterfactualConsole() {
         {/* Results Display */}
         {result && (
           <section className="results-section">
-            <h2>Results</h2>
+            <div className="results-header">
+              <h2>Results</h2>
+              <span className="determinism-badge">Deterministic ✓</span>
+            </div>
 
             {/* Visualization Controls (M10) */}
             {result.overlay_bundle && (
@@ -655,6 +666,34 @@ export function CounterfactualConsole() {
               )}
             </div>
 
+            {/* Counterfactual Summary Card (M16) */}
+            {mostImpactful && (
+              <div className="summary-card">
+                <h3 className="summary-card-title">Counterfactual Summary</h3>
+                <div className="summary-card-row">
+                  <span className="summary-label">Most Impactful Region</span>
+                  <span className="summary-value mono">{mostImpactful.probe.region_id}</span>
+                </div>
+                <div className="summary-card-row">
+                  <span className="summary-label">Δ Confidence (ΔESI)</span>
+                  <span
+                    className={`summary-value${mostImpactful.delta_esi < 0 ? " delta-negative" : mostImpactful.delta_esi > 0 ? " delta-positive" : ""}`}
+                  >
+                    {mostImpactful.delta_esi.toFixed(4)}
+                  </span>
+                </div>
+                <div className="summary-card-row">
+                  <span className="summary-label">Δ Drift</span>
+                  <span className="summary-value">{mostImpactful.delta_drift.toFixed(4)}</span>
+                </div>
+                <p className="interpretation-text">
+                  {mostImpactful.delta_esi !== 0
+                    ? `Masking this region changes diagnostic confidence by ${(Math.abs(mostImpactful.delta_esi) * 100).toFixed(1)}%. This indicates localized causal dependence.`
+                    : "No region produced meaningful diagnostic confidence change under this probe."}
+                </p>
+              </div>
+            )}
+
             {/* Summary Stats */}
             <h3>Probe Surface Statistics</h3>
             <div className="stats-grid">
@@ -686,6 +725,17 @@ export function CounterfactualConsole() {
 
             {/* Delta Table */}
             <h3>Region Deltas</h3>
+            <div className="delta-legend" data-testid="delta-legend">
+              <span className="delta-legend-item">
+                <span className="delta-negative">■</span> ΔESI negative → confidence decrease under masking
+              </span>
+              <span className="delta-legend-item">
+                <span className="delta-positive">■</span> ΔESI positive → confidence increase under masking
+              </span>
+              <span className="delta-legend-item">
+                <span className="summary-label">ΔDrift</span> → output instability under masking
+              </span>
+            </div>
             <div className="delta-table-container">
               <table className="delta-table">
                 <thead>
@@ -698,7 +748,7 @@ export function CounterfactualConsole() {
                   </tr>
                 </thead>
                 <tbody>
-                  {result.probe_surface.results.map((r) => (
+                  {sortedRegions.map((r) => (
                     <tr key={r.probe.region_id}>
                       <td className="mono">{r.probe.region_id}</td>
                       <td>{r.baseline_esi.toFixed(4)}</td>

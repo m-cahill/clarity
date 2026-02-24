@@ -3,24 +3,24 @@
     {
       "axis": "brightness",
       "mean_drift": 0.0,
-      "mean_esi": 0.0,
+      "mean_esi": 0.80611376,
       "points": [
         {
           "axis": "brightness",
           "drift": 0.0,
-          "esi": 0.0,
+          "esi": 0.80611376,
           "value": "0p8"
         },
         {
           "axis": "brightness",
           "drift": 0.0,
-          "esi": 0.0,
+          "esi": 0.80611376,
           "value": "1p0"
         },
         {
           "axis": "brightness",
           "drift": 0.0,
-          "esi": 0.0,
+          "esi": 0.80611376,
           "value": "1p2"
         }
       ],
@@ -30,24 +30,24 @@
     {
       "axis": "contrast",
       "mean_drift": 0.0,
-      "mean_esi": 0.0,
+      "mean_esi": 0.80611376,
       "points": [
         {
           "axis": "contrast",
           "drift": 0.0,
-          "esi": 0.0,
+          "esi": 0.80611376,
           "value": "0p9"
         },
         {
           "axis": "contrast",
           "drift": 0.0,
-          "esi": 0.0,
+          "esi": 0.80611376,
           "value": "1p0"
         },
         {
           "axis": "contrast",
           "drift": 0.0,
-          "esi": 0.0,
+          "esi": 0.80611376,
           "value": "1p1"
         }
       ],
@@ -56,7 +56,7 @@
     }
   ],
   "global_mean_drift": 0.0,
-  "global_mean_esi": 0.0,
+  "global_mean_esi": 0.80611376,
   "global_variance_drift": 0.0,
   "global_variance_esi": 0.0
 }

@@ -69,6 +69,10 @@ TEMPERATURE = 0.0
 TOP_P = 1.0
 DO_SAMPLE = False
 
+# Gemma3/MedGemma requires bfloat16 — float16 causes NaN overflow in the
+# image-conditioned forward pass, producing degenerate (all-zero) logits.
+DEFAULT_DTYPE = "bfloat16"
+
 
 def is_real_model_enabled() -> bool:
     """Check if real model execution is enabled.
@@ -190,7 +194,7 @@ class MedGemmaRunner:
         self,
         model_id: str = MODEL_ID,
         device: str = "cuda",
-        dtype: str = "float16",
+        dtype: str = DEFAULT_DTYPE,
     ) -> None:
         """Initialize the MedGemma runner.
 
@@ -321,31 +325,46 @@ class MedGemmaRunner:
         # Set deterministic seed
         _set_deterministic_seed(seed)
 
-        # Prepare inputs
+        # Prepare inputs using chat template for instruction-tuned model.
+        # MedGemma-4B-IT requires structured chat format — raw prompt prepending
+        # causes the model to echo the prompt instead of generating a response.
+        #
+        # apply_chat_template() returns a formatted string, not tensors.
+        # The string is then passed to processor() to produce tensor inputs.
         if image is not None and self._processor is not None:
-            # Multimodal input - MedGemma/Gemma3 requires <start_of_image> token in prompt
-            # The processor looks for boi_token to know where to insert image features
-            boi_token = getattr(self._processor, "boi_token", "<start_of_image>")
-            
-            # Insert boi_token at the beginning if not already present
-            if boi_token not in prompt:
-                formatted_prompt = f"{boi_token}{prompt}"
-            else:
-                formatted_prompt = prompt
-            
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image"},
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ]
+            formatted_text = self._processor.apply_chat_template(
+                messages,
+                add_generation_prompt=True,
+            )
             inputs = self._processor(
-                text=formatted_prompt,
+                text=formatted_text,
                 images=image,
                 return_tensors="pt",
             ).to(self._device)
         else:
             # Text-only input
+            messages = [{"role": "user", "content": prompt}]
+            formatted_text = self._processor.apply_chat_template(
+                messages,
+                add_generation_prompt=True,
+            ) if self._processor is not None else prompt
             inputs = self._tokenizer(
-                prompt,
-                return_tensors="pt",
+                formatted_text, return_tensors="pt"
             ).to(self._device)
 
-        # Generate with deterministic settings
+        # Generate with deterministic settings.
+        # Do NOT set pad_token_id=eos_token_id — for Gemma models EOS != PAD.
+        # Conflating them causes EOS to be treated as padding, preventing early
+        # stopping and filling the sequence with 512 silent pad tokens.
         with torch.no_grad():
             outputs = self._model.generate(
                 **inputs,
@@ -353,18 +372,14 @@ class MedGemmaRunner:
                 temperature=TEMPERATURE,
                 top_p=TOP_P,
                 do_sample=DO_SAMPLE,
-                pad_token_id=self._tokenizer.eos_token_id,
             )
 
-        # Decode output
+        # Decode only the newly generated tokens (exclude input prompt tokens).
+        input_length = inputs["input_ids"].shape[1]
         generated_text = self._tokenizer.decode(
-            outputs[0],
+            outputs[0, input_length:],
             skip_special_tokens=True,
         )
-
-        # Remove input prompt from output if present
-        if generated_text.startswith(prompt):
-            generated_text = generated_text[len(prompt):].strip()
 
         # Compute result hash
         bundle_sha = _compute_result_hash(generated_text, self._model_id, seed)
@@ -435,29 +450,39 @@ class MedGemmaRunner:
         # Set deterministic seed
         _set_deterministic_seed(seed)
 
-        # Prepare inputs
+        # Prepare inputs using chat template (same as generate()).
+        # apply_chat_template() returns a string; processor() converts to tensors.
         if image is not None and self._processor is not None:
-            # Multimodal input - MedGemma/Gemma3 requires <start_of_image> token
-            boi_token = getattr(self._processor, "boi_token", "<start_of_image>")
-
-            if boi_token not in prompt:
-                formatted_prompt = f"{boi_token}{prompt}"
-            else:
-                formatted_prompt = prompt
-
+            messages = [
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "image"},
+                        {"type": "text", "text": prompt},
+                    ],
+                }
+            ]
+            formatted_text = self._processor.apply_chat_template(
+                messages,
+                add_generation_prompt=True,
+            )
             inputs = self._processor(
-                text=formatted_prompt,
+                text=formatted_text,
                 images=image,
                 return_tensors="pt",
             ).to(self._device)
         else:
-            # Text-only input
+            messages = [{"role": "user", "content": prompt}]
+            formatted_text = self._processor.apply_chat_template(
+                messages,
+                add_generation_prompt=True,
+            ) if self._processor is not None else prompt
             inputs = self._tokenizer(
-                prompt,
-                return_tensors="pt",
+                formatted_text, return_tensors="pt"
             ).to(self._device)
 
-        # Generate with deterministic settings AND return logits
+        # Generate with deterministic settings AND return logits.
+        # Do NOT set pad_token_id=eos_token_id — see generate() for explanation.
         with torch.no_grad():
             outputs = self._model.generate(
                 **inputs,
@@ -465,16 +490,15 @@ class MedGemmaRunner:
                 temperature=TEMPERATURE,
                 top_p=TOP_P,
                 do_sample=DO_SAMPLE,
-                pad_token_id=self._tokenizer.eos_token_id,
                 return_dict_in_generate=True,
-                output_scores=True,  # Return logits for each position
+                output_scores=True,
             )
 
-        # Extract generated token IDs (excluding input)
+        # Extract generated token IDs (excluding input prompt).
         input_length = inputs["input_ids"].shape[1]
         generated_ids = outputs.sequences[0, input_length:]
 
-        # Decode output
+        # Decode only the newly generated tokens.
         generated_text = self._tokenizer.decode(
             generated_ids,
             skip_special_tokens=True,

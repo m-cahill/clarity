@@ -58,6 +58,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M13** | MedGemma Integration | Real MedGemma inference via R2L, determinism verification, minimal sweep | ✅ **Closed** | `v0.0.14-m13` | 5.0 |
 | **M14** | Rich Mode Evidence Ingestion | Token-level probabilities, CSI, EDM, confidence/entropy surfaces | ✅ **Closed** | `v0.0.15-m14` | 5.0 |
 | **M15** | Real Artifact UI Validation | End-to-end validation with real MedGemma artifacts in UI | ✅ **Closed** | `v0.0.16-m15` | 5.0 |
+| **M16** | Kaggle Submission Packaging | Competition-grade packaging: README, architecture, executive summary, artifact bundle, reproducibility protocol | ✅ **Closed** | `v0.0.17-m16` | 5.0 |
 
 ---
 
@@ -99,7 +100,29 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 
 ---
 
-## Current Milestone: M15 ✅ CLOSED
+## Current Milestone: M16 ✅ CLOSED
+
+**Objective**: Kaggle Submission Packaging & Competition Positioning — Convert validated system into competition-grade artifact.
+
+**Tag**: `v0.0.17-m16`
+
+**Details**: [M16_plan.md](./milestones/M16/M16_plan.md) | [M16_audit.md](./milestones/M16/M16_audit.md)
+
+**Notes**: Competition submission freeze. Frontend deployment issue (CORS/Failed to fetch) deferred to M17.
+
+**Deliverables**:
+- ✅ `docs/kaggle_submission/README_KAGGLE.md` — Competition README with full methodology
+- ✅ `docs/kaggle_submission/EXECUTIVE_SUMMARY.md` — One-page judge summary
+- ✅ `docs/kaggle_submission/architecture.md` — Four Mermaid architecture diagrams
+- ✅ `docs/kaggle_submission/example_bundle/` — Canonical M15 artifacts + BUNDLE_README
+- ✅ `docs/milestones/M16/M16_reproducibility_report.md` — Non-destructive protocol + hash verification
+- ✅ `docs/milestones/M16/M16_manual_validation.md` — 8-check validation template
+- ⏳ Screenshots (user action pending)
+- ⏳ Manual UI validation (user action pending)
+
+---
+
+## Previous Milestone: M15 ✅ CLOSED
 
 **Objective**: Real Artifact UI Validation & Demo Hardening — Validate end-to-end system with real MedGemma artifacts rendering in UI.
 
@@ -180,6 +203,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | M13 | `v0.0.14-m13` | `1fe3da9` | 5.0 | 2026-02-21 |
 | M14 | `v0.0.15-m14` | `c4e61c6` | 5.0 | 2026-02-22 |
 | M15 | `v0.0.16-m15` | `0cb6e4e` | 5.0 | 2026-02-22 |
+| M16 | `v0.0.17-m16` | _[pending]_ | 5.0 | 2026-02-22 |
 
 ---
 
@@ -201,6 +225,24 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | DEP-001 | No dependency lockfile | M02 | M12 | `requirements.lock` with pip-compile hashes, lockfile-check CI job |
 | COV-002 | Frontend branch coverage reduced 85% → 80% | M11 | M12 | Coverage restored to 87.39%; `downloadUtils.ts` refactor + 27 tests |
 | ARCH-001 | Rich mode evidence ingestion | M13 | M14 | `generate_rich()` + CSI/EDM metrics + confidence/entropy surfaces |
+
+---
+
+## M16 Corrected Artifact Evidence
+
+*Canonical hashes supersede M15 values after M16 pre-close correction: (1) synthetic→real image fixture (CC0 PA chest X-ray), (2) chat-template prompt format, (3) bfloat16 dtype.*
+
+| Metric | Value |
+|--------|-------|
+| **Bundle SHA256** | `26de75db866aafa813cb25ef63ee3c1f34e14eda0d07d7de567957d2d46a58bc` |
+| **Summary Hash** | `fba587054c9f63149eba704a703fa8bcb4c5a2d2f96997857fba5c9a8d6166e6` |
+| **Inference Runs** | 12 (2 axes × 3 values × 2 seeds) |
+| **VRAM Max** | 9.14 GB |
+| **Mean Logprob** | -0.2155304 |
+| **Output Entropy** | 4.99646272 |
+| **Confidence Score** | 0.80611376 |
+| **Token Count** | 342 |
+| **Determinism** | ✅ Verified (identical bundle SHA across 2 independent runs) |
 
 ---
 
