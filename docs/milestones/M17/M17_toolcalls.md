@@ -18,3 +18,5 @@
 | 10 | 2026-02-24 | search_replace | CounterfactualConsoleErrors: override /api/* URLs in server.use | frontend/tests/CounterfactualConsoleErrors.test.tsx | done |
 | 11 | 2026-02-24 | run | Frontend tests (vitest run) | frontend | 137 passed |
 | 12 | 2026-02-24 | run | Backend tests (pytest) | backend | 911 passed |
+| 13 | 2026-02-24 | run | git checkout -b m17-connectivity-hardening, commit, push | repo | done |
+| 14 | 2026-02-24 | run | gh pr create | PR #19 | done |
