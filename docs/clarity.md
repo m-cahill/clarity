@@ -59,6 +59,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M14** | Rich Mode Evidence Ingestion | Token-level probabilities, CSI, EDM, confidence/entropy surfaces | ✅ **Closed** | `v0.0.15-m14` | 5.0 |
 | **M15** | Real Artifact UI Validation | End-to-end validation with real MedGemma artifacts in UI | ✅ **Closed** | `v0.0.16-m15` | 5.0 |
 | **M16** | Kaggle Submission Packaging | Competition-grade packaging: README, architecture, executive summary, artifact bundle, reproducibility protocol | ✅ **Closed** | `v0.0.17-m16` | 5.0 |
+| **M17** | Demo Connectivity Hardening | Netlify ↔ Render connectivity: CORS, VITE_API_BASE_URL, getBaseUrl() single source of truth; live demo fully interactive | ✅ **Closed** | `v0.0.18-m17` | 5.0 |
 
 ---
 
@@ -109,7 +110,26 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 
 ---
 
-## Current Milestone: M16 ✅ CLOSED
+## Current Milestone: M17 ✅ CLOSED
+
+**Objective**: Frontend ↔ Backend Connectivity Hardening — Resolve Netlify "Failed to fetch"; live demo fully interactive.
+
+**Tag**: `v0.0.18-m17`
+
+**Details**: [M17_plan.md](./milestones/M17/M17_plan.md) | [M17_audit.md](./milestones/M17/M17_audit.md)
+
+**Notes**: getBaseUrl() single source of truth; VITE_API_BASE_URL canonical; CORS env-driven. Live validation confirmed.
+
+**Deliverables**:
+- ✅ CounterfactualConsole uses getBaseUrl() from api.ts
+- ✅ VITE_API_BASE_URL canonical; VITE_API_URL legacy/E2E only
+- ✅ netlify.toml / clarity.md env documented
+- ✅ OPTIONS + POST 200 from Netlify → Render; no CORS errors
+- ✅ M17_audit.md, M17_summary.md
+
+---
+
+## Previous Milestone: M16 ✅ CLOSED
 
 **Objective**: Kaggle Submission Packaging & Competition Positioning — Convert validated system into competition-grade artifact.
 
@@ -117,17 +137,10 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 
 **Details**: [M16_plan.md](./milestones/M16/M16_plan.md) | [M16_audit.md](./milestones/M16/M16_audit.md)
 
-**Notes**: Competition submission freeze. Frontend deployment issue (CORS/Failed to fetch) deferred to M17.
-
 **Deliverables**:
-- ✅ `docs/kaggle_submission/README_KAGGLE.md` — Competition README with full methodology
-- ✅ `docs/kaggle_submission/EXECUTIVE_SUMMARY.md` — One-page judge summary
-- ✅ `docs/kaggle_submission/architecture.md` — Four Mermaid architecture diagrams
-- ✅ `docs/kaggle_submission/example_bundle/` — Canonical M15 artifacts + BUNDLE_README
-- ✅ `docs/milestones/M16/M16_reproducibility_report.md` — Non-destructive protocol + hash verification
-- ✅ `docs/milestones/M16/M16_manual_validation.md` — 8-check validation template
+- ✅ README_KAGGLE.md, EXECUTIVE_SUMMARY.md, architecture.md
+- ✅ example_bundle/, M16_reproducibility_report.md, M16_manual_validation.md
 - ⏳ Screenshots (user action pending)
-- ⏳ Manual UI validation (user action pending)
 
 ---
 
@@ -142,9 +155,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 **Deliverables**:
 - ✅ Real rich-mode sweep artifacts generated (12 runs, 2 seeds, 2 axes)
 - ✅ Bundle SHA256: `fa6fdb5dbe017076fd6cdf01f28f9a7773edef551e977b18bff918e1622d3236`
-- ✅ Backend API validation passed (7 tests)
-- ✅ Frontend console validation passed (zero console errors, no NaN)
-- ✅ Cross-platform checksum verification fixed
+- ✅ Backend API validation passed; frontend console validation (zero errors, no NaN)
 - ✅ CI green, demo stable
 
 ---
