@@ -10,11 +10,16 @@ This backend provides:
 
 ## Development
 
+The frontend (Vite) proxies `/api` to this backend on **port 8000**. Start the backend before using the counterfactual console or any API from local dev.
+
 ```bash
+# From repo root: cd backend first
+cd backend
+
 # Install dependencies
 pip install -e ".[dev]"
 
-# Run the server
+# Run the server (default port 8000)
 uvicorn app.main:app --reload
 
 # Run tests

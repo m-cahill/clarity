@@ -31,8 +31,8 @@ export class ApiError extends Error {
 /**
  * Get the base URL for API calls.
  * Priority:
- * 1. VITE_API_BASE_URL (production/demo deployment)
- * 2. VITE_API_URL (E2E tests, legacy)
+ * 1. VITE_API_BASE_URL (canonical; set in Netlify/Render for production)
+ * 2. VITE_API_URL (legacy / E2E only; can be unset if VITE_API_BASE_URL is set)
  * 3. /api (development with Vite proxy)
  */
 export function getBaseUrl(): string {

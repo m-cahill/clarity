@@ -1,6 +1,9 @@
 # Netlify configuration for CLARITY frontend
 # M10.5: Demo deployment configuration
 
+# Branch deploys: enable in Netlify UI (Build & deploy → Branches and deploy contexts)
+# so non-production branches (e.g. m17-connectivity-hardening) get their own deploys.
+
 [build]
   # Build commands for Netlify's native builder
   base = "frontend"
@@ -9,6 +12,7 @@
 
 [build.environment]
   VITE_APP_MODE = "demo"
+  # Canonical API base; only this is required (VITE_API_URL is legacy/E2E).
   VITE_API_BASE_URL = "https://clarity-1sra.onrender.com"
 
 # SPA routing - redirect all paths to index.html
@@ -25,3 +29,8 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
+# Use same build for branch deploys (when enabled in Netlify UI)
+[context.branch-deploy]
+  base = "frontend"
+  command = "npm ci && npm run build"
+  publish = "dist"

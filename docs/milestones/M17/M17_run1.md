@@ -46,11 +46,19 @@
 
 ## Environment Checklist
 
-### Netlify
+### Netlify (build-time injection)
+
+**Root cause of "localhost:8000" in production:** Vite injects env at **build time**. If `VITE_API_BASE_URL` was not set (or `VITE_API_URL` was `http://localhost:8000`), that value is baked into the bundle. Not CORS, not FastAPI, not Render — build-layer only.
+
+**Correct fix path:**
+
+1. **Clean env:** Set `VITE_API_BASE_URL = https://clarity-1sra.onrender.com`. If `VITE_API_URL` exists and is `http://localhost:8000`, delete it. No quotes, no trailing slash. Scope: Production **and** Deploy Previews (if validating PR preview).
+2. **Force fresh build:** Deploy → Trigger deploy → **Clear cache and deploy site** (so Vite recompiles with new env).
+3. **Confirm:** After deploy, DevTools → Network; run probe. Request must hit `https://clarity-1sra.onrender.com/...`, not `http://localhost:8000/...`. Then check OPTIONS/POST status and CORS if needed.
 
 | Variable | Value | Notes |
 |----------|--------|--------|
-| `VITE_API_BASE_URL` | `https://clarity-1sra.onrender.com` | No trailing slash. HTTPS. Set for production and deploy-preview. |
+| `VITE_API_BASE_URL` | `https://clarity-1sra.onrender.com` | No trailing slash. HTTPS. Set for Production and Deploy Previews. |
 
 ### Render
 
