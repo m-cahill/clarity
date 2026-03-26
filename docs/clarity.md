@@ -267,6 +267,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M14 | `v0.0.15-m14` | `c4e61c6` | 5.0 | 2026-02-22 |
 | M15 | `v0.0.16-m15` | `0cb6e4e` | 5.0 | 2026-02-22 |
 | M16 | `v0.0.17-m16` | _[pending]_ | 5.0 | 2026-02-22 |
+| M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
 | M18 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
 
 ---
