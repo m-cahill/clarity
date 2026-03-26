@@ -34,6 +34,8 @@ Within this pack, the **roadmap and definitions** in `readinessplan.md` set expe
 2. [`readinessplan.md`](./readinessplan.md) — Full M18–M24 program (milestones, non-goals, exit criteria).
 3. [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) — Status, roadmap, inventory, risks, evidence placeholders.
 4. [`READINESS_DECISIONS.md`](./READINESS_DECISIONS.md) — Readiness-only architecture and policy decisions (ADR-style).
+5. [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) — Frozen CLARITY↔R2L consumer boundary (M19).
+6. [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) — Inherited substrate assumptions vs CLARITY-owned responsibilities (M19).
 
 For overall project context, always read **`docs/clarity.md`** first or in parallel.
 
@@ -65,7 +67,7 @@ If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for 
 
 **`NOT READY`**
 
-M18 establishes governance and scaffolding only. A final portability verdict is reserved for **M24** (see `READINESS_LEDGER.md`).
+M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split (see `CLARITY_BOUNDARY_CONTRACT.md`, `CLARITY_ASSUMED_GUARANTEES.md`). A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
 
 ---
 

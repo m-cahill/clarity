@@ -12,8 +12,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 |-------|--------|
 | **Readiness** | **`NOT READY`** |
 | **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | M18 |
-| **Notes** | Charter and authority structure only; no portability claim. |
+| **As-of milestone** | M19 |
+| **Notes** | Consumer boundary + assumed guarantees frozen (M19); artifact contract and public surface still open (M20+). No portability claim. |
 
 ---
 
@@ -22,7 +22,7 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | ID | Title | Purpose (summary) | Ledger status |
 |----|-------|-------------------|----------------|
 | **M18** | Readiness Charter & Authority Freeze | Create `docs/readiness/`, authority hierarchy, ledger + decisions; update `docs/clarity.md` | **Closed** |
-| **M19** | Consumer Boundary Freeze | Freeze CLARITY↔R2L consumer boundary and inherited guarantees | Planned |
+| **M19** | Consumer Boundary Freeze | Freeze CLARITY↔R2L consumer boundary and inherited guarantees | **Closed** |
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze outputs, serialization, reproducibility | Planned |
 | **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | Planned |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | Planned |
@@ -41,8 +41,8 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | [`README.md`](./README.md) | Pack front door, authority, reading order | M18 |
 | [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) | This ledger | M18 |
 | [`READINESS_DECISIONS.md`](./READINESS_DECISIONS.md) | ADR-style readiness decisions | M18 |
-| `CLARITY_BOUNDARY_CONTRACT.md` | Frozen consumer boundary | M19 (planned) |
-| `CLARITY_ASSUMED_GUARANTEES.md` | Inherited vs CLARITY-owned guarantees | M19 (planned) |
+| [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) | Frozen consumer boundary | **M19** |
+| [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) | Inherited vs CLARITY-owned guarantees | **M19** |
 | `CLARITY_ARTIFACT_CONTRACT.md` | Artifact contract | M20 (planned) |
 | `CLARITY_PUBLIC_SURFACE.md` | Invocation contract | M21 (planned) |
 | `CLARITY_OPERATING_MANUAL.md` | Operator manual | M22 (planned) |
@@ -64,12 +64,13 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
 ---
 
-## 6. Evidence map (placeholder)
+## 6. Evidence map
 
 | Milestone | Evidence type | Location / gate |
 |-----------|----------------|-----------------|
-| M18 | Pack exists; ledger updated; lightweight test | `docs/readiness/*`, `test_readiness_pack.py`, CI |
-| M19–M24 | Per `readinessplan.md` | TBD per milestone |
+| M18 | Pack exists; ledger updated; lightweight test | `docs/readiness/*`, `backend/tests/test_readiness_pack.py`, CI |
+| M19 | Frozen boundary + assumed guarantees; boundary tests | `CLARITY_BOUNDARY_CONTRACT.md`, `CLARITY_ASSUMED_GUARANTEES.md`, `backend/tests/test_boundary_contract.py` (incl. M19 section), CI |
+| M20–M24 | Per `readinessplan.md` | TBD per milestone |
 
 ---
 

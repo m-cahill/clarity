@@ -1,13 +1,16 @@
 """Boundary Contract Guardrail Tests for CLARITY.
 
-These tests enforce the CLARITY ↔ R2L boundary contract as defined in
-docs/CLARITY_ARCHITECHTURE_CONTRACT.MD.
+These tests enforce the CLARITY ↔ R2L boundary contract.
+
+**Readiness authority:** `docs/readiness/CLARITY_BOUNDARY_CONTRACT.md` (M19); legacy
+`docs/CLARITY_ARCHITECHTURE_CONTRACT.MD` is context only.
 
 Test Categories:
 1. Artifact Parse Tests - Validate R2L artifact consumption
 2. No-Overwrite Tests - Ensure CLARITY writes only to clarity/ namespace
 3. Determinism Tests - Verify byte-identical serialization
 4. AST Import Tests - Prevent forbidden R2L internal imports
+5. M19 tests - Artifact loader contract + canonical vs rich boundary invariants
 """
 
 from __future__ import annotations
@@ -19,11 +22,13 @@ from pathlib import Path
 
 import pytest
 
+from app.clarity.artifact_loader import load_manifest, load_trace_pack
 from app.clarity.r2l_interface import (
     R2LInterface,
     get_clarity_output_namespace,
     validate_output_path,
 )
+from app.clarity.rich_generation import RICH_MODE_ENV_VAR
 from app.clarity.serialization import (
     deterministic_json_dumps,
     deterministic_json_dumps_bytes,
@@ -509,4 +514,53 @@ class TestSweepManifest:
                 seeds=[42],
                 # Missing perturbation_axes, r2l_version, adapter_model_id
             )  # type: ignore
+
+
+# =============================================================================
+# M19 — CONSUMER BOUNDARY FREEZE (readiness plan)
+# =============================================================================
+
+
+class TestM19ConsumerBoundaryFreeze:
+    """Cumulative checks for frozen boundary: loader contract + mode invariants."""
+
+    def test_fixture_manifest_satisfies_artifact_loader_contract(self) -> None:
+        """Consumer contract: load_manifest accepts representative fixture shape."""
+        manifest_path = FIXTURES_DIR / "manifest.json"
+        manifest = load_manifest(manifest_path)
+        assert manifest["run_id"]
+        assert manifest["seed"] == 42
+        assert "artifacts" in manifest
+
+    def test_fixture_trace_packs_canonical_vs_rich_load(self) -> None:
+        """Rich optional metadata vs canonical traces both parse; boundary unchanged."""
+        rich_path = FIXTURES_DIR / "trace_pack_with_metadata.jsonl"
+        plain_path = FIXTURES_DIR / "trace_pack_without_metadata.jsonl"
+        rich = load_trace_pack(rich_path)
+        plain = load_trace_pack(plain_path)
+        assert len(rich) >= 1
+        assert len(plain) >= 1
+        assert any("adapter_metadata" in r for r in rich)
+        assert not any("adapter_metadata" in r for r in plain)
+
+    def test_rich_mode_sweep_flag_does_not_relax_namespace_rules(self) -> None:
+        """SweepManifest.rich_mode does not change clarity/ output validation."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            base_dir = Path(tmpdir)
+            (base_dir / "clarity").mkdir()
+            for rich_flag in (True, False):
+                manifest = SweepManifest(
+                    seeds=[1],
+                    perturbation_axes=["blur"],
+                    r2l_version="v1",
+                    adapter_model_id="model",
+                    rich_mode=rich_flag,
+                )
+                assert manifest.rich_mode is rich_flag
+                assert validate_output_path(Path("clarity/sweep_manifest.json"), base_dir)
+                assert not validate_output_path(Path("manifest.json"), base_dir)
+
+    def test_rich_mode_env_var_name_is_clarity_rich_mode(self) -> None:
+        """Canonical CLARITY-side rich switch name (see RD-010)."""
+        assert RICH_MODE_ENV_VAR == "CLARITY_RICH_MODE"
 

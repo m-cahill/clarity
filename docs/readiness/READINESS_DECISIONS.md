@@ -92,3 +92,42 @@ Running log of **readiness-phase** decisions only. Broader project decisions rem
 | **Decision** | Readiness **claims** must be **evidence-backed** (tests, contracts, audits). A final **portability verdict** is issued only at **M24** (or superseding decision), not by implication. |
 | **Rationale** | Aligns with readiness definition in `readinessplan.md` and keeps the program honest. |
 | **Consequences** | Interim milestones record progress and deferrals; they do not replace M24. |
+
+---
+
+## RD-008 — Canonical readiness-pack boundary contract (M19)
+
+| Field | Value |
+|-------|--------|
+| **Status** | Accepted |
+| **Date / milestone** | M19 |
+| **Context** | Boundary rules for consumers must live under the readiness pack per `readinessplan.md`; older one-page architecture notes must not remain the sole authority for readiness. |
+| **Decision** | **`docs/readiness/CLARITY_BOUNDARY_CONTRACT.md`** is the **canonical readiness-pack** CLARITY↔R2L boundary contract. [`CLARITY_ARCHITECHTURE_CONTRACT.MD`](../CLARITY_ARCHITECHTURE_CONTRACT.MD) remains prior architectural context, not the top readiness authority. |
+| **Rationale** | Matches authority order (`docs/clarity.md` → frozen `docs/readiness/` → code/tests); avoids silent drift between M01 notes and M18+ governance. |
+| **Consequences** | Readiness reviews cite the pack contract; legacy doc may be referenced but does not override the pack. |
+
+---
+
+## RD-009 — Black-box invocation as default sanctioned surface (until M21)
+
+| Field | Value |
+|-------|--------|
+| **Status** | Accepted |
+| **Date / milestone** | M19 |
+| **Context** | Consumers need a clear default integration pattern before a public Python surface is frozen. |
+| **Decision** | **CLI / subprocess** invocation of R2L with artifact consumption (`R2LRunner`) is the **default sanctioned** boundary in this repository until **M21** defines an official public consumer surface. |
+| **Rationale** | Implemented in `r2l_runner.py`; preserves “no internal R2L imports” invariant. |
+| **Consequences** | Direct import of deep modules as a supported API remains **out of scope** for readiness until M21 explicitly freezes a surface. |
+
+---
+
+## RD-010 — Rich-mode environment switch (CLARITY repo)
+
+| Field | Value |
+|-------|--------|
+| **Status** | Accepted |
+| **Date / milestone** | M19 |
+| **Context** | Historical and upstream docs may name substrate-side flags differently from this repo’s implementation. |
+| **Decision** | For **this repository’s** CLARITY rich-path gating, **`CLARITY_RICH_MODE`** (with **`CLARITY_REAL_MODEL`** where required by code) is **canonical**. Optional **`CLARITY_RICH_LOGITS_HASH`** for full logits hashing. Upstream-only names (e.g. **`R2L_RICH_MODE`** in non-readiness context docs) are **not** treated as the CLARITY-side switch unless explicitly wired in code. |
+| **Rationale** | Implementation truth beats historical wording; avoids double-canonical env confusion in readiness artifacts. |
+| **Consequences** | Readiness docs and tests anchor on `app.clarity.rich_generation` / `medgemma_runner` behavior. |

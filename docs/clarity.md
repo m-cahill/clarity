@@ -61,7 +61,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M16** | Kaggle Submission Packaging | Competition-grade packaging: README, architecture, executive summary, artifact bundle, reproducibility protocol | ✅ **Closed** | `v0.0.17-m16` | 5.0 |
 | **M17** | Demo Connectivity Hardening | Netlify ↔ Render connectivity: CORS, VITE_API_BASE_URL, getBaseUrl() single source of truth; live demo fully interactive | ✅ **Closed** | `v0.0.18-m17` | 5.0 |
 | **M18** | Readiness Charter & Authority Freeze | Establish `docs/readiness/` pack, authority hierarchy, readiness ledger + decisions; record M18–M24 in ledger (no portability claim) | ✅ **Closed** | not tagged | 5.0 |
-| **M19** | Consumer Boundary Freeze | Freeze CLARITY consumer boundary, inherited guarantees, forbidden behaviors | Planned | — | — |
+| **M19** | Consumer Boundary Freeze | Freeze CLARITY consumer boundary, inherited guarantees, forbidden behaviors | ✅ **Closed** | not tagged | 5.0 |
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | Planned | — | — |
 | **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | Planned | — | — |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | Planned | — | — |
@@ -83,16 +83,20 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 | `docs/clarity.md` | Canonical **project ledger** and milestone record |
 | `docs/readiness/` | Canonical **readiness pack** (contracts and readiness ledgers as they are frozen) |
 
-**Pack index (M18):**
+**Pack index (M18+):**
 
 - [`readiness/readinessplan.md`](./readiness/readinessplan.md) — Full readiness program (canonical **pack** copy)
 - [`readiness/README.md`](./readiness/README.md) — Pack front door, authority order, reading order
 - [`readiness/READINESS_LEDGER.md`](./readiness/READINESS_LEDGER.md) — Readiness control ledger
 - [`readiness/READINESS_DECISIONS.md`](./readiness/READINESS_DECISIONS.md) — Readiness ADR-style decisions
+- [`readiness/CLARITY_BOUNDARY_CONTRACT.md`](./readiness/CLARITY_BOUNDARY_CONTRACT.md) — Frozen CLARITY↔R2L consumer boundary (**M19**)
+- [`readiness/CLARITY_ASSUMED_GUARANTEES.md`](./readiness/CLARITY_ASSUMED_GUARANTEES.md) — Inherited vs CLARITY-owned guarantees (**M19**)
 
 **Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
 
 Later readiness milestones must update **`docs/clarity.md`** and the readiness pack **whenever** readiness status or frozen documents change.
+
+**M19 note:** The consumer boundary and assumed-guarantee split are **frozen** in the two documents above. Readiness remains **`NOT READY`**; final portability is **M24**.
 
 ---
 
@@ -141,10 +145,29 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [CLARITY_CAPABILITY_CONTEXT.md](./CLARITY_CAPABILITY_CONTEXT.md) — R2L context and boundaries
 - [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD) — Architecture freeze
 - [readiness/README.md](./readiness/README.md) — Readiness pack (canonical); see also [readiness/readinessplan.md](./readiness/readinessplan.md)
+- [readiness/CLARITY_BOUNDARY_CONTRACT.md](./readiness/CLARITY_BOUNDARY_CONTRACT.md) — Frozen consumer boundary (M19)
+- [readiness/CLARITY_ASSUMED_GUARANTEES.md](./readiness/CLARITY_ASSUMED_GUARANTEES.md) — Inherited vs CLARITY-owned guarantees (M19)
 
 ---
 
-## Current Milestone: M18 ✅ CLOSED
+## Current Milestone: M19 ✅ CLOSED
+
+**Objective**: Consumer Boundary Freeze — Freeze the CLARITY↔R2L consumer boundary, inherited guarantees vs CLARITY-owned responsibilities, and forbidden behaviors as readiness contracts; extend boundary guardrail tests. **Readiness remains `NOT READY`.**
+
+**Tag**: not tagged (no git tag minted for M19 unless explicitly authorized later)
+
+**Details**: [M19_plan.md](./milestones/M19/M19_plan.md) | [M19_audit.md](./milestones/M19/M19_audit.md)
+
+**Deliverables**:
+- ✅ `docs/readiness/CLARITY_BOUNDARY_CONTRACT.md`, `docs/readiness/CLARITY_ASSUMED_GUARANTEES.md`
+- ✅ `docs/readiness/READINESS_LEDGER.md`, `docs/readiness/README.md`, `docs/readiness/READINESS_DECISIONS.md` (RD-008–RD-010)
+- ✅ `docs/clarity.md` updated (this file)
+- ✅ Boundary tests extended: `backend/tests/test_boundary_contract.py` (M19 section); `backend/tests/test_readiness_pack.py` (pack file list)
+- ✅ M19_summary.md, M19_audit.md; M20 seeded
+
+---
+
+## Previous Milestone: M18 ✅ CLOSED
 
 **Objective**: Readiness Charter & Authority Freeze — Establish the readiness program, canonical `docs/readiness/` pack, authority hierarchy, initial ledger and decisions, and M18–M24 roadmap in this ledger. **Readiness remains `NOT READY`.**
 
@@ -269,6 +292,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M16 | `v0.0.17-m16` | _[pending]_ | 5.0 | 2026-02-22 |
 | M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
 | M18 | not tagged | `0e674fd` | 5.0 | 2026-03-26 |
+| M19 | not tagged | _[pending merge commit]_ | 5.0 | 2026-03-26 |
 
 ---
 
