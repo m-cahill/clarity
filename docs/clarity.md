@@ -292,7 +292,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M16 | `v0.0.17-m16` | _[pending]_ | 5.0 | 2026-02-22 |
 | M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
 | M18 | not tagged | `0e674fd` | 5.0 | 2026-03-26 |
-| M19 | not tagged | _[pending merge commit]_ | 5.0 | 2026-03-26 |
+| M19 | not tagged | `8187d62` | 5.0 | 2026-03-26 |
 
 ---
 
