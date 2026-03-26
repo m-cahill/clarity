@@ -60,6 +60,39 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M15** | Real Artifact UI Validation | End-to-end validation with real MedGemma artifacts in UI | ✅ **Closed** | `v0.0.16-m15` | 5.0 |
 | **M16** | Kaggle Submission Packaging | Competition-grade packaging: README, architecture, executive summary, artifact bundle, reproducibility protocol | ✅ **Closed** | `v0.0.17-m16` | 5.0 |
 | **M17** | Demo Connectivity Hardening | Netlify ↔ Render connectivity: CORS, VITE_API_BASE_URL, getBaseUrl() single source of truth; live demo fully interactive | ✅ **Closed** | `v0.0.18-m17` | 5.0 |
+| **M18** | Readiness Charter & Authority Freeze | Establish `docs/readiness/` pack, authority hierarchy, readiness ledger + decisions; record M18–M24 in ledger (no portability claim) | ✅ **Closed** | not tagged | 5.0 |
+| **M19** | Consumer Boundary Freeze | Freeze CLARITY consumer boundary, inherited guarantees, forbidden behaviors | Planned | — | — |
+| **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | Planned | — | — |
+| **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | Planned | — | — |
+| **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | Planned | — | — |
+| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix, transfer checklist | Planned | — | — |
+| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
+
+---
+
+## Readiness phase (M18–M24)
+
+**Readiness status:** **`NOT READY`**
+
+The **readiness phase** (milestones **M18–M24**) is a governed execution track whose purpose is to make CLARITY **portable, governable, test-enforced, and legible** for safe use by a **consumer project** or **external repository**, with clear contracts and evidence. It does **not** add new model features, redesign the MedGemma evaluation path for capability, or perform downstream-specific integration work.
+
+**Authority (readiness):**
+
+| Artifact | Role |
+|----------|------|
+| `docs/clarity.md` | Canonical **project ledger** and milestone record |
+| `docs/readiness/` | Canonical **readiness pack** (contracts and readiness ledgers as they are frozen) |
+
+**Pack index (M18):**
+
+- [`readiness/readinessplan.md`](./readiness/readinessplan.md) — Full readiness program (canonical **pack** copy)
+- [`readiness/README.md`](./readiness/README.md) — Pack front door, authority order, reading order
+- [`readiness/READINESS_LEDGER.md`](./readiness/READINESS_LEDGER.md) — Readiness control ledger
+- [`readiness/READINESS_DECISIONS.md`](./readiness/READINESS_DECISIONS.md) — Readiness ADR-style decisions
+
+**Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
+
+Later readiness milestones must update **`docs/clarity.md`** and the readiness pack **whenever** readiness status or frozen documents change.
 
 ---
 
@@ -107,10 +140,27 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [COMPLETE_RULES.md](./COMPLETE_RULES.md) — MedGemma Impact Challenge rules
 - [CLARITY_CAPABILITY_CONTEXT.md](./CLARITY_CAPABILITY_CONTEXT.md) — R2L context and boundaries
 - [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD) — Architecture freeze
+- [readiness/README.md](./readiness/README.md) — Readiness pack (canonical); see also [readiness/readinessplan.md](./readiness/readinessplan.md)
 
 ---
 
-## Current Milestone: M17 ✅ CLOSED
+## Current Milestone: M18 ✅ CLOSED
+
+**Objective**: Readiness Charter & Authority Freeze — Establish the readiness program, canonical `docs/readiness/` pack, authority hierarchy, initial ledger and decisions, and M18–M24 roadmap in this ledger. **Readiness remains `NOT READY`.**
+
+**Tag**: not tagged (no git tag minted for M18 unless explicitly authorized later)
+
+**Details**: [M18_plan.md](./milestones/M18/M18_plan.md) | [M18_audit.md](./milestones/M18/M18_audit.md)
+
+**Deliverables**:
+- ✅ `docs/readiness/readinessplan.md`, `README.md`, `READINESS_LEDGER.md`, `READINESS_DECISIONS.md`
+- ✅ `docs/clarity.md` updated with readiness phase and M18–M24 rows
+- ✅ Lightweight guardrail: `backend/tests/test_readiness_pack.py`
+- ✅ M18_summary.md, M18_audit.md; M19 seeded
+
+---
+
+## Previous Milestone: M17 ✅ CLOSED
 
 **Objective**: Frontend ↔ Backend Connectivity Hardening — Resolve Netlify "Failed to fetch"; live demo fully interactive.
 
@@ -119,13 +169,6 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 **Details**: [M17_plan.md](./milestones/M17/M17_plan.md) | [M17_audit.md](./milestones/M17/M17_audit.md)
 
 **Notes**: getBaseUrl() single source of truth; VITE_API_BASE_URL canonical; CORS env-driven. Live validation confirmed.
-
-**Deliverables**:
-- ✅ CounterfactualConsole uses getBaseUrl() from api.ts
-- ✅ VITE_API_BASE_URL canonical; VITE_API_URL legacy/E2E only
-- ✅ netlify.toml / clarity.md env documented
-- ✅ OPTIONS + POST 200 from Netlify → Render; no CORS errors
-- ✅ M17_audit.md, M17_summary.md
 
 ---
 
@@ -224,6 +267,8 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M14 | `v0.0.15-m14` | `c4e61c6` | 5.0 | 2026-02-22 |
 | M15 | `v0.0.16-m15` | `0cb6e4e` | 5.0 | 2026-02-22 |
 | M16 | `v0.0.17-m16` | _[pending]_ | 5.0 | 2026-02-22 |
+| M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
+| M18 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
 
 ---
 
