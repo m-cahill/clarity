@@ -4,7 +4,7 @@
 **Phase:** Readiness (M18–M24)  
 **Milestone:** M23 — Consumer assumptions, compatibility matrix (truth table), transfer checklist  
 **Timeframe:** 2026-03-27  
-**Status:** Complete on branch `m23-supported-combination-truth-table` (awaiting merge to `main`)
+**Status:** **Closed** — merged to `main` as [PR #24](https://github.com/m-cahill/clarity/pull/24) (merge commit `4469b2c`; implementing head `b138d51`). Post-merge CI on `main` green.
 
 ---
 

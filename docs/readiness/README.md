@@ -74,7 +74,7 @@ If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for 
 
 **`NOT READY`**
 
-M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split; **M20** freezes outputs and deterministic serialization (see `CLARITY_ARTIFACT_CONTRACT.md`); **M21** freezes the canonical Python public surface (see `CLARITY_PUBLIC_SURFACE.md`); **M22** adds the operating manual and implementation-status matrix; **M23** adds consumer assumptions, the compatibility matrix (combination truth table), and transfer checklist. A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
+M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split; **M20** freezes outputs and deterministic serialization (see `CLARITY_ARTIFACT_CONTRACT.md`); **M21** freezes the canonical Python public surface (see `CLARITY_PUBLIC_SURFACE.md`); **M22** adds the operating manual and implementation-status matrix; **M23** adds consumer assumptions, the compatibility matrix (combination truth table), and transfer checklist (**closed** on `main`, [PR #24](https://github.com/m-cahill/clarity/pull/24)). A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
 
 ---
 

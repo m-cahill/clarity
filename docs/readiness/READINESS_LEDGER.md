@@ -12,8 +12,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 |-------|--------|
 | **Readiness** | **`NOT READY`** |
 | **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | M23 (current focus); M22 **closed** and merged to `main` |
-| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) delivered and merged ([PR #23](https://github.com/m-cahill/clarity/pull/23), merge `7f50bfc`). M23 delivers consumer assumptions, compatibility matrix (Supported / Unsupported / Unknown), and transfer checklist. M24 verdict still open. No final portability claim. |
+| **As-of milestone** | **M24** (current focus); **M23 closed** and merged to `main` |
+| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) merged ([PR #23](https://github.com/m-cahill/clarity/pull/23), `7f50bfc`). **M23** consumer kit merged ([PR #24](https://github.com/m-cahill/clarity/pull/24), merge `4469b2c` on `main`; post-merge CI green). **M24** verdict and scorecard still open. Readiness **`NOT READY`**. No final portability claim. |
 
 ---
 
@@ -26,8 +26,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze outputs, serialization, reproducibility | **Closed** |
 | **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | **Closed** |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | **Closed** |
-| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix (truth table), checklist | **Planned** (implementing on `m23-supported-combination-truth-table`; merge closes) |
-| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned |
+| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix (truth table), checklist | **Closed** ([PR #24](https://github.com/m-cahill/clarity/pull/24) → `main` `4469b2c`) |
+| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | **Planned** (current focus) |
 
 Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
