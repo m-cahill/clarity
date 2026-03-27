@@ -199,7 +199,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 
 **Objective**: Re-readiness upgrade — clear M24 conditions **C-M24-001..003**; mechanize manifest self-identification, doc/ledger sync, and readiness-plan authority; upgrade verdict if evidence supports.
 
-**Merge**: _[set to `main` merge commit at PR merge]_
+**Merge**: [PR #26](https://github.com/m-cahill/clarity/pull/26) merged to `main` as merge commit `3501e16985e76e1b47c0503f6ca044d9634db099` (`3501e16`).
 
 **Tag**: not tagged
 
@@ -430,7 +430,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M22 | not tagged | `7f50bfc` | 5.0 | 2026-03-27 |
 | M23 | not tagged | `4469b2c` | 5.0 | 2026-03-27 |
 | M24 | not tagged | `e1a6b54` | 5.0 | 2026-03-27 |
-| M25 | not tagged | _[set to `main` merge commit at PR merge]_ | 5.0 | 2026-03-27 |
+| M25 | not tagged | `3501e16` | 5.0 | 2026-03-27 |
 
 ---
 
