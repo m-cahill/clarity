@@ -65,6 +65,6 @@ Deliver the final readiness-program closeout: **scorecard**, **explicit verdict*
 
 ## 7. Follow-ups
 
-- Merge PR to `main`; update `docs/clarity.md` baseline M24 row with **`main`** merge commit SHA if it differs from branch head `06342aa`.  
+- Merge PR to `main`; set `docs/clarity.md` baseline M24 row to the **`main`** merge commit SHA.  
 - User sanity-check of draft scorecard/verdict before merge (per user instruction).  
 - Re-readiness review path documented in change control for any contract-affecting change.

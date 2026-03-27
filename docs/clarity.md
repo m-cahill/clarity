@@ -396,7 +396,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M22 | not tagged | `7f50bfc` | 5.0 | 2026-03-27 |
 | M23 | not tagged | `4469b2c` | 5.0 | 2026-03-27 |
-| M24 | not tagged | `06342aa` | 5.0 | 2026-03-26 |
+| M24 | not tagged | _[set to `main` merge commit at PR merge]_ | 5.0 | 2026-03-26 |
 
 ---
 

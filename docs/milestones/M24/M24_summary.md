@@ -4,7 +4,7 @@
 **Phase:** Readiness (M18–M24)  
 **Milestone:** M24 — Final audit, scorecard, explicit verdict, post-readiness change control  
 **Timeframe:** 2026-03-26  
-**Status:** **Closed** on branch `m24-readiness-scorecard-verdict` (merge to `main` via PR per workflow; baseline commit `06342aa` in `docs/clarity.md`)
+**Status:** **Closed** on branch `m24-readiness-scorecard-verdict` (merge to `main` via PR per workflow; update `docs/clarity.md` baseline M24 commit at merge)
 
 ---
 
