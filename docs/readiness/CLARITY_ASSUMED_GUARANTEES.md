@@ -59,7 +59,7 @@ These are **not** inherited; CLARITY must implement, test, and maintain them:
 | Full **artifact contract** (required vs optional files, float rules, hash participation) | **M20** — [`readinessplan.md`](./readinessplan.md) |
 | **Official public invocation surface** (CLI vs Python API for consumers) | **M21** |
 | **Operating manual + honest implementation matrix** | **M22** — [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md), [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md) |
-| **Consumer assumptions pack, compatibility matrix, transfer checklist** | **M23** |
+| **Consumer assumptions pack, compatibility matrix, transfer checklist** | **M23** — [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md), [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md), [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) |
 | **Final readiness scorecard and verdict** | **M24** |
 
 ---

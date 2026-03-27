@@ -65,7 +65,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | ✅ **Closed** | not tagged | 5.0 |
 | **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | ✅ **Closed** | not tagged | 5.0 |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | ✅ **Closed** | not tagged | 5.0 |
-| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix, transfer checklist | Planned | — | — |
+| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix (Supported / Unsupported / Unknown), transfer checklist | Planned | — | — |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
 
 ---
@@ -95,6 +95,9 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 - [`readiness/CLARITY_PUBLIC_SURFACE.md`](./readiness/CLARITY_PUBLIC_SURFACE.md) — Canonical Python consumer surface (**M21**)
 - [`readiness/CLARITY_OPERATING_MANUAL.md`](./readiness/CLARITY_OPERATING_MANUAL.md) — AI-agent / operator manual (**M22**)
 - [`readiness/CLARITY_IMPLEMENTATION_STATUS.md`](./readiness/CLARITY_IMPLEMENTATION_STATUS.md) — Implemented / Planned / Unknown matrix (**M22**)
+- [`readiness/CLARITY_CONSUMER_ASSUMPTIONS.md`](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Downstream assumptions (**M23**)
+- [`readiness/CLARITY_COMPATIBILITY_MATRIX.md`](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Combination truth table (**M23**)
+- [`readiness/CLARITY_TRANSFER_CHECKLIST.md`](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (**M23**)
 
 **Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
 
@@ -107,6 +110,8 @@ Later readiness milestones must update **`docs/clarity.md`** and the readiness p
 **M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`).
 
 **M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`). Readiness remains **`NOT READY`**; consumer kit (**M23**) and final portability verdict (**M24**) remain open.
+
+**M23 note:** Consumer assumptions, compatibility matrix (combination-level **Supported / Unsupported / Unknown**), and transfer checklist are delivered as `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, and `CLARITY_TRANSFER_CHECKLIST.md`, with `test_supported_combinations.py` guardrails. Readiness remains **`NOT READY`**.
 
 ---
 
@@ -161,24 +166,37 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [readiness/CLARITY_PUBLIC_SURFACE.md](./readiness/CLARITY_PUBLIC_SURFACE.md) — Public surface (M21)
 - [readiness/CLARITY_OPERATING_MANUAL.md](./readiness/CLARITY_OPERATING_MANUAL.md) — Operating manual (M22)
 - [readiness/CLARITY_IMPLEMENTATION_STATUS.md](./readiness/CLARITY_IMPLEMENTATION_STATUS.md) — Implementation status matrix (M22)
+- [readiness/CLARITY_CONSUMER_ASSUMPTIONS.md](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Consumer assumptions (M23)
+- [readiness/CLARITY_COMPATIBILITY_MATRIX.md](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Compatibility / combination matrix (M23)
+- [readiness/CLARITY_TRANSFER_CHECKLIST.md](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (M23)
 
 ---
 
-## Current Milestone: M22 ✅ CLOSED
+## Current Milestone: M23 (in progress on branch)
 
-**Objective**: Operating Manual & Honest Implementation Matrix — Produce an AI-agent-oriented operating manual grounded in frozen contracts and code truth, plus a table-driven **Implemented / Planned / Unknown** matrix; add M22 guardrail tests; update readiness pack and this ledger. **Readiness remains `NOT READY`.**
+**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist — per [`readiness/readinessplan.md`](./readiness/readinessplan.md) (M23). **Readiness remains `NOT READY`.**
 
-**Tag**: not tagged (no git tag minted for M22 unless explicitly authorized later)
+**Branch**: `m23-supported-combination-truth-table`
 
-**Details**: [M22_plan.md](./milestones/M22/M22_plan.md) | [M22_audit.md](./milestones/M22/M22_audit.md)
+**Tag**: not tagged by default (readiness track pattern unless explicitly authorized).
 
-**Deliverables**:
-- ✅ `docs/readiness/CLARITY_OPERATING_MANUAL.md`
-- ✅ `docs/readiness/CLARITY_IMPLEMENTATION_STATUS.md`
-- ✅ `docs/milestones/M22/M22_inventory.md` (milestone working note)
-- ✅ `docs/readiness/README.md`, `docs/readiness/READINESS_LEDGER.md`, `docs/clarity.md` (this file)
-- ✅ `backend/tests/test_m22_operating_manual.py`; `backend/tests/test_readiness_pack.py` (pack file list includes M22 docs)
-- ✅ M22_summary.md, M22_audit.md; M23 seeded
+**Details**: [M23_plan.md](./milestones/M23/M23_plan.md)
+
+**Deliverables**: `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `docs/milestones/M23/M23_inventory.md`, `backend/tests/test_supported_combinations.py`, pack and ledger updates.
+
+---
+
+## Previous Milestone: M22 ✅ CLOSED
+
+**Objective**: Operating Manual & Honest Implementation Matrix — AI-agent-oriented operating manual plus **Implemented / Planned / Unknown** matrix; M22 guardrail tests; pack and ledger updates. **Readiness remains `NOT READY`.**
+
+**Merge**: [PR #23](https://github.com/m-cahill/clarity/pull/23) merged to `main` as merge commit `7f50bfca66b45c4667c8eb347ac2286406be0578` (`7f50bfc`).
+
+**Tag**: not tagged
+
+**Details**: [M22_plan.md](./milestones/M22/M22_plan.md) | [M22_audit.md](./milestones/M22/M22_audit.md) | [M22_summary.md](./milestones/M22/M22_summary.md)
+
+**Deliverables** (summary): `CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`, `M22_inventory.md`, `test_m22_operating_manual.py`, pack/ledger updates, M23 stubs.
 
 ---
 
@@ -356,7 +374,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M19 | not tagged | `8187d62` | 5.0 | 2026-03-26 |
 | M20 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
-| M22 | not tagged | `bba0d3b` | 5.0 | 2026-03-26 |
+| M22 | not tagged | `7f50bfc` | 5.0 | 2026-03-27 |
 
 ---
 

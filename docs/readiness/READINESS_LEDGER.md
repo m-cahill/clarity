@@ -12,8 +12,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 |-------|--------|
 | **Readiness** | **`NOT READY`** |
 | **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | M22 |
-| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) delivered. Consumer kit (M23) and M24 verdict still open. No final portability claim. |
+| **As-of milestone** | M23 (current focus); M22 **closed** and merged to `main` |
+| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) delivered and merged ([PR #23](https://github.com/m-cahill/clarity/pull/23), merge `7f50bfc`). M23 delivers consumer assumptions, compatibility matrix (Supported / Unsupported / Unknown), and transfer checklist. M24 verdict still open. No final portability claim. |
 
 ---
 
@@ -26,7 +26,7 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze outputs, serialization, reproducibility | **Closed** |
 | **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | **Closed** |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | **Closed** |
-| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix, checklist | Planned |
+| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix (truth table), checklist | **Planned** (implementing on `m23-supported-combination-truth-table`; merge closes) |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned |
 
 Detailed scope: [`readinessplan.md`](./readinessplan.md).
@@ -47,9 +47,9 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) | Canonical Python consumer surface | **M21** |
 | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md) | Operator / AI-agent manual | **M22** |
 | [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md) | Honest status matrix | **M22** |
-| `CLARITY_CONSUMER_ASSUMPTIONS.md` | Consumer assumptions | M23 (planned) |
-| `CLARITY_COMPATIBILITY_MATRIX.md` | Compatibility matrix | M23 (planned) |
-| `CLARITY_TRANSFER_CHECKLIST.md` | Transfer checklist | M23 (planned) |
+| [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md) | Explicit downstream assumptions (M19–M22) | **M23** |
+| [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) | Combination truth table: Supported / Unsupported / Unknown | **M23** |
+| [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) | Adoption transfer checklist | **M23** |
 | `CLARITY_CHANGE_CONTROL.md` | Post-readiness change rules | M24 (planned) |
 | `CLARITY_READINESS_SCORECARD.md` | Final scorecard | M24 (planned) |
 
@@ -74,7 +74,8 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | M20 | Frozen artifact contract; semantic + hash guardrails | `CLARITY_ARTIFACT_CONTRACT.md`, `backend/tests/test_artifact_contract.py`, CI |
 | M21 | Frozen `app.clarity.public_surface`; smoke + export tests | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md), `backend/tests/test_public_surface_contract.py`, CI |
 | M22 | Operating manual + matrix; doc consistency tests | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md), [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md), `backend/tests/test_m22_operating_manual.py`, CI |
-| M23–M24 | Per `readinessplan.md` | TBD per milestone |
+| M23 | Consumer assumptions + compatibility matrix + transfer checklist + `test_supported_combinations.py` | `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `backend/tests/test_supported_combinations.py`, CI |
+| M24 | Per `readinessplan.md` | TBD |
 
 ---
 
