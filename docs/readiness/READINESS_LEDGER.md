@@ -12,8 +12,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 |-------|--------|
 | **Readiness** | **`NOT READY`** |
 | **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | M18 |
-| **Notes** | Charter and authority structure only; no portability claim. |
+| **As-of milestone** | M21 |
+| **Notes** | Consumer boundary (M19), artifact contract (M20), and canonical Python public surface (M21) frozen. Operating manual, consumer kit, and M24 verdict still open. No final portability claim. |
 
 ---
 
@@ -22,9 +22,9 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | ID | Title | Purpose (summary) | Ledger status |
 |----|-------|-------------------|----------------|
 | **M18** | Readiness Charter & Authority Freeze | Create `docs/readiness/`, authority hierarchy, ledger + decisions; update `docs/clarity.md` | **Closed** |
-| **M19** | Consumer Boundary Freeze | Freeze CLARITY↔R2L consumer boundary and inherited guarantees | Planned |
-| **M20** | Artifact Contract & Deterministic Output Freeze | Freeze outputs, serialization, reproducibility | Planned |
-| **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | Planned |
+| **M19** | Consumer Boundary Freeze | Freeze CLARITY↔R2L consumer boundary and inherited guarantees | **Closed** |
+| **M20** | Artifact Contract & Deterministic Output Freeze | Freeze outputs, serialization, reproducibility | **Closed** |
+| **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | **Closed** |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | Planned |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix, checklist | Planned |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned |
@@ -41,10 +41,10 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | [`README.md`](./README.md) | Pack front door, authority, reading order | M18 |
 | [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) | This ledger | M18 |
 | [`READINESS_DECISIONS.md`](./READINESS_DECISIONS.md) | ADR-style readiness decisions | M18 |
-| `CLARITY_BOUNDARY_CONTRACT.md` | Frozen consumer boundary | M19 (planned) |
-| `CLARITY_ASSUMED_GUARANTEES.md` | Inherited vs CLARITY-owned guarantees | M19 (planned) |
-| `CLARITY_ARTIFACT_CONTRACT.md` | Artifact contract | M20 (planned) |
-| `CLARITY_PUBLIC_SURFACE.md` | Invocation contract | M21 (planned) |
+| [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) | Frozen consumer boundary | **M19** |
+| [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) | Inherited vs CLARITY-owned guarantees | **M19** |
+| [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) | Artifact inventory, serialization, contract identity | **M20** |
+| [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) | Canonical Python consumer surface | **M21** |
 | `CLARITY_OPERATING_MANUAL.md` | Operator manual | M22 (planned) |
 | `CLARITY_IMPLEMENTATION_STATUS.md` | Honest status matrix | M22 (planned) |
 | `CLARITY_CONSUMER_ASSUMPTIONS.md` | Consumer assumptions | M23 (planned) |
@@ -59,17 +59,21 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
 | ID | Risk / issue | Mitigation / next step | Target |
 |----|----------------|------------------------|--------|
-| R-001 | Readiness docs could drift from code | Milestone updates to ledger + `docs/clarity.md`; tests per milestone | M19+ |
+| R-001 | Readiness docs could drift from code | Milestone updates to ledger + `docs/clarity.md`; tests per milestone | Ongoing |
 | R-002 | Dual location of plan (`docs/readinessplan.md` vs pack) | Canonical pack path documented in README; deprecate root copy only in a later milestone if desired | TBD |
+| R-003 | Multiple `sweep_manifest.json` schema families (orchestrator vs rich aggregate) | Documented in `CLARITY_ARTIFACT_CONTRACT.md` §6.1; consumers must not assume one shape | Accepted / monitored |
 
 ---
 
-## 6. Evidence map (placeholder)
+## 6. Evidence map
 
 | Milestone | Evidence type | Location / gate |
 |-----------|----------------|-----------------|
-| M18 | Pack exists; ledger updated; lightweight test | `docs/readiness/*`, `test_readiness_pack.py`, CI |
-| M19–M24 | Per `readinessplan.md` | TBD per milestone |
+| M18 | Pack exists; ledger updated; lightweight test | `docs/readiness/*`, `backend/tests/test_readiness_pack.py`, CI |
+| M19 | Frozen boundary + assumed guarantees; boundary tests | `CLARITY_BOUNDARY_CONTRACT.md`, `CLARITY_ASSUMED_GUARANTEES.md`, `backend/tests/test_boundary_contract.py` (incl. M19 section), CI |
+| M20 | Frozen artifact contract; semantic + hash guardrails | `CLARITY_ARTIFACT_CONTRACT.md`, `backend/tests/test_artifact_contract.py`, CI |
+| M21 | Frozen `app.clarity.public_surface`; smoke + export tests | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md), `backend/tests/test_public_surface_contract.py`, CI |
+| M22–M24 | Per `readinessplan.md` | TBD per milestone |
 
 ---
 
