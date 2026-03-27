@@ -65,16 +65,19 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | ✅ **Closed** | not tagged | 5.0 |
 | **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | ✅ **Closed** | not tagged | 5.0 |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | ✅ **Closed** | not tagged | 5.0 |
-| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix (Supported / Unsupported / Unknown), transfer checklist | Planned | — | — |
-| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
+| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix (Supported / Unsupported / Unknown), transfer checklist | ✅ **Closed** | not tagged | 5.0 |
+| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | ✅ **Closed** | not tagged | 5.0 |
+| **M25** | Re-readiness upgrade | Clear M24 conditions; upgrade verdict if evidence supports | ✅ **Closed** | not tagged | 5.0 |
 
 ---
 
-## Readiness phase (M18–M24)
+## Readiness phase (M18–M24) and M25 re-readiness
 
-**Readiness status:** **`NOT READY`**
+**Readiness status:** **`READY FOR DOWNSTREAM ADOPTION`**
 
-The **readiness phase** (milestones **M18–M24**) is a governed execution track whose purpose is to make CLARITY **portable, governable, test-enforced, and legible** for safe use by a **consumer project** or **external repository**, with clear contracts and evidence. It does **not** add new model features, redesign the MedGemma evaluation path for capability, or perform downstream-specific integration work.
+The **readiness program** (milestones **M18–M24**) is a governed execution track whose purpose is to make CLARITY **portable, governable, test-enforced, and legible** for safe use by a **consumer project** or **external repository**, with clear contracts and evidence. It does **not** add new model features, redesign the MedGemma evaluation path for capability, or perform downstream-specific integration work.
+
+**M24** on `main` @ `e1a6b54` recorded **`CONDITIONALLY READY`** with conditions **C-M24-001..003**. **M25** re-readiness cleared those conditions; the current verdict is **`READY FOR DOWNSTREAM ADOPTION`** — see [`readiness/CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md) §8–§10, [`readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md). Post-readiness change rules: [`readiness/CLARITY_CHANGE_CONTROL.md`](./readiness/CLARITY_CHANGE_CONTROL.md). Aggregate guardrails: `backend/tests/test_m24_readiness_verdict.py`, `backend/tests/test_m25_readiness_upgrade.py`.
 
 **Authority (readiness):**
 
@@ -98,8 +101,11 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 - [`readiness/CLARITY_CONSUMER_ASSUMPTIONS.md`](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Downstream assumptions (**M23**)
 - [`readiness/CLARITY_COMPATIBILITY_MATRIX.md`](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Combination truth table (**M23**)
 - [`readiness/CLARITY_TRANSFER_CHECKLIST.md`](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (**M23**)
+- [`readiness/CLARITY_CHANGE_CONTROL.md`](./readiness/CLARITY_CHANGE_CONTROL.md) — Post-readiness change control (**M24**)
+- [`readiness/CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md) — Scorecard and portability verdict (**M24**; **M25** supersession)
+- [`readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md) — M25 re-readiness evidence (**M25**)
 
-**Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
+**Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root is a **redirect stub** only; the **canonical** program text is **`docs/readiness/readinessplan.md`** (pack). Do not duplicate substantive plan content at the root path.
 
 Later readiness milestones must update **`docs/clarity.md`** and the readiness pack **whenever** readiness status or frozen documents change.
 
@@ -109,9 +115,13 @@ Later readiness milestones must update **`docs/clarity.md`** and the readiness p
 
 **M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`).
 
-**M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`). Readiness remains **`NOT READY`**; consumer kit (**M23**) and final portability verdict (**M24**) remain open.
+**M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`).
 
-**M23 note:** Consumer assumptions, compatibility matrix (combination-level **Supported / Unsupported / Unknown**), and transfer checklist are delivered as `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, and `CLARITY_TRANSFER_CHECKLIST.md`, with `test_supported_combinations.py` guardrails. Readiness remains **`NOT READY`**.
+**M23 note:** Consumer assumptions, compatibility matrix (combination-level **Supported / Unsupported / Unknown**), and transfer checklist are delivered as `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, and `CLARITY_TRANSFER_CHECKLIST.md`, with `test_supported_combinations.py` guardrails. Merged to `main` as [PR #24](https://github.com/m-cahill/clarity/pull/24) (merge commit `4469b2c`). Post-merge CI on `main` green (workflows `23631336064`, `23631336105`).
+
+**M24 note:** Final scorecard ([`CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md)), change control ([`CLARITY_CHANGE_CONTROL.md`](./readiness/CLARITY_CHANGE_CONTROL.md)), evidence inventory ([`milestones/M24/M24_inventory.md`](./milestones/M24/M24_inventory.md)), and `test_m24_readiness_verdict.py`. **Recorded verdict at merge:** **`CONDITIONALLY READY`** — see [`milestones/M24/M24_summary.md`](./milestones/M24/M24_summary.md).
+
+**M25 note:** Re-readiness upgrade — [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md), `manifest_schema_family` + `app/clarity/manifest_schema_family.py`, `test_m25_readiness_upgrade.py`, readiness-plan redirect. **Current verdict:** **`READY FOR DOWNSTREAM ADOPTION`** (see scorecard §8).
 
 ---
 
@@ -169,20 +179,63 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [readiness/CLARITY_CONSUMER_ASSUMPTIONS.md](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Consumer assumptions (M23)
 - [readiness/CLARITY_COMPATIBILITY_MATRIX.md](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Compatibility / combination matrix (M23)
 - [readiness/CLARITY_TRANSFER_CHECKLIST.md](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (M23)
+- [readiness/CLARITY_CHANGE_CONTROL.md](./readiness/CLARITY_CHANGE_CONTROL.md) — Post-readiness change control (M24)
+- [readiness/CLARITY_READINESS_SCORECARD.md](./readiness/CLARITY_READINESS_SCORECARD.md) — Readiness scorecard and verdict (M24; M25)
+- [readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md](./readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md) — M25 re-readiness addendum
 
 ---
 
-## Current Milestone: M23 (in progress on branch)
+## Readiness program: M18–M24 **complete**; M25 re-readiness **closed**
 
-**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist — per [`readiness/readinessplan.md`](./readiness/readinessplan.md) (M23). **Readiness remains `NOT READY`.**
+**Current portability verdict:** **`READY FOR DOWNSTREAM ADOPTION`** — see [`readiness/CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md) §8 and [`readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./readiness/CLARITY_READINESS_REVIEW_ADDENDUM_M25.md). M24’s **`CONDITIONALLY READY`** conditions are **cleared** by M25 evidence. **Tag:** not tagged by default (readiness track pattern unless explicitly authorized).
 
-**Branch**: `m23-supported-combination-truth-table`
+**Working branch (M25):** `m25-re-readiness-upgrade`
 
-**Tag**: not tagged by default (readiness track pattern unless explicitly authorized).
+**Details**: [M25_plan.md](./milestones/M25/M25_plan.md) | [M25_summary.md](./milestones/M25/M25_summary.md) | [M25_audit.md](./milestones/M25/M25_audit.md)
 
-**Details**: [M23_plan.md](./milestones/M23/M23_plan.md)
+---
 
-**Deliverables**: `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `docs/milestones/M23/M23_inventory.md`, `backend/tests/test_supported_combinations.py`, pack and ledger updates.
+## Previous Milestone: M25 ✅ CLOSED
+
+**Objective**: Re-readiness upgrade — clear M24 conditions **C-M24-001..003**; mechanize manifest self-identification, doc/ledger sync, and readiness-plan authority; upgrade verdict if evidence supports.
+
+**Merge**: _[set to `main` merge commit at PR merge]_
+
+**Tag**: not tagged
+
+**Details**: [M25_plan.md](./milestones/M25/M25_plan.md) | [M25_audit.md](./milestones/M25/M25_audit.md) | [M25_summary.md](./milestones/M25/M25_summary.md)
+
+**Deliverables** (summary): `CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`, `manifest_schema_family.py`, `test_m25_readiness_upgrade.py`, `docs/readinessplan.md` redirect stub, pack and `docs/clarity.md` updates.
+
+---
+
+## Previous Milestone: M24 ✅ CLOSED
+
+**Objective**: Readiness Audit, Scorecard & Portability Verdict — final scorecard, **`CONDITIONALLY READY`** verdict, post-readiness change control, aggregate guardrail tests, ledger and pack alignment.
+
+**Merge**: Integrated into `main` at `e1a6b540e4dc7dd148f7e0e833088448e0a368c8` (`e1a6b54`) (fast-forward from `4469b2c`).
+
+**Tag**: not tagged
+
+**Details**: [M24_plan.md](./milestones/M24/M24_plan.md) | [M24_audit.md](./milestones/M24/M24_audit.md) | [M24_summary.md](./milestones/M24/M24_summary.md)
+
+**Deliverables** (summary): `CLARITY_READINESS_SCORECARD.md`, `CLARITY_CHANGE_CONTROL.md`, `M24_inventory.md`, `test_m24_readiness_verdict.py`, ledger and `docs/clarity.md` updates.
+
+---
+
+## Previous Milestone: M23 ✅ CLOSED
+
+**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist. *(At M23 close, M24 verdict was still pending.)*
+
+**Merge**: [PR #24](https://github.com/m-cahill/clarity/pull/24) merged to `main` as merge commit `4469b2c7715d67387d08c21956acc73206bb53f0` (`4469b2c`). PR head implementing M23: `b138d51`.
+
+**Tag**: not tagged
+
+**Post-merge CI (`main` @ `4469b2c`):** CI workflow run `23631336064`, Deploy workflow run `23631336105` — **success**.
+
+**Details**: [M23_plan.md](./milestones/M23/M23_plan.md) | [M23_audit.md](./milestones/M23/M23_audit.md) | [M23_summary.md](./milestones/M23/M23_summary.md)
+
+**Deliverables** (summary): `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `M23_inventory.md`, `test_supported_combinations.py`, pack/ledger updates, M24 stubs.
 
 ---
 
@@ -375,6 +428,9 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M20 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M22 | not tagged | `7f50bfc` | 5.0 | 2026-03-27 |
+| M23 | not tagged | `4469b2c` | 5.0 | 2026-03-27 |
+| M24 | not tagged | `e1a6b54` | 5.0 | 2026-03-27 |
+| M25 | not tagged | _[set to `main` merge commit at PR merge]_ | 5.0 | 2026-03-27 |
 
 ---
 

@@ -73,11 +73,21 @@ def test_implementation_status_public_surface_row() -> None:
     ), "expected Matrix A row: public surface Implemented with CLARITY_PUBLIC_SURFACE.md owner"
 
 
-def test_implementation_status_portability_not_claimed_implemented() -> None:
-    """M22 does not claim M24 verdict."""
+def test_implementation_status_portability_verdict_row() -> None:
+    """M24: portability verdict and scorecard rows reference delivered scorecard."""
     text = STATUS_PATH.read_text(encoding="utf-8")
-    # Scorecard row should be Planned, not Implemented as final verdict
-    assert "NOT READY" in text or "Planned" in text
+    assert "Portability verdict" in text
+    assert "CLARITY_READINESS_SCORECARD" in text
+    assert re.search(
+        r"\|\s*\*\*Portability verdict\*\*.*?\|\s*\*\*Implemented\*\*",
+        text,
+        flags=re.DOTALL,
+    ), "expected Matrix C: Portability verdict Implemented with scorecard owner"
+    assert re.search(
+        r"\*\*Readiness scorecard / change control\*\*.*?\|\s*\*\*Implemented\*\*",
+        text,
+        flags=re.DOTALL,
+    ), "expected Matrix C: scorecard/change control Implemented"
 
 
 def test_no_placeholder_sections_as_current_behavior() -> None:

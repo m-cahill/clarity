@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M23 — Consumer assumptions, compatibility matrix & transfer checklist |
 | **Authority** | Operational checklist for a **consumer project** adopting CLARITY; subordinate to frozen contracts and [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 
@@ -68,7 +68,7 @@ This checklist turns [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSU
 - [ ] Do **not** treat **demo HTTP** routes as your stable integration surface (matrix **C-007**).
 - [ ] Do **not** widen **`app.clarity.public_surface`** exports without a governance milestone.
 - [ ] Do **not** assume **orchestrator-only** runs satisfy **full-bundle** expectations.
-- [ ] Do **not** claim **readiness** or **portability verdict** — that is **M24** ([`READINESS_LEDGER.md`](./READINESS_LEDGER.md)).
+- [ ] Do **not** redefine or overstate the **recorded** readiness verdict; authoritative verdict and conditions are in [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) and [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) §7.
 
 ---
 

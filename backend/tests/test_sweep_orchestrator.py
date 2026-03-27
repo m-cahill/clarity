@@ -20,6 +20,7 @@ from typing import Any
 
 import pytest
 
+from app.clarity.manifest_schema_family import FAMILY_SWEEP_ORCHESTRATOR_V1, parse_manifest_schema_family
 from app.clarity.r2l_runner import R2LRunner
 from app.clarity.sweep_models import SweepAxis, SweepConfig
 from app.clarity.sweep_orchestrator import (
@@ -590,6 +591,7 @@ class TestSweepManifest:
         assert "contrast" in manifest["axes"]
         assert manifest["axes"]["brightness"] == [0.8, 1.0]
         assert manifest["axes"]["contrast"] == [0.9, 1.1]
+        assert parse_manifest_schema_family(manifest) == FAMILY_SWEEP_ORCHESTRATOR_V1
 
     def test_manifest_contains_seeds(
         self,

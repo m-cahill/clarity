@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M20 — Artifact Contract & Deterministic Output Freeze |
 | **Authority** | Canonical **readiness-pack** contract for CLARITY-written artifacts (alongside [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) for namespace rules) |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 
@@ -79,12 +79,16 @@ The following may appear depending on **mode, pipeline, and configuration**. The
 
 ### 6.1 `sweep_manifest.json`
 
-**Two schema families exist in this repository (same filename):**
+**Self-identification (M25):** Every CLARITY-written `sweep_manifest.json` in this repository includes a top-level string field **`manifest_schema_family`** with one of these **canonical** values:
 
-1. **Orchestrator manifest** (`SweepOrchestrator._write_sweep_manifest`): top-level keys include **`axes`**, **`seeds`**, **`runs`**. Each run entry includes **`axis_values`**, **`seed`**, **`manifest_hash`**. Axis names in `axes` are sorted when written.
-2. **Rich aggregate manifest** (e.g. M15 script / `m15_real_ui` fixture): includes keys such as **`sweep_id`**, **`model_id`**, **`axes`**, **`seeds`**, **`results`**, **`rich_mode`**, and optional **`vram_usage`**, **`image_path`**, **`prompt`**. This is a **larger** ledger for validation and UI.
+| Value | Producer / meaning |
+|-------|---------------------|
+| **`clarity_sweep_orchestrator_v1`** | `SweepOrchestrator._write_sweep_manifest` — ledger with **`axes`**, **`seeds`**, **`runs`**; each run has **`axis_values`**, **`seed`**, **`manifest_hash`**. Axis names in `axes` are sorted when written. |
+| **`clarity_rich_aggregate_v1`** | Rich / validation aggregate scripts (e.g. M13/M15-style) — larger ledgers with **`results`** and optional **`sweep_id`**, **`model_id`**, **`axes`**, **`rich_mode`**, **`vram_usage`**, **`image_path`**, **`prompt`**, etc. |
 
-Consumers must **not** assume one fixed schema for every `sweep_manifest.json` without knowing the producer. For **M20**, the **frozen** rule is: **documented producers** above define the allowed shapes; unknown keys should be **additive** unless a breaking change is announced.
+**Downstream rule:** Read **`manifest_schema_family`** first to select parsing logic. Constants and helpers live in `app/clarity/manifest_schema_family.py` (`parse_manifest_schema_family`, `classify_sweep_manifest_json`). For manifests **without** a valid token (legacy bundles), `classify_sweep_manifest_json` applies a **documented legacy heuristic**; new outputs must always emit the field.
+
+Unknown keys remain **additive** unless a breaking change is announced.
 
 ### 6.2 `robustness_surface.json`
 
@@ -124,6 +128,7 @@ Consumers must **not** assume one fixed schema for every `sweep_manifest.json` w
 ### 8.2 `SweepOrchestrator` manifest
 
 - Uses **`json.dump(..., sort_keys=True, indent=2)`** — default **`json`** float behavior (shortest round-trippable repr).
+- Includes **`manifest_schema_family`** = **`clarity_sweep_orchestrator_v1`** (see §6.1).
 
 ### 8.3 Surface engine numeric storage
 

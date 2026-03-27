@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M23 — Consumer assumptions, compatibility matrix & transfer checklist |
 | **Authority** | Canonical **combination-level** truth for this repository: which **invocation × mode × output × context** combinations are **Supported**, **Unsupported**, or **Unknown** under the evidence rules below |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 
@@ -44,7 +44,7 @@ It uses the same honesty taxonomy as [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLAR
 |------|-------------------|
 | **Invocation surface** | **A** — `app.clarity.public_surface` (canonical). **B** — `app.clarity` package root (non–`public_surface`). **C** — HTTP API / FastAPI routes. |
 | **Execution mode** | **Canonical** — documented sweep + fake/synthetic R2L as in CI tests. **Rich** — `CLARITY_RICH_MODE` truthy. **Real model** — `CLARITY_REAL_MODEL` where applicable. |
-| **Output expectation** | **Orchestrator-only** — `clarity/sweep_manifest.json` (orchestrator schema family). **Full bundle** — three required JSON files per artifact contract §3. **Presentation** — PDFs / plots (presentation-only). |
+| **Output expectation** | **Orchestrator-only** — `clarity/sweep_manifest.json` with `manifest_schema_family: clarity_sweep_orchestrator_v1`. **Full bundle** — three required JSON files per artifact contract §3 (rich aggregate uses `clarity_rich_aggregate_v1`). **Presentation** — PDFs / plots (presentation-only). |
 | **Operating context** | **Local dev / CI** — tests and scripts in-repo. **Readiness contract** — consumer path via `public_surface` + contracts. **Demo / cloud** — deployment described in `docs/clarity.md`; no GPU in cloud demo. |
 
 ---
@@ -62,7 +62,7 @@ It uses the same honesty taxonomy as [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLAR
 | C-007 | C (HTTP / FastAPI) | Any | Any | Demo / operational | **Unsupported** | `CLARITY_PUBLIC_SURFACE.md` §3 (HTTP **non-canonical** for readiness); `test_demo_router.py` (operational tests only) | **Do not** adopt route shapes as stable external API. | `CLARITY_PUBLIC_SURFACE.md` |
 | C-008 | A | Canonical | Presentation-only (PDF/PNG) | CI / report pipeline | **Supported** | `test_report_determinism.py`; `CLARITY_ARTIFACT_CONTRACT.md` §5 | Presentation-only; not bundle identity. | `CLARITY_ARTIFACT_CONTRACT.md` §5 |
 | C-009 | A | Canonical | Orchestrator-only | Demo / cloud | **Unknown** | No readiness evidence that cloud demo runs full `R2LRunner` + `SweepOrchestrator` with consumer config | Demo uses synthetic/precomputed artifacts per `docs/clarity.md`; not a substitute for local validation. | `docs/clarity.md` — M10.5 / demo notes |
-| C-010 | A | Rich | Orchestrator-only | Local dev / CI | **Unknown** | Rich mode affects downstream pipelines; orchestrator manifest schema family may differ from rich aggregate (see §6.1 two families) | Classify producer before parsing `sweep_manifest.json`. | `CLARITY_ARTIFACT_CONTRACT.md` §6.1 |
+| C-010 | A | Rich | Orchestrator-only | Local dev / CI | **Unknown** | Rich mode affects downstream pipelines; manifests are self-identifying via `manifest_schema_family` (see artifact contract §6.1) | **Unknown** reflects mode/product interaction, not manual producer-family guessing. | `CLARITY_ARTIFACT_CONTRACT.md` §6.1 |
 | C-011 | A | Canonical | Full bundle | Demo / cloud | **Unknown** | No governed CI path for full bundle in cloud | Same as C-009. | `docs/clarity.md` |
 | C-012 | Internal modules (not `public_surface`) | Canonical | Full bundle | Local dev | **Unknown** | `CLARITY_IMPLEMENTATION_STATUS.md` — metrics/surface **implemented** in code, but **not** a sanctioned consumer import path | Use **public_surface** entrypoints for adoption; internal imports are **Unsupported** for portability. | `CLARITY_PUBLIC_SURFACE.md` §5 |
 
@@ -81,20 +81,19 @@ It uses the same honesty taxonomy as [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLAR
 - **Package-root** imports as portability (**C-006**).
 - **Orchestrator-only** runs as automatically satisfying **full-bundle** semantics (**C-001** vs **C-003**).
 
-**What remains unresolved heading into M24**
+**What remains unresolved (post–M25)**
 
 - **Rich / real-model / GPU** combinations without a single CI-governed matrix for every consumer environment (**C-005**, **C-010**).
 - **Demo / cloud** vs **local** full-bundle evidence (**C-009**, **C-011**).
-- Final **portability verdict** and change-control closure (**M24**).
 
 ---
 
-## 6. Known gaps (for M24)
+## 6. Known gaps
 
 | Gap | Why it matters |
 |-----|----------------|
-| Cross-product **rich × real × full bundle** not fully enumerated in CI | **Unknown** rows remain; M24 may tighten or defer. |
-| Single JSON Schema for all `sweep_manifest.json` producers | **Deferred** per artifact contract §12; consumers must know producer. |
+| Cross-product **rich × real × full bundle** not fully enumerated in CI | **Unknown** rows remain. |
+| Single JSON Schema file for all `sweep_manifest.json` shapes | **Deferred** per artifact contract §6.4; `manifest_schema_family` disambiguates producers. |
 | Semver / cross-repo version matrix | **Planned** for governance; not claimed in M23. |
 
 ---

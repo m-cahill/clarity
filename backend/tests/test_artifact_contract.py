@@ -13,6 +13,12 @@ from pathlib import Path
 
 import pytest
 
+from app.clarity.manifest_schema_family import (
+    FAMILY_RICH_AGGREGATE_V1,
+    FAMILY_SWEEP_ORCHESTRATOR_V1,
+    classify_sweep_manifest_json,
+    parse_manifest_schema_family,
+)
 from app.clarity.surfaces import _round8
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -23,7 +29,7 @@ M15_FIXTURE_DIR = (
 # LF-normalized UTF-8 bytes — stable-hash evidence for the frozen bundle (M20).
 # Normalize newlines so CI (LF) and Windows checkouts (CRLF) agree.
 M15_SHA256 = {
-    "sweep_manifest.json": "e3f355b60133587868494d553bdac3e787202550e3b4b1ebe9421f20b8a42e71",
+    "sweep_manifest.json": "77fe0350d8149b3f5d1b9935bed92ad9b170511fc0642f1c2b1ef9209841a754",
     "robustness_surface.json": "5b6b2e7f4ba49c16963187318682950814b50995db8a465b4c01a26b438ee62e",
     "monte_carlo_stats.json": "07d7aeff944138674ca51a3a9a370dbceaf1806fcc90ac846ad94115fd3aa786",
 }
@@ -114,6 +120,28 @@ def test_sweep_manifest_m15_rich_shape_keys() -> None:
         assert key in data
     assert data["results"], "results must be non-empty for this fixture"
     assert isinstance(data["axes"], dict)
+    assert parse_manifest_schema_family(data) == FAMILY_RICH_AGGREGATE_V1
+    assert classify_sweep_manifest_json(data) == FAMILY_RICH_AGGREGATE_V1
+
+
+def test_sweep_manifest_explicit_family_requires_no_heuristic_guess() -> None:
+    """Downstream path: machine token selects parse family (M25 / artifact contract §6.1)."""
+    orch = {
+        "axes": {"b": [1.0]},
+        "manifest_schema_family": FAMILY_SWEEP_ORCHESTRATOR_V1,
+        "seeds": [42],
+        "runs": [],
+    }
+    rich = {
+        "manifest_schema_family": FAMILY_RICH_AGGREGATE_V1,
+        "results": [],
+        "seeds": [42],
+        "sweep_id": "x",
+    }
+    assert parse_manifest_schema_family(orch) == FAMILY_SWEEP_ORCHESTRATOR_V1
+    assert parse_manifest_schema_family(rich) == FAMILY_RICH_AGGREGATE_V1
+    assert classify_sweep_manifest_json(orch) == FAMILY_SWEEP_ORCHESTRATOR_V1
+    assert classify_sweep_manifest_json(rich) == FAMILY_RICH_AGGREGATE_V1
 
 
 def test_surface_engine_round8_matches_documented_rule() -> None:

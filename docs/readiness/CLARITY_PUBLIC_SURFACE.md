@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M21 — Public Surface & Invocation Contract |
 | **Authority** | Canonical readiness-pack document for **how** a consumer project may invoke CLARITY safely |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 

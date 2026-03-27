@@ -29,6 +29,10 @@ from pathlib import Path
 from typing import Any
 
 from app.clarity.artifact_loader import hash_artifact
+from app.clarity.manifest_schema_family import (
+    FAMILY_SWEEP_ORCHESTRATOR_V1,
+    MANIFEST_SCHEMA_FAMILY,
+)
 from app.clarity.r2l_runner import R2LRunner
 from app.clarity.sweep_models import (
     SweepConfig,
@@ -368,6 +372,7 @@ class SweepOrchestrator:
         # Build manifest
         manifest: dict[str, Any] = {
             "axes": axes_dict,
+            MANIFEST_SCHEMA_FAMILY: FAMILY_SWEEP_ORCHESTRATOR_V1,
             "seeds": list(config.seeds),
             "runs": runs_list,
         }

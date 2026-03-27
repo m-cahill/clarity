@@ -12,6 +12,7 @@
     ]
   },
   "image_path": "tests\\fixtures\\baselines\\clinical_sample_01.png",
+  "manifest_schema_family": "clarity_rich_aggregate_v1",
   "model_id": "google/medgemma-4b-it",
   "prompt": "Analyze this medical image for any anomalies.",
   "results": [

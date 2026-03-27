@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M23 — Consumer assumptions, compatibility matrix & transfer checklist |
 | **Authority** | Readiness-pack document: **what a consumer project may treat as proven** after M19–M22, **without** widening the M21 public surface or M21/M20 contracts |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 
