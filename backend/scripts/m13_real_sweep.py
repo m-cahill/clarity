@@ -10,6 +10,7 @@ from pathlib import Path
 
 from PIL import Image
 
+from app.clarity.manifest_schema_family import FAMILY_RICH_AGGREGATE_V1, MANIFEST_SCHEMA_FAMILY
 from app.clarity.medgemma_runner import MedGemmaRunner
 
 
@@ -63,6 +64,7 @@ def main() -> None:
         "sweep_id": "m13-real-sweep-verification",
         "model_id": runner.model_id,
         "image_path": str(image_path),
+        MANIFEST_SCHEMA_FAMILY: FAMILY_RICH_AGGREGATE_V1,
         "prompt": prompt,
         "seeds": seeds,
         "results": results,

@@ -10,14 +10,14 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 
 | Field | Value |
 |-------|--------|
-| **Readiness** | **`CONDITIONALLY READY`** |
-| **Phase** | Readiness (M18–M24) — **program complete** |
-| **As-of milestone** | **M24** — **closed** (final audit, scorecard, change control) |
-| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22), consumer kit (M23) merged previously. **M24** delivers [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) and [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md); aggregate test `test_m24_readiness_verdict.py`. **Verdict:** **`CONDITIONALLY READY`** — see scorecard §8–§9 for conditions. |
+| **Readiness** | **`READY FOR DOWNSTREAM ADOPTION`** |
+| **Phase** | Readiness program (M18–M24) **complete**; **M25** re-readiness upgrade **closed** |
+| **As-of milestone** | **M25** — re-readiness review (supersedes M24 conditional verdict — see scorecard + addendum) |
+| **Notes** | M24 delivered scorecard and change control on `main` @ `e1a6b54`. **M25** clears M24 conditions **C-M24-001..003** via `manifest_schema_family`, CI doc-sync checks, readiness-plan redirect stub; [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md). Aggregate tests: `test_m24_readiness_verdict.py`, `test_m25_readiness_upgrade.py`. |
 
 ---
 
-## 3. Milestone roadmap (M18–M24)
+## 3. Milestone roadmap (M18–M24 + M25)
 
 | ID | Title | Purpose (summary) | Ledger status |
 |----|-------|-------------------|----------------|
@@ -27,7 +27,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | **Closed** |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | **Closed** |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix (truth table), checklist | **Closed** ([PR #24](https://github.com/m-cahill/clarity/pull/24) → `main` `4469b2c`) |
-| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | **Closed** |
+| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | **Closed** (merged `main` @ `e1a6b54`) |
+| **M25** | Re-readiness upgrade | Clear M24 conditions; upgrade verdict if evidence supports | **Closed** |
 
 Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
@@ -51,7 +52,8 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) | Combination truth table: Supported / Unsupported / Unknown | **M23** |
 | [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) | Adoption transfer checklist | **M23** |
 | [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md) | Post-readiness change rules | **M24** |
-| [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) | Final scorecard and verdict | **M24** |
+| [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) | Scorecard and portability verdict | **M24** (M25 supersession) |
+| [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md) | M25 re-readiness evidence and M24 supersession | **M25** |
 
 ---
 
@@ -59,11 +61,11 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
 | ID | Risk / issue | Mitigation / next step | Target |
 |----|----------------|------------------------|--------|
-| R-001 | Readiness docs could drift from code | Milestone updates to ledger + `docs/clarity.md`; tests per milestone; **C-M24-002** in scorecard | Ongoing |
-| R-002 | Dual location of plan (`docs/readinessplan.md` vs pack) | Canonical pack path documented in README; **C-M24-003** in scorecard | TBD |
-| R-003 | Multiple `sweep_manifest.json` schema families (orchestrator vs rich aggregate) | Documented in `CLARITY_ARTIFACT_CONTRACT.md` §6.1; **C-M24-001** in scorecard | Accepted / monitored |
+| R-001 | Readiness docs could drift from code | **M25:** `test_m25_readiness_upgrade.py` + change-control discipline | Ongoing |
+| R-002 | Dual location of plan | **M25:** root `docs/readinessplan.md` is redirect stub only | **Mitigated** |
+| R-003 | Multiple `sweep_manifest.json` shapes | **M25:** `manifest_schema_family` + `manifest_schema_family.py` | **Mitigated** |
 
-**M24 evaluation:** R-001–R-003 are **non-blockers** for an unconditional **`READY FOR DOWNSTREAM ADOPTION`** claim; they **are** conditions of the **`CONDITIONALLY READY`** verdict (see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)).
+**M25 evaluation:** R-001–R-003 are **no longer** standing **consumer adoption conditions**; the recorded verdict is **`READY FOR DOWNSTREAM ADOPTION`** (see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)).
 
 ---
 
@@ -78,15 +80,16 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | M22 | Operating manual + matrix; doc consistency tests | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md), [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md), `backend/tests/test_m22_operating_manual.py`, CI |
 | M23 | Consumer assumptions + compatibility matrix + transfer checklist + `test_supported_combinations.py` | `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `backend/tests/test_supported_combinations.py`, CI |
 | M24 | Scorecard + change control + aggregate verdict test | `CLARITY_READINESS_SCORECARD.md`, `CLARITY_CHANGE_CONTROL.md`, `backend/tests/test_m24_readiness_verdict.py`, CI |
+| M25 | Re-readiness addendum + manifest family + pack sync + plan stub | `CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`, `app/clarity/manifest_schema_family.py`, `backend/tests/test_m25_readiness_upgrade.py`, CI |
 
 ---
 
 ## 7. Final verdict
 
-**Verdict:** **`CONDITIONALLY READY`**
+**Verdict:** **`READY FOR DOWNSTREAM ADOPTION`**
 
 **Allowed verdicts (per plan):** `READY FOR DOWNSTREAM ADOPTION` | `CONDITIONALLY READY` | `NOT READY`
 
-**Authoritative detail:** [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) §8–§9 (explicit verdict and conditions).
+**Authoritative detail:** [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) §8 (explicit verdict); M24 history and §9–§10 supersession.
 
 **Post-readiness governance:** [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md).

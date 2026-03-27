@@ -198,3 +198,16 @@ Running log of **readiness-phase** decisions only. Broader project decisions rem
 | **Decision** | M24 records **`CONDITIONALLY READY`** in [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md): adoption is safe **if** consumers follow the frozen pack and **conditions** C-M24-001..003 (manifest producer classification, doc/ledger sync, canonical plan path). |
 | **Rationale** | R-001–R-003 are non-blockers for documentation but impose residual obligations; two `sweep_manifest.json` schema families are explicit in the artifact contract but require consumer discipline. |
 | **Consequences** | **`READY FOR DOWNSTREAM ADOPTION`** is **not** claimed without qualification. Re-readiness and [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md) apply to contract-affecting changes. |
+
+---
+
+## RD-016 — M25 re-readiness: `READY FOR DOWNSTREAM ADOPTION`
+
+| Field | Value |
+|-------|--------|
+| **Status** | Accepted |
+| **Date / milestone** | M25 |
+| **Context** | M24 [`RD-015`](#rd-015--m24-portability-verdict-conditionally-ready) conditions **C-M24-001..003** were intended to be clearable via re-readiness without new feature scope. |
+| **Decision** | M25 clears those conditions: **`manifest_schema_family`** self-identifies `sweep_manifest.json` producers; **CI tests** enforce readiness-pack / verdict alignment; **root `docs/readinessplan.md`** is a redirect stub to the canonical pack plan. The recorded verdict is updated to **`READY FOR DOWNSTREAM ADOPTION`** in [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), superseding the conditional M24 claim. |
+| **Rationale** | Residual consumer obligations described in M24 are removed by small contract-mechanization and path hygiene, with test evidence (`test_m25_readiness_upgrade.py`, `test_artifact_contract.py`). |
+| **Consequences** | Future contract-affecting changes still require [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md). New `sweep_manifest.json` writers must emit **`manifest_schema_family`**. |

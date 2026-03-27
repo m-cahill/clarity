@@ -32,6 +32,7 @@ from app.clarity.metrics import (
     normalized_levenshtein,
     round_metric,
 )
+from app.clarity.manifest_schema_family import FAMILY_SWEEP_ORCHESTRATOR_V1, MANIFEST_SCHEMA_FAMILY
 from app.clarity.metrics_engine import MetricsEngine
 
 
@@ -142,6 +143,7 @@ def create_synthetic_sweep(
     # Write sweep_manifest.json
     sweep_manifest = {
         "axes": axes,
+        MANIFEST_SCHEMA_FAMILY: FAMILY_SWEEP_ORCHESTRATOR_V1,
         "seeds": seeds,
         "runs": manifest_runs,
     }
@@ -804,7 +806,12 @@ class TestErrorHandling:
         sweep_dir.mkdir()
 
         # Write manifest with no runs
-        manifest = {"axes": {"brightness": [1.0]}, "seeds": [42], "runs": []}
+        manifest = {
+            "axes": {"brightness": [1.0]},
+            MANIFEST_SCHEMA_FAMILY: FAMILY_SWEEP_ORCHESTRATOR_V1,
+            "seeds": [42],
+            "runs": [],
+        }
         (sweep_dir / "sweep_manifest.json").write_text(
             json.dumps(manifest), encoding="utf-8"
         )
@@ -835,6 +842,7 @@ class TestErrorHandling:
 
         manifest = {
             "axes": {"brightness": [1.0]},
+            MANIFEST_SCHEMA_FAMILY: FAMILY_SWEEP_ORCHESTRATOR_V1,
             "seeds": [42],
             "runs": [{"axis_values": {"brightness": 1.0}, "seed": 42, "manifest_hash": "abc"}],
         }
@@ -865,6 +873,7 @@ class TestErrorHandling:
 
         manifest = {
             "axes": axes,
+            MANIFEST_SCHEMA_FAMILY: FAMILY_SWEEP_ORCHESTRATOR_V1,
             "seeds": seeds,
             "runs": [{"axis_values": {"brightness": 1.0}, "seed": 42, "manifest_hash": "abc"}],
         }

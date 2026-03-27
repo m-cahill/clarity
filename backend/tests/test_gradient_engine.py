@@ -34,6 +34,7 @@ from app.clarity.gradient_engine import (
     GradientSurface,
     _round8,
 )
+from app.clarity.manifest_schema_family import FAMILY_SWEEP_ORCHESTRATOR_V1, MANIFEST_SCHEMA_FAMILY
 from app.clarity.metrics import DriftMetric, ESIMetric, MetricsResult
 from app.clarity.surface_engine import SurfaceEngine
 from app.clarity.surfaces import (
@@ -1089,6 +1090,7 @@ class TestINT001RealSweepIntegration:
             "axes": {
                 "brightness": [0.8, 1.0],
             },
+            MANIFEST_SCHEMA_FAMILY: FAMILY_SWEEP_ORCHESTRATOR_V1,
             "seeds": [42],
             "runs": [
                 {"axis_values": {"brightness": 0.8}, "seed": 42},

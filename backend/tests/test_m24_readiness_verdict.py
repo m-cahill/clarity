@@ -39,6 +39,7 @@ M24_EXPECTED_READINESS_FILES = (
     "CLARITY_TRANSFER_CHECKLIST.md",
     "CLARITY_CHANGE_CONTROL.md",
     "CLARITY_READINESS_SCORECARD.md",
+    "CLARITY_READINESS_REVIEW_ADDENDUM_M25.md",
 )
 
 
@@ -55,8 +56,11 @@ def _extract_scorecard_verdict() -> str:
     assert m, "scorecard must contain **Verdict:** `...` with an allowed token"
     verdict = m.group(1).strip()
     assert verdict in ALLOWED_VERDICTS, f"verdict not in allowed set: {verdict!r}"
-    m_machine = re.search(r"\*\*M24_VERDICT \(machine check\):\*\*\s*`([^`]+)`", text)
-    assert m_machine, "scorecard must contain **M24_VERDICT (machine check):** line"
+    m_machine = re.search(
+        r"\*\*M\d+_VERDICT \(machine check\):\*\*\s*`([^`]+)`",
+        text,
+    )
+    assert m_machine, "scorecard must contain **M*_VERDICT (machine check):** line"
     assert m_machine.group(1).strip() == verdict, "machine-check verdict must match **Verdict:** line"
     return verdict
 

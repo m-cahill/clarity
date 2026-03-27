@@ -1,12 +1,13 @@
-# CLARITY_READINESS_SCORECARD — Final readiness audit (M24)
+# CLARITY_READINESS_SCORECARD — Readiness audit (M24) and M25 re-readiness
 
 ## Document control
 
 | Field | Value |
 |-------|--------|
 | **Introduced** | M24 — Readiness Audit, Scorecard & Portability Verdict |
-| **Authority** | Final **readiness** verdict for the M18–M24 program (this document); subordinate to [`docs/clarity.md`](../clarity.md) for project ledger |
-| **Evidence date** | As of M24 closeout (repository state under branch `m24-readiness-scorecard-verdict` / merge target `main`) |
+| **M25 supersession** | Re-readiness review — [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md) |
+| **Authority** | Final **readiness** verdict (this document); subordinate to [`docs/clarity.md`](../clarity.md) for project ledger |
+| **Evidence date** | M25 re-readiness closeout (`main` after M24 merge + M25) |
 
 ---
 
@@ -38,26 +39,26 @@ This scorecard answers:
 
 | Category | Score (0–5) | Blocker? | Justification |
 |----------|---------------|----------|---------------|
-| **Identity clarity** | **4** | No | Authority order and pack layout are clear (`README.md`, `docs/clarity.md`). **R-002** (legacy `docs/readinessplan.md` vs pack copy) is documented but splits attention — minor coherence debt. |
+| **Identity clarity** | **5** | No | Authority order and pack layout are clear; **R-002** ambiguity removed — `docs/readinessplan.md` is a **redirect stub** only (M25). |
 | **Boundary contract completeness** | **5** | No | [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) + [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) are frozen; `test_boundary_contract.py` enforces key rules. |
-| **Artifact contract completeness** | **4** | No | [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) §6.1 **explicitly** documents **two** `sweep_manifest.json` producer families. **R-003** is **not** silent, but consumers **must** classify producer context — residual **conditional** obligation (see §9). |
+| **Artifact contract completeness** | **5** | No | [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) §6.1 — `manifest_schema_family` self-identifies producers; `app/clarity/manifest_schema_family.py` + artifact tests. **R-003** cleared for downstream (no manual producer-family reasoning). |
 | **Public surface stability** | **5** | No | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) + `app.clarity.public_surface` + `test_public_surface_contract.py` align. HTTP correctly non-canonical. |
-| **Operating manual usability** | **4** | No | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md) is operable with contracts. **R-001** (docs/code drift) is an ongoing process risk — score impact only. |
+| **Operating manual usability** | **5** | No | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md) remains operable; **R-001** governed by expanded CI sync tests (`test_m25_readiness_upgrade.py`). |
 | **Compatibility / consumer kit completeness** | **5** | No | [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md), [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md), [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) + `test_supported_combinations.py` give an honest truth table without widening the public surface. |
-| **CI & guardrail sufficiency** | **5** | No | M18–M23 guardrails exist; M24 adds `test_m24_readiness_verdict.py` for aggregate pack/verdict consistency. |
-| **Deferred issue posture** | **4** | No | R-001–R-003 are **tracked** in [`READINESS_LEDGER.md`](./READINESS_LEDGER.md); evaluated as **non-blockers** for unconditional READY with explicit rationale in §8 (verdict). |
+| **CI & guardrail sufficiency** | **5** | No | M18–M24 guardrails; M25 adds `test_m25_readiness_upgrade.py` and hardens verdict/readiness-pack consistency. |
+| **Deferred issue posture** | **5** | No | R-001–R-003 **mitigated** per M25 evidence (see §9–§10); remaining matrix **Unknown** rows are explicit, not hidden adoption caveats. |
 
-**Overall score:** **(4 + 5 + 4 + 5 + 4 + 5 + 5 + 4) / 8 = 4.5 / 5.0**
+**Overall score:** **(5 + 5 + 5 + 5 + 5 + 5 + 5 + 5) / 8 = 5.0 / 5.0** (M25 re-score; M24 table preserved in audit history — [`../milestones/M24/M24_summary.md`](../milestones/M24/M24_summary.md).)
 
 ---
 
 ## 4. Strengths
 
 - Frozen **consumer boundary** and **assumed-guarantees** split with tests.  
-- **Artifact** inventory, determinism rules, and **two-family** `sweep_manifest.json` rule are **documented** (not hidden).  
+- **Artifact** inventory, determinism rules, and **self-identifying** `sweep_manifest.json` families via **`manifest_schema_family`**.  
 - **Single canonical Python surface** (`app.clarity.public_surface`) with export snapshot tests.  
 - **Compatibility matrix** uses **Supported / Unsupported / Unknown** honestly; no undocumented widening.  
-- **CI guardrails** cover pack presence, boundary, artifacts, public surface, manual alignment, combinations, and M24 aggregate checks.
+- **CI guardrails** cover pack presence, boundary, artifacts, public surface, manual alignment, combinations, M24 aggregate checks, and **M25** re-readiness verification.
 
 ---
 
@@ -65,9 +66,9 @@ This scorecard answers:
 
 | Item | Severity | Notes |
 |------|----------|--------|
-| **R-001** — Docs may drift from code | Medium (process) | Mitigate via milestone discipline + ledger updates per [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md). |
-| **R-002** — Two locations for readiness plan | Low | Canonical path: `docs/readiness/readinessplan.md` (see pack `README.md`). |
-| **R-003** — Same filename, two manifest schema families | Medium (consumer obligation) | **Not** ambiguous **inside** the pack if §6.1 + matrix are followed; still a **classification** burden for naive consumers. |
+| **R-001** — Docs may drift from code | Low (residual) | **M25:** `test_m25_readiness_upgrade.py` enforces verdict + key tokens across canonical docs; routine maintenance, not a special adoption caveat. |
+| **R-002** — Two locations for readiness plan | **Mitigated (M25)** | Root `docs/readinessplan.md` is a **redirect stub**; canonical body only under `docs/readiness/readinessplan.md`. |
+| **R-003** — Manifest producer families | **Mitigated (M25)** | **`manifest_schema_family`** + `app/clarity/manifest_schema_family.py`; legacy heuristic documented for pre-M25 artifacts only. |
 
 ---
 
@@ -84,34 +85,40 @@ These are **tracked** in [`docs/clarity.md`](../clarity.md) and **do not** drive
 
 ## 7. Unresolved issues and severity
 
-| ID | Severity | Role in verdict |
-|----|----------|-----------------|
-| R-001 | Non-blocker | Condition **C-M24-002** |
-| R-002 | Non-blocker | Condition **C-M24-003** |
-| R-003 | Non-blocker (documented) | Condition **C-M24-001** — consumer must apply §6.1 + matrix |
+| ID | Status (M25) | Notes |
+|----|----------------|-------|
+| R-001 | **Mitigated** | CI-enforced doc/verdict sync (`test_m25_readiness_upgrade.py`); not a standing consumer adoption condition. |
+| R-002 | **Mitigated** | Redirect stub + test forbidding divergent full plan bodies. |
+| R-003 | **Mitigated** | `manifest_schema_family` required for new CLARITY outputs; classification without tribal knowledge. |
 
-No **silent** upgrades of **Unknown → Supported** were applied in this audit.
-
----
-
-## 8. Explicit verdict
-
-**Verdict:** `CONDITIONALLY READY`
-
-**Rationale (short):** The readiness pack is **complete**, **frozen**, and **test-backed**, and a consumer **can** adopt safely **if** they follow the contracts and **conditions** in §9. Residual obligations (manifest producer classification, ongoing doc sync, dual-plan hygiene) prevent an honest **`READY FOR DOWNSTREAM ADOPTION`** without qualification.
-
-**M24_VERDICT (machine check):** `CONDITIONALLY READY`
+No **silent** upgrades of **Unknown → Supported** were applied in the M25 review.
 
 ---
 
-## 9. Conditions and next actions (binding for CONDITIONALLY READY)
+## 8. Explicit verdict (current)
 
-These conditions are **linked** to ledger risks and **must** be satisfied or revisited under [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md):
+**Verdict:** `READY FOR DOWNSTREAM ADOPTION`
 
-| ID | Condition | Linked risk / doc |
-|----|-----------|-------------------|
-| **C-M24-001** | Downstream consumers **must** determine which **`sweep_manifest.json` producer family** applies before parsing (orchestrator vs rich aggregate), per [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) §6.1 and [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) (e.g. C-010, C-001). | **R-003** |
-| **C-M24-002** | Contract-adjacent changes **must** update `docs/clarity.md`, [`READINESS_LEDGER.md`](./READINESS_LEDGER.md), and tests so **R-001** does not regress unnoticed. | **R-001** |
-| **C-M24-003** | Treat **`docs/readiness/readinessplan.md`** as authoritative; if `docs/readinessplan.md` diverges, reconcile per pack README and record material decisions in [`READINESS_DECISIONS.md`](./READINESS_DECISIONS.md). | **R-002** |
+**Rationale (short):** M24’s **`CONDITIONALLY READY`** verdict and conditions **C-M24-001..003** are **superseded** by M25 evidence: self-identifying manifest families, mechanized readiness-pack consistency checks, and a single authoritative readiness-plan path (see §9–§10).
 
-**Next actions:** Operate under [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md); re-run a **re-readiness review** (scorecard addendum or new milestone) if any **contract-affecting** change lands without updating the pack and tests.
+**M25_VERDICT (machine check):** `READY FOR DOWNSTREAM ADOPTION`
+
+---
+
+## 9. M24 conditions — superseded (historical)
+
+The following **M24** conditions are **cleared**; they are listed here for audit traceability only:
+
+| ID | Was | M25 resolution |
+|----|-----|----------------|
+| **C-M24-001** | Manual `sweep_manifest.json` producer-family classification | **`manifest_schema_family`** + [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) §6.1 + `manifest_schema_family.py` |
+| **C-M24-002** | Doc/ledger/test alignment as adoption caveat | **Automated** checks in `test_m25_readiness_upgrade.py` |
+| **C-M24-003** | Dual readiness-plan location | **Redirect stub** at [`docs/readinessplan.md`](../readinessplan.md); canonical [`readiness/readinessplan.md`](./readinessplan.md) |
+
+**Historical M24 verdict (machine check, archived):** `CONDITIONALLY READY` — see M24 merge and [`../milestones/M24/M24_summary.md`](../milestones/M24/M24_summary.md).
+
+---
+
+## 10. Related — M25 addendum
+
+Full evidence narrative: [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md).

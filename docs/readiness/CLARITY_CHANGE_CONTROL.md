@@ -53,7 +53,7 @@ These documents define **triggers** for §5. A change that contradicts them, nar
 Unless proven otherwise by inspection, treat the following as **contract-affecting**:
 
 1. **Boundary:** Any change to how CLARITY invokes R2L, what substrate artifacts it consumes, or what it is forbidden to do per [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md).
-2. **Artifacts:** Any change to required/optional outputs, JSON key semantics, ordering rules, float serialization, or the **two** documented `sweep_manifest.json` producer families in [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) §6.1.
+2. **Artifacts:** Any change to required/optional outputs, JSON key semantics, ordering rules, float serialization, or the **`manifest_schema_family`** values / semantics in [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) §6.1.
 3. **Public surface:** Any change to `app.clarity.public_surface` exports, their semantics, or documented failure modes per [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md).
 4. **Consumer kit:** Any change that would require a downstream repo to **assume** something new, or that changes a **Supported / Unsupported / Unknown** row in [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) without explicit evidence and ledger/scorecard alignment.
 5. **Operating manual / assumptions:** Changes that invalidate procedures or “what may be assumed” in [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md) or [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md).
@@ -66,7 +66,7 @@ Unless proven otherwise by inspection, treat the following as **contract-affecti
 | Trigger | Minimum response |
 |---------|------------------|
 | Any **contract-affecting** change in §4 | **Re-readiness review**: update affected docs, [`READINESS_LEDGER.md`](./READINESS_LEDGER.md), `docs/clarity.md`, and **extend or refresh** [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) with a new verdict section **or** a dated addendum that states whether the M24 verdict still holds |
-| New **M18–M24-style** freeze cycle (major portability change) | New **readiness milestone** (e.g. M25+) with plan, tests, and ledger entries per [`readinessplan.md`](./readinessplan.md) pattern |
+| New **M18–M24-style** freeze cycle (major portability change) | New **readiness milestone** (e.g. M26+) with plan, tests, and ledger entries per [`readinessplan.md`](./readinessplan.md) pattern |
 | **Breaking** change to `PUBLIC_SURFACE_SYMBOLS` or artifact contract defaults | Treat as **major**: re-readiness review **and** explicit compatibility note in [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) |
 
 ---
@@ -112,6 +112,6 @@ Unless proven otherwise by inspection, treat the following as **contract-affecti
 
 ---
 
-## 10. Relationship to M24 verdict
+## 10. Relationship to readiness verdict
 
-This file takes effect alongside the verdict in [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md). If the verdict is **CONDITIONALLY READY**, **conditions listed there remain binding** until explicitly cleared by a re-readiness review.
+This file takes effect alongside the verdict in [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md). **M24** conditions **C-M24-001..003** were cleared by **M25** (see [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md)). Future contract-affecting changes require a **re-readiness review** or new milestone per §5.

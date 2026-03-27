@@ -7,7 +7,7 @@
 | **Introduced** | M19 — Consumer Boundary Freeze |
 | **Authority** | Canonical **readiness-pack** boundary contract for CLARITY↔R2L |
 | **Supersedes as readiness authority** | Does **not** silently replace [`CLARITY_ARCHITECHTURE_CONTRACT.MD`](../CLARITY_ARCHITECHTURE_CONTRACT.MD); that document remains an earlier architectural input. For portability and readiness decisions, **this file** and [`docs/clarity.md`](../clarity.md) govern. |
-| **Readiness status** | **`CONDITIONALLY READY`** (M24 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)). |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)). |
 
 ---
 

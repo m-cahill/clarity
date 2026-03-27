@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M19 — Consumer Boundary Freeze |
 | **Purpose** | Assumption contract: what CLARITY **inherits** from the substrate vs what it **must still prove** locally |
-| **Readiness status** | **`CONDITIONALLY READY`** (M24 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`READY FOR DOWNSTREAM ADOPTION`** (M25 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 

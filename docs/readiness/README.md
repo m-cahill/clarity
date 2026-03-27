@@ -74,7 +74,7 @@ If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for 
 
 ## 7. Current readiness status
 
-**`CONDITIONALLY READY`** (M24)
+**`READY FOR DOWNSTREAM ADOPTION`** (M25; M24 `CONDITIONALLY READY` superseded — see [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md))
 
 M18–**M23** delivered the frozen pack (boundary, artifacts, public surface, manual, consumer kit). **M24** records the final scorecard ([`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)), post-readiness [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md), and aggregate test `test_m24_readiness_verdict.py`. Adoption is **subject to conditions** in the scorecard §9 (C-M24-001..003). See [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) §7.
 
