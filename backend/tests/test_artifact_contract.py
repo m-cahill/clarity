@@ -20,12 +20,18 @@ M15_FIXTURE_DIR = (
     REPO_ROOT / "backend" / "tests" / "fixtures" / "baselines" / "m15_real_ui"
 )
 
-# Committed fixture bytes — stable-hash evidence for the frozen bundle (M20).
+# LF-normalized UTF-8 bytes — stable-hash evidence for the frozen bundle (M20).
+# Normalize newlines so CI (LF) and Windows checkouts (CRLF) agree.
 M15_SHA256 = {
-    "sweep_manifest.json": "c8de28b41acb458f41f0107a19a306646d16db8898e6fc3fb79b4d779c1b9beb",
-    "robustness_surface.json": "73a2d6940e40213cd21f980055ebeecd6077dd03f326e16f6d64b6ef7d3fb572",
-    "monte_carlo_stats.json": "14490feff254234b49995efe387232b4a5ae9ea6739f8a50bda0aca76afdda2f",
+    "sweep_manifest.json": "e3f355b60133587868494d553bdac3e787202550e3b4b1ebe9421f20b8a42e71",
+    "robustness_surface.json": "5b6b2e7f4ba49c16963187318682950814b50995db8a465b4c01a26b438ee62e",
+    "monte_carlo_stats.json": "07d7aeff944138674ca51a3a9a370dbceaf1806fcc90ac846ad94115fd3aa786",
 }
+
+
+def _sha256_lf_normalized(path: Path) -> str:
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 REQUIRED_BUNDLE_JSON = (
     "sweep_manifest.json",
@@ -48,9 +54,9 @@ def test_m15_fixture_dir_has_required_bundle_artifacts() -> None:
 
 @pytest.mark.parametrize("filename", list(M15_SHA256))
 def test_m15_required_artifact_sha256(filename: str) -> None:
-    """Stable-hash evidence for contract-relevant JSON (committed bytes)."""
+    """Stable-hash evidence for contract-relevant JSON (LF-normalized UTF-8)."""
     path = M15_FIXTURE_DIR / filename
-    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    digest = _sha256_lf_normalized(path)
     assert digest == M15_SHA256[filename]
 
 
