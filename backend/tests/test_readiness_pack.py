@@ -1,4 +1,4 @@
-"""M18: lightweight readiness-pack guardrail — core files exist; README links resolve."""
+"""M18: readiness-pack guardrail — core files exist; README links resolve."""
 
 from __future__ import annotations
 
@@ -18,13 +18,16 @@ REQUIRED_FILES = (
     "READINESS_DECISIONS.md",
     "CLARITY_BOUNDARY_CONTRACT.md",
     "CLARITY_ASSUMED_GUARANTEES.md",
+    "CLARITY_ARTIFACT_CONTRACT.md",
+    "CLARITY_PUBLIC_SURFACE.md",
 )
 
 
 @pytest.mark.parametrize("filename", REQUIRED_FILES)
 def test_readiness_pack_required_files_exist(filename: str) -> None:
     path = READINESS_DIR / filename
-    assert path.is_file(), f"expected readiness file missing: {path.relative_to(REPO_ROOT)}"
+    rel = path.relative_to(REPO_ROOT)
+    assert path.is_file(), f"expected readiness file missing: {rel}"
 
 
 def test_readiness_readme_local_markdown_links_resolve() -> None:

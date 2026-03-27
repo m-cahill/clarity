@@ -42,8 +42,8 @@ CLARITY is a **deterministic evaluation instrument** layered **above** R2L. It *
 
 **Implemented truth:** R2L is invoked via **subprocess** using a configurable CLI command (e.g. `r2l` or `python -m …`). See `app.clarity.r2l_runner.R2LRunner`.
 
-- **Default sanctioned consumer surface (this repo):** CLI invocation + artifact consumption. No shared in-process coupling with R2L.
-- **Future:** A stable **public Python invocation surface** for consumers may be frozen in **M21**; until then, treating deep imports as a supported public API is **out of scope** for readiness.
+- **Substrate integration:** CLI invocation + artifact consumption. No shared in-process coupling with R2L.
+- **Official public consumer surface (readiness M21):** **`app.clarity.public_surface`** — see [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md). Imports from other `app.clarity` modules are **internal / unsupported** for downstream portability unless listed in that contract.
 
 ---
 
@@ -152,7 +152,7 @@ Examples (non-exhaustive; full artifact contract is **M20**): `clarity/sweep_man
 | Surface | Status |
 |---------|--------|
 | Full **artifact contract** (all files, hashes, presentation vs canonical) | **M20** |
-| **Single official public API** for downstream Python consumers | **M21** |
+| **Single official public API** for downstream Python consumers | **Frozen** — [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) (`app.clarity.public_surface`) |
 | **Compatibility matrix / transfer checklist** | **M23** |
 | Portable **readiness verdict** | **M24** |
 

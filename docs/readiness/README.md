@@ -36,6 +36,8 @@ Within this pack, the **roadmap and definitions** in `readinessplan.md` set expe
 4. [`READINESS_DECISIONS.md`](./READINESS_DECISIONS.md) — Readiness-only architecture and policy decisions (ADR-style).
 5. [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) — Frozen CLARITY↔R2L consumer boundary (M19).
 6. [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) — Inherited substrate assumptions vs CLARITY-owned responsibilities (M19).
+7. [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) — Frozen artifact inventory, serialization, and contract identity (M20).
+8. [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) — Canonical consumer Python invocation surface (M21).
 
 For overall project context, always read **`docs/clarity.md`** first or in parallel.
 
@@ -67,7 +69,7 @@ If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for 
 
 **`NOT READY`**
 
-M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split (see `CLARITY_BOUNDARY_CONTRACT.md`, `CLARITY_ASSUMED_GUARANTEES.md`). A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
+M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split; **M20** freezes outputs and deterministic serialization (see `CLARITY_ARTIFACT_CONTRACT.md`); **M21** freezes the canonical Python public surface (see `CLARITY_PUBLIC_SURFACE.md`). A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
 
 ---
 

@@ -62,8 +62,8 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M17** | Demo Connectivity Hardening | Netlify ↔ Render connectivity: CORS, VITE_API_BASE_URL, getBaseUrl() single source of truth; live demo fully interactive | ✅ **Closed** | `v0.0.18-m17` | 5.0 |
 | **M18** | Readiness Charter & Authority Freeze | Establish `docs/readiness/` pack, authority hierarchy, readiness ledger + decisions; record M18–M24 in ledger (no portability claim) | ✅ **Closed** | not tagged | 5.0 |
 | **M19** | Consumer Boundary Freeze | Freeze CLARITY consumer boundary, inherited guarantees, forbidden behaviors | ✅ **Closed** | not tagged | 5.0 |
-| **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | Planned | — | — |
-| **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | Planned | — | — |
+| **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | ✅ **Closed** | not tagged | 5.0 |
+| **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | ✅ **Closed** | not tagged | 5.0 |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | Planned | — | — |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix, transfer checklist | Planned | — | — |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
@@ -91,12 +91,18 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 - [`readiness/READINESS_DECISIONS.md`](./readiness/READINESS_DECISIONS.md) — Readiness ADR-style decisions
 - [`readiness/CLARITY_BOUNDARY_CONTRACT.md`](./readiness/CLARITY_BOUNDARY_CONTRACT.md) — Frozen CLARITY↔R2L consumer boundary (**M19**)
 - [`readiness/CLARITY_ASSUMED_GUARANTEES.md`](./readiness/CLARITY_ASSUMED_GUARANTEES.md) — Inherited vs CLARITY-owned guarantees (**M19**)
+- [`readiness/CLARITY_ARTIFACT_CONTRACT.md`](./readiness/CLARITY_ARTIFACT_CONTRACT.md) — Artifact inventory, serialization, contract identity (**M20**)
+- [`readiness/CLARITY_PUBLIC_SURFACE.md`](./readiness/CLARITY_PUBLIC_SURFACE.md) — Canonical Python consumer surface (**M21**)
 
 **Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
 
 Later readiness milestones must update **`docs/clarity.md`** and the readiness pack **whenever** readiness status or frozen documents change.
 
-**M19 note:** The consumer boundary and assumed-guarantee split are **frozen** in the two documents above. Readiness remains **`NOT READY`**; final portability is **M24**.
+**M19 note:** The consumer boundary and assumed-guarantee split are **frozen** in the boundary contract and assumed-guarantees documents.
+
+**M20 note:** The artifact contract and deterministic output expectations are **frozen** in `CLARITY_ARTIFACT_CONTRACT.md`.
+
+**M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`). Readiness remains **`NOT READY`**; operating manual, consumer kit, and final portability verdict are **M22+** and **M24**.
 
 ---
 
@@ -147,10 +153,48 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [readiness/README.md](./readiness/README.md) — Readiness pack (canonical); see also [readiness/readinessplan.md](./readiness/readinessplan.md)
 - [readiness/CLARITY_BOUNDARY_CONTRACT.md](./readiness/CLARITY_BOUNDARY_CONTRACT.md) — Frozen consumer boundary (M19)
 - [readiness/CLARITY_ASSUMED_GUARANTEES.md](./readiness/CLARITY_ASSUMED_GUARANTEES.md) — Inherited vs CLARITY-owned guarantees (M19)
+- [readiness/CLARITY_ARTIFACT_CONTRACT.md](./readiness/CLARITY_ARTIFACT_CONTRACT.md) — Artifact contract (M20)
+- [readiness/CLARITY_PUBLIC_SURFACE.md](./readiness/CLARITY_PUBLIC_SURFACE.md) — Public surface (M21)
 
 ---
 
-## Current Milestone: M19 ✅ CLOSED
+## Current Milestone: M21 ✅ CLOSED
+
+**Objective**: Public Surface & Invocation Contract — Freeze **one** official consumer-facing Python surface (`app.clarity.public_surface`), explicit public vs internal policy, configuration and failure semantics, and guardrail tests; HTTP API remains non-canonical for readiness. **Readiness remains `NOT READY`.**
+
+**Tag**: not tagged (no git tag minted for M21 unless explicitly authorized later)
+
+**Details**: [M21_plan.md](./milestones/M21/M21_plan.md) | [M21_audit.md](./milestones/M21/M21_audit.md)
+
+**Deliverables**:
+- ✅ `docs/readiness/CLARITY_PUBLIC_SURFACE.md`
+- ✅ `backend/app/clarity/public_surface.py` (canonical surface)
+- ✅ `docs/readiness/READINESS_LEDGER.md`, `docs/readiness/README.md`, `docs/readiness/READINESS_DECISIONS.md` (RD-014)
+- ✅ `docs/clarity.md` updated (this file)
+- ✅ `backend/tests/test_public_surface_contract.py`; `backend/tests/test_readiness_pack.py` (pack file list includes public surface)
+- ✅ `docs/readiness/CLARITY_BOUNDARY_CONTRACT.md` (§4 / deferred table aligned with M21)
+- ✅ M21_summary.md, M21_audit.md; M22 seeded
+
+---
+
+## Previous Milestone: M20 ✅ CLOSED
+
+**Objective**: Artifact Contract & Deterministic Output Freeze — Freeze CLARITY artifact inventory, required vs optional outputs, canonical vs presentation-only artifacts, serialization and ordering rules, and contract identity; back with guardrail tests. **Readiness remains `NOT READY`.**
+
+**Tag**: not tagged (no git tag minted for M20 unless explicitly authorized later)
+
+**Details**: [M20_plan.md](./milestones/M20/M20_plan.md) | [M20_audit.md](./milestones/M20/M20_audit.md)
+
+**Deliverables**:
+- ✅ `docs/readiness/CLARITY_ARTIFACT_CONTRACT.md`
+- ✅ `docs/readiness/READINESS_LEDGER.md`, `docs/readiness/README.md`, `docs/readiness/READINESS_DECISIONS.md` (RD-011–RD-013)
+- ✅ `docs/clarity.md` updated
+- ✅ `backend/tests/test_artifact_contract.py`; `backend/tests/test_readiness_pack.py` (pack file list includes artifact contract)
+- ✅ M20_summary.md, M20_audit.md; M21 seeded
+
+---
+
+## Previous Milestone: M19 ✅ CLOSED
 
 **Objective**: Consumer Boundary Freeze — Freeze the CLARITY↔R2L consumer boundary, inherited guarantees vs CLARITY-owned responsibilities, and forbidden behaviors as readiness contracts; extend boundary guardrail tests. **Readiness remains `NOT READY`.**
 
@@ -161,7 +205,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 **Deliverables**:
 - ✅ `docs/readiness/CLARITY_BOUNDARY_CONTRACT.md`, `docs/readiness/CLARITY_ASSUMED_GUARANTEES.md`
 - ✅ `docs/readiness/READINESS_LEDGER.md`, `docs/readiness/README.md`, `docs/readiness/READINESS_DECISIONS.md` (RD-008–RD-010)
-- ✅ `docs/clarity.md` updated (this file)
+- ✅ `docs/clarity.md` updated
 - ✅ Boundary tests extended: `backend/tests/test_boundary_contract.py` (M19 section); `backend/tests/test_readiness_pack.py` (pack file list)
 - ✅ M19_summary.md, M19_audit.md; M20 seeded
 
@@ -293,6 +337,8 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
 | M18 | not tagged | `0e674fd` | 5.0 | 2026-03-26 |
 | M19 | not tagged | `8187d62` | 5.0 | 2026-03-26 |
+| M20 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
+| M21 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
 
 ---
 

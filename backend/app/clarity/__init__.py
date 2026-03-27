@@ -224,6 +224,11 @@ from app.clarity.rich_generation import (
     is_rich_mode_enabled,
 )
 
+# M21: canonical thin public surface for consumers (see docs/readiness/CLARITY_PUBLIC_SURFACE.md).
+# Root package exports below remain broad for tests and legacy imports; consumers should use
+# ``app.clarity.public_surface`` or ``from app.clarity import public_surface``.
+from . import public_surface
+
 __all__ = [
     # R2L Runner (M03)
     "R2LRunner",
@@ -367,4 +372,6 @@ __all__ = [
     "compute_summary_hash",
     "compute_logits_hash_streaming",
     "create_rich_metrics_summary",
+    # M21 public surface module
+    "public_surface",
 ]
