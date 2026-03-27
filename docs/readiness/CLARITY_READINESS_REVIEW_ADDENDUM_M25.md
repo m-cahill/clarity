@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M25 — Re-readiness upgrade |
 | **Authority** | Supersedes the **conditional** elements of the M24 portability verdict where stated below; subordinate to [`docs/clarity.md`](../clarity.md) and [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) |
-| **Evidence** | Repository state on branch `m25-re-readiness-upgrade` merged to `main` |
+| **Evidence** | Merged to `main` via PR #26 (merge commit `3501e16985e76e1b47c0503f6ca044d9634db099`); provenance on `main` @ `5ea09bb34d836a5d1317d31954c81f4c45fbf209` |
 
 ---
 

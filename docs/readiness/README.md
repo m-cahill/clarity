@@ -4,7 +4,7 @@
 
 This directory holds the **canonical readiness pack** for CLARITY: governed documents that define how an external project or consumer repository may safely depend on CLARITY **without** relying on undocumented behavior, implied contracts, or tribal knowledge.
 
-The readiness phase (M18–M24) is a **separate execution track** from feature development. It does not add model capability; it freezes and evidences boundaries, artifacts, invocation, and consumer assumptions.
+The readiness program (M18–M24) and **M25** re-readiness upgrade are **separate execution tracks** from feature development. They do not add model capability; they freeze and evidence boundaries, artifacts, invocation, consumer assumptions, and the final portability verdict.
 
 ---
 
@@ -44,9 +44,10 @@ Within this pack, the **roadmap and definitions** in `readinessplan.md` set expe
 12. [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) — Supported / Unsupported / Unknown combination truth table (M23).
 13. [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) — Adoption transfer checklist (M23).
 14. [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md) — Post-readiness change rules (M24).
-15. [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) — Final scorecard and portability verdict (M24).
+15. [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) — Scorecard and portability verdict (M24; M25 supersession).
+16. [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md) — M25 re-readiness evidence (supersedes M24 conditional elements).
 
-For overall project context, always read **`docs/clarity.md`** first or in parallel.
+For overall project context, always read **`docs/clarity.md`** first or in parallel. Program arc closeout: [`../milestones/M25/M25_project_closeout.md`](../milestones/M25/M25_project_closeout.md).
 
 ---
 
@@ -62,21 +63,17 @@ Do **not** name specific downstream repositories unless strictly necessary and a
 
 ---
 
-## 6. Legacy copy of the readiness plan
+## 6. Legacy path for the readiness plan
 
-**`docs/readinessplan.md`** (repository root under `docs/`) may remain as a **convenience / legacy** copy of the plan. The **canonical readiness-pack** copy of the same content is:
-
-- **`docs/readiness/readinessplan.md`**
-
-If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for the readiness pack; resolve conflicts in favor of the pack copy and record intentional changes in `READINESS_DECISIONS.md`.
+**`docs/readinessplan.md`** (under `docs/`) is a **redirect stub** only. The **canonical** program text is **`docs/readiness/readinessplan.md`**. Do not duplicate substantive plan content at the root path.
 
 ---
 
 ## 7. Current readiness status
 
-**`READY FOR DOWNSTREAM ADOPTION`** (M25; M24 `CONDITIONALLY READY` superseded — see [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md))
+**`READY FOR DOWNSTREAM ADOPTION`** (M25; M24’s **`CONDITIONALLY READY`** and conditions **C-M24-001..003** superseded — see [`CLARITY_READINESS_REVIEW_ADDENDUM_M25.md`](./CLARITY_READINESS_REVIEW_ADDENDUM_M25.md) and [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) §8–§9).
 
-M18–**M23** delivered the frozen pack (boundary, artifacts, public surface, manual, consumer kit). **M24** records the final scorecard ([`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)), post-readiness [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md), and aggregate test `test_m24_readiness_verdict.py`. Adoption is **subject to conditions** in the scorecard §9 (C-M24-001..003). See [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) §7.
+M18–**M23** delivered the frozen pack (boundary, artifacts, public surface, manual, consumer kit). **M24** recorded the scorecard and [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md). **M25** re-readiness cleared the remaining M24 adoption conditions and aligned the recorded verdict. See [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) §7. Future contract-affecting changes follow [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md).
 
 ---
 
