@@ -356,7 +356,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M19 | not tagged | `8187d62` | 5.0 | 2026-03-26 |
 | M20 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
-| M22 | not tagged | `f863b9f` | 5.0 | 2026-03-26 |
+| M22 | not tagged | `bba0d3b` | 5.0 | 2026-03-26 |
 
 ---
 
