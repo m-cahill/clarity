@@ -33,9 +33,14 @@ Close the readiness program with an **evidence-backed** portability verdict, **p
 
 ---
 
-## 4. Score
+## 4. Scores (two different scales)
 
-**5.0** — Meets exit criteria: full guardrail suite scope satisfied; no speculative **READY FOR DOWNSTREAM ADOPTION** claim; ledger, scorecard, and `docs/clarity.md` aligned on verdict string.
+These numbers measure different things; do not merge them into a single headline.
+
+| Label | Value | Meaning |
+|-------|--------|--------|
+| **Milestone audit score** | **5.0** | Governance-style closure score: exit criteria met; full guardrail suite scope satisfied; no speculative **READY FOR DOWNSTREAM ADOPTION** claim; ledger, scorecard, and `docs/clarity.md` aligned on verdict string. |
+| **Readiness scorecard score (M24)** | **4.5 / 5.0** | Arithmetic mean of the eight 0–5 categories on [`CLARITY_READINESS_SCORECARD.md`](../../readiness/CLARITY_READINESS_SCORECARD.md) (identity, boundary, artifacts, public surface, manual, consumer kit, CI, deferred posture). |
 
 ---
 
