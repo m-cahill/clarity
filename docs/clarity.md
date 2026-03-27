@@ -190,6 +190,20 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 
 ---
 
+## Previous Milestone: M24 ✅ CLOSED
+
+**Objective**: Readiness Audit, Scorecard & Portability Verdict — final scorecard, **`CONDITIONALLY READY`** verdict, post-readiness change control, aggregate guardrail tests, ledger and pack alignment.
+
+**Merge**: Integrated into `main` at `e1a6b540e4dc7dd148f7e0e833088448e0a368c8` (`e1a6b54`) (fast-forward from `4469b2c`).
+
+**Tag**: not tagged
+
+**Details**: [M24_plan.md](./milestones/M24/M24_plan.md) | [M24_audit.md](./milestones/M24/M24_audit.md) | [M24_summary.md](./milestones/M24/M24_summary.md)
+
+**Deliverables** (summary): `CLARITY_READINESS_SCORECARD.md`, `CLARITY_CHANGE_CONTROL.md`, `M24_inventory.md`, `test_m24_readiness_verdict.py`, ledger and `docs/clarity.md` updates.
+
+---
+
 ## Previous Milestone: M23 ✅ CLOSED
 
 **Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist. *(At M23 close, M24 verdict was still pending.)*
@@ -396,7 +410,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M22 | not tagged | `7f50bfc` | 5.0 | 2026-03-27 |
 | M23 | not tagged | `4469b2c` | 5.0 | 2026-03-27 |
-| M24 | not tagged | _[set to `main` merge commit at PR merge]_ | 5.0 | 2026-03-26 |
+| M24 | not tagged | `e1a6b54` | 5.0 | 2026-03-27 |
 
 ---
 
