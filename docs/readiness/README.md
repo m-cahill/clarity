@@ -40,6 +40,9 @@ Within this pack, the **roadmap and definitions** in `readinessplan.md` set expe
 8. [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) — Canonical consumer Python invocation surface (M21).
 9. [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md) — AI-agent / operator manual; implemented pipeline and debugging (M22).
 10. [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md) — Honest Implemented / Planned / Unknown matrix (M22).
+11. [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md) — Explicit downstream assumptions after M19–M22 (M23).
+12. [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) — Supported / Unsupported / Unknown combination truth table (M23).
+13. [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) — Adoption transfer checklist (M23).
 
 For overall project context, always read **`docs/clarity.md`** first or in parallel.
 
@@ -71,7 +74,7 @@ If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for 
 
 **`NOT READY`**
 
-M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split; **M20** freezes outputs and deterministic serialization (see `CLARITY_ARTIFACT_CONTRACT.md`); **M21** freezes the canonical Python public surface (see `CLARITY_PUBLIC_SURFACE.md`); **M22** adds the operating manual and implementation-status matrix. A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
+M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split; **M20** freezes outputs and deterministic serialization (see `CLARITY_ARTIFACT_CONTRACT.md`); **M21** freezes the canonical Python public surface (see `CLARITY_PUBLIC_SURFACE.md`); **M22** adds the operating manual and implementation-status matrix; **M23** adds consumer assumptions, the compatibility matrix (combination truth table), and transfer checklist. A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
 
 ---
 

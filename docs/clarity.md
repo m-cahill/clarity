@@ -65,7 +65,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | ✅ **Closed** | not tagged | 5.0 |
 | **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | ✅ **Closed** | not tagged | 5.0 |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | ✅ **Closed** | not tagged | 5.0 |
-| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix, transfer checklist | Planned | — | — |
+| **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix (Supported / Unsupported / Unknown), transfer checklist | Planned | — | — |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
 
 ---
@@ -95,6 +95,9 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 - [`readiness/CLARITY_PUBLIC_SURFACE.md`](./readiness/CLARITY_PUBLIC_SURFACE.md) — Canonical Python consumer surface (**M21**)
 - [`readiness/CLARITY_OPERATING_MANUAL.md`](./readiness/CLARITY_OPERATING_MANUAL.md) — AI-agent / operator manual (**M22**)
 - [`readiness/CLARITY_IMPLEMENTATION_STATUS.md`](./readiness/CLARITY_IMPLEMENTATION_STATUS.md) — Implemented / Planned / Unknown matrix (**M22**)
+- [`readiness/CLARITY_CONSUMER_ASSUMPTIONS.md`](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Downstream assumptions (**M23**)
+- [`readiness/CLARITY_COMPATIBILITY_MATRIX.md`](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Combination truth table (**M23**)
+- [`readiness/CLARITY_TRANSFER_CHECKLIST.md`](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (**M23**)
 
 **Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
 
@@ -107,6 +110,8 @@ Later readiness milestones must update **`docs/clarity.md`** and the readiness p
 **M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`).
 
 **M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`). Readiness remains **`NOT READY`**; consumer kit (**M23**) and final portability verdict (**M24**) remain open.
+
+**M23 note:** Consumer assumptions, compatibility matrix (combination-level **Supported / Unsupported / Unknown**), and transfer checklist are delivered as `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, and `CLARITY_TRANSFER_CHECKLIST.md`, with `test_supported_combinations.py` guardrails. Readiness remains **`NOT READY`**.
 
 ---
 
@@ -161,18 +166,23 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [readiness/CLARITY_PUBLIC_SURFACE.md](./readiness/CLARITY_PUBLIC_SURFACE.md) — Public surface (M21)
 - [readiness/CLARITY_OPERATING_MANUAL.md](./readiness/CLARITY_OPERATING_MANUAL.md) — Operating manual (M22)
 - [readiness/CLARITY_IMPLEMENTATION_STATUS.md](./readiness/CLARITY_IMPLEMENTATION_STATUS.md) — Implementation status matrix (M22)
+- [readiness/CLARITY_CONSUMER_ASSUMPTIONS.md](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Consumer assumptions (M23)
+- [readiness/CLARITY_COMPATIBILITY_MATRIX.md](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Compatibility / combination matrix (M23)
+- [readiness/CLARITY_TRANSFER_CHECKLIST.md](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (M23)
 
 ---
 
-## Current Milestone: M23 (planned)
+## Current Milestone: M23 (in progress on branch)
 
-**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions, compatibility matrix, and transfer checklist per [`readiness/readinessplan.md`](./readiness/readinessplan.md) (M23). **Readiness remains `NOT READY`.**
+**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist — per [`readiness/readinessplan.md`](./readiness/readinessplan.md) (M23). **Readiness remains `NOT READY`.**
 
-**Tag**: not tagged by default (readiness track M18–M22 pattern unless explicitly authorized).
+**Branch**: `m23-supported-combination-truth-table`
+
+**Tag**: not tagged by default (readiness track pattern unless explicitly authorized).
 
 **Details**: [M23_plan.md](./milestones/M23/M23_plan.md)
 
-**Deliverables**: See readiness plan M23 section; not started on `main` until this milestone executes.
+**Deliverables**: `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `docs/milestones/M23/M23_inventory.md`, `backend/tests/test_supported_combinations.py`, pack and ledger updates.
 
 ---
 

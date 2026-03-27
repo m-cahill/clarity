@@ -47,9 +47,10 @@
 | Surface | Status | Owner / source-of-truth | Code evidence | Test evidence | Notes / limitations |
 |---------|--------|------------------------|---------------|---------------|---------------------|
 | **Demo HTTP / API** | **Implemented** (operationally) | **Not** canonical for readiness — `CLARITY_PUBLIC_SURFACE.md` §3 | `app/main.py`, demo routers | `test_demo_router.py` | **Do not** treat as stable external API for adoption. |
-| **Compatibility guarantees** (semver, cross-repo version matrix) | **Planned** | **M23** — `readinessplan.md` (compatibility matrix) | N/A | N/A | No semver on public surface (M21). |
-| **Consumer assumptions pack** | **Planned** | **M23** — `CLARITY_CONSUMER_ASSUMPTIONS.md` | N/A | N/A | See `docs/readiness/READINESS_LEDGER.md`. |
-| **Transfer checklist** | **Planned** | **M23** — `CLARITY_TRANSFER_CHECKLIST.md` | N/A | N/A | — |
+| **Compatibility guarantees** (semver, cross-repo version matrix) | **Planned** | **M24+** / governance — `readinessplan.md` | N/A | N/A | No semver on public surface (M21). Combination truth: **`CLARITY_COMPATIBILITY_MATRIX.md` (M23)**. |
+| **Consumer assumptions pack** | **Implemented** | **`CLARITY_CONSUMER_ASSUMPTIONS.md` (M23)** | N/A | `test_supported_combinations.py` (pack presence + honesty guardrails) | Does not widen `public_surface`. |
+| **Compatibility matrix (combination truth table)** | **Implemented** | **`CLARITY_COMPATIBILITY_MATRIX.md` (M23)** | N/A | `test_supported_combinations.py` | Supported / Unsupported / Unknown rows; HTTP non-canonical. |
+| **Transfer checklist** | **Implemented** | **`CLARITY_TRANSFER_CHECKLIST.md` (M23)** | N/A | `test_readiness_pack.py` | Checklist derived from assumptions + matrix. |
 | **Portability verdict** | **Planned** | **M24** — `CLARITY_READINESS_SCORECARD.md` | N/A | N/A | Ledger verdict reserved until M24. |
 | **Readiness scorecard / change control** | **Planned** | **M24** | N/A | N/A | — |
 
