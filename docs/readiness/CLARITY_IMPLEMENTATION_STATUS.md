@@ -2,7 +2,7 @@
 
 **Purpose:** Table-driven **honest** status of major surfaces: **Implemented**, **Planned**, or **Unknown**.  
 **Authority:** This document is **not** a substitute for frozen contracts (`CLARITY_*_CONTRACT.md`, `CLARITY_PUBLIC_SURFACE.md`); it summarizes them plus code/test evidence.  
-**Readiness:** Project **`NOT READY`** until M24 verdict — see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md).
+**Readiness:** **`CONDITIONALLY READY`** (M24 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)).
 
 ### Status taxonomy
 
@@ -47,12 +47,12 @@
 | Surface | Status | Owner / source-of-truth | Code evidence | Test evidence | Notes / limitations |
 |---------|--------|------------------------|---------------|---------------|---------------------|
 | **Demo HTTP / API** | **Implemented** (operationally) | **Not** canonical for readiness — `CLARITY_PUBLIC_SURFACE.md` §3 | `app/main.py`, demo routers | `test_demo_router.py` | **Do not** treat as stable external API for adoption. |
-| **Compatibility guarantees** (semver, cross-repo version matrix) | **Planned** | **M24+** / governance — `readinessplan.md` | N/A | N/A | No semver on public surface (M21). Combination truth: **`CLARITY_COMPATIBILITY_MATRIX.md` (M23)**. |
+| **Compatibility guarantees** (semver, cross-repo version matrix) | **Planned** | **Post-M24** — `readinessplan.md`; scorecard delivered | N/A | N/A | No semver on public surface (M21). Combination truth: **`CLARITY_COMPATIBILITY_MATRIX.md` (M23)**. |
 | **Consumer assumptions pack** | **Implemented** | **`CLARITY_CONSUMER_ASSUMPTIONS.md` (M23)** | N/A | `test_supported_combinations.py` (pack presence + honesty guardrails) | Does not widen `public_surface`. |
 | **Compatibility matrix (combination truth table)** | **Implemented** | **`CLARITY_COMPATIBILITY_MATRIX.md` (M23)** | N/A | `test_supported_combinations.py` | Supported / Unsupported / Unknown rows; HTTP non-canonical. |
 | **Transfer checklist** | **Implemented** | **`CLARITY_TRANSFER_CHECKLIST.md` (M23)** | N/A | `test_readiness_pack.py` | Checklist derived from assumptions + matrix. |
-| **Portability verdict** | **Planned** | **M24** — `CLARITY_READINESS_SCORECARD.md` | N/A | N/A | Ledger verdict reserved until M24. |
-| **Readiness scorecard / change control** | **Planned** | **M24** | N/A | N/A | — |
+| **Portability verdict** | **Implemented** | **`CLARITY_READINESS_SCORECARD.md` (M24)** | N/A | `test_m24_readiness_verdict.py` | Verdict: **`CONDITIONALLY READY`**; see scorecard §8–§9. |
+| **Readiness scorecard / change control** | **Implemented** | **`CLARITY_READINESS_SCORECARD.md`**, [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md) | N/A | `test_m24_readiness_verdict.py` | Post-readiness rules in change control. |
 
 ---
 

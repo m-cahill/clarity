@@ -66,15 +66,17 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | ✅ **Closed** | not tagged | 5.0 |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | ✅ **Closed** | not tagged | 5.0 |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix (Supported / Unsupported / Unknown), transfer checklist | ✅ **Closed** | not tagged | 5.0 |
-| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
+| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | ✅ **Closed** | not tagged | 5.0 |
 
 ---
 
 ## Readiness phase (M18–M24)
 
-**Readiness status:** **`NOT READY`**
+**Readiness status:** **`CONDITIONALLY READY`**
 
 The **readiness phase** (milestones **M18–M24**) is a governed execution track whose purpose is to make CLARITY **portable, governable, test-enforced, and legible** for safe use by a **consumer project** or **external repository**, with clear contracts and evidence. It does **not** add new model features, redesign the MedGemma evaluation path for capability, or perform downstream-specific integration work.
+
+**M24 verdict:** **`CONDITIONALLY READY`** — authoritative detail, scoring, and adoption **conditions** are in [`readiness/CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md) §8–§9. Post-readiness change rules: [`readiness/CLARITY_CHANGE_CONTROL.md`](./readiness/CLARITY_CHANGE_CONTROL.md). Aggregate guardrail: `backend/tests/test_m24_readiness_verdict.py`.
 
 **Authority (readiness):**
 
@@ -98,6 +100,8 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 - [`readiness/CLARITY_CONSUMER_ASSUMPTIONS.md`](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Downstream assumptions (**M23**)
 - [`readiness/CLARITY_COMPATIBILITY_MATRIX.md`](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Combination truth table (**M23**)
 - [`readiness/CLARITY_TRANSFER_CHECKLIST.md`](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (**M23**)
+- [`readiness/CLARITY_CHANGE_CONTROL.md`](./readiness/CLARITY_CHANGE_CONTROL.md) — Post-readiness change control (**M24**)
+- [`readiness/CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md) — Final scorecard and portability verdict (**M24**)
 
 **Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
 
@@ -109,9 +113,11 @@ Later readiness milestones must update **`docs/clarity.md`** and the readiness p
 
 **M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`).
 
-**M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`). Readiness remains **`NOT READY`**; final portability verdict (**M24**) remains open.
+**M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`).
 
-**M23 note:** Consumer assumptions, compatibility matrix (combination-level **Supported / Unsupported / Unknown**), and transfer checklist are delivered as `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, and `CLARITY_TRANSFER_CHECKLIST.md`, with `test_supported_combinations.py` guardrails. Merged to `main` as [PR #24](https://github.com/m-cahill/clarity/pull/24) (merge commit `4469b2c`). Post-merge CI on `main` green (workflows `23631336064`, `23631336105`). Readiness remains **`NOT READY`**.
+**M23 note:** Consumer assumptions, compatibility matrix (combination-level **Supported / Unsupported / Unknown**), and transfer checklist are delivered as `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, and `CLARITY_TRANSFER_CHECKLIST.md`, with `test_supported_combinations.py` guardrails. Merged to `main` as [PR #24](https://github.com/m-cahill/clarity/pull/24) (merge commit `4469b2c`). Post-merge CI on `main` green (workflows `23631336064`, `23631336105`).
+
+**M24 note:** Final scorecard ([`CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md)), change control ([`CLARITY_CHANGE_CONTROL.md`](./readiness/CLARITY_CHANGE_CONTROL.md)), evidence inventory ([`milestones/M24/M24_inventory.md`](./milestones/M24/M24_inventory.md)), and `test_m24_readiness_verdict.py`. **Verdict:** **`CONDITIONALLY READY`** (see scorecard §8–§9).
 
 ---
 
@@ -169,24 +175,24 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [readiness/CLARITY_CONSUMER_ASSUMPTIONS.md](./readiness/CLARITY_CONSUMER_ASSUMPTIONS.md) — Consumer assumptions (M23)
 - [readiness/CLARITY_COMPATIBILITY_MATRIX.md](./readiness/CLARITY_COMPATIBILITY_MATRIX.md) — Compatibility / combination matrix (M23)
 - [readiness/CLARITY_TRANSFER_CHECKLIST.md](./readiness/CLARITY_TRANSFER_CHECKLIST.md) — Transfer checklist (M23)
+- [readiness/CLARITY_CHANGE_CONTROL.md](./readiness/CLARITY_CHANGE_CONTROL.md) — Post-readiness change control (M24)
+- [readiness/CLARITY_READINESS_SCORECARD.md](./readiness/CLARITY_READINESS_SCORECARD.md) — Final readiness scorecard and verdict (M24)
 
 ---
 
-## Current Milestone: M24 (planned)
+## Readiness program: M18–M24 **complete**
 
-**Objective**: Readiness Audit, Scorecard & Portability Verdict — final scorecard, explicit verdict, and change control per [`readiness/readinessplan.md`](./readiness/readinessplan.md) (M24). **Readiness remains `NOT READY`** until the M24 verdict.
+**Final portability verdict:** **`CONDITIONALLY READY`** — see [`readiness/CLARITY_READINESS_SCORECARD.md`](./readiness/CLARITY_READINESS_SCORECARD.md). Adoption is **subject to conditions** C-M24-001..003 in that document. **Tag:** not tagged by default (readiness track pattern unless explicitly authorized).
 
-**Branch** (working): `m24-readiness-scorecard-verdict` — provenance-only carry-forward from merged M23; broad M24 implementation not started unless authorized.
+**Working branch (historical):** `m24-readiness-scorecard-verdict`
 
-**Tag**: not tagged by default (readiness track pattern unless explicitly authorized).
-
-**Details**: [M24_plan.md](./milestones/M24/M24_plan.md)
+**Details**: [M24_plan.md](./milestones/M24/M24_plan.md) | [M24_summary.md](./milestones/M24/M24_summary.md) | [M24_audit.md](./milestones/M24/M24_audit.md)
 
 ---
 
 ## Previous Milestone: M23 ✅ CLOSED
 
-**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist. **Readiness remains `NOT READY`.**
+**Objective**: Consumer Assumptions, Compatibility Matrix & Transfer Checklist — explicit downstream assumptions; compatibility matrix as **Supported / Unsupported / Unknown** truth table; transfer checklist. *(At M23 close, M24 verdict was still pending.)*
 
 **Merge**: [PR #24](https://github.com/m-cahill/clarity/pull/24) merged to `main` as merge commit `4469b2c7715d67387d08c21956acc73206bb53f0` (`4469b2c`). PR head implementing M23: `b138d51`.
 
@@ -390,6 +396,7 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 | M22 | not tagged | `7f50bfc` | 5.0 | 2026-03-27 |
 | M23 | not tagged | `4469b2c` | 5.0 | 2026-03-27 |
+| M24 | not tagged | `06342aa` | 5.0 | 2026-03-26 |
 
 ---
 

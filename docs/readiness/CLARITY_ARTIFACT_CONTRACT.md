@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M20 — Artifact Contract & Deterministic Output Freeze |
 | **Authority** | Canonical **readiness-pack** contract for CLARITY-written artifacts (alongside [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) for namespace rules) |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`CONDITIONALLY READY`** (M24 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 

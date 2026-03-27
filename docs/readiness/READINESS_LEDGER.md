@@ -10,10 +10,10 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 
 | Field | Value |
 |-------|--------|
-| **Readiness** | **`NOT READY`** |
-| **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | **M24** (current focus); **M23 closed** and merged to `main` |
-| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) merged ([PR #23](https://github.com/m-cahill/clarity/pull/23), `7f50bfc`). **M23** consumer kit merged ([PR #24](https://github.com/m-cahill/clarity/pull/24), merge `4469b2c` on `main`; post-merge CI green). **M24** verdict and scorecard still open. Readiness **`NOT READY`**. No final portability claim. |
+| **Readiness** | **`CONDITIONALLY READY`** |
+| **Phase** | Readiness (M18–M24) — **program complete** |
+| **As-of milestone** | **M24** — **closed** (final audit, scorecard, change control) |
+| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22), consumer kit (M23) merged previously. **M24** delivers [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) and [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md); aggregate test `test_m24_readiness_verdict.py`. **Verdict:** **`CONDITIONALLY READY`** — see scorecard §8–§9 for conditions. |
 
 ---
 
@@ -27,7 +27,7 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | **Closed** |
 | **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | **Closed** |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix (truth table), checklist | **Closed** ([PR #24](https://github.com/m-cahill/clarity/pull/24) → `main` `4469b2c`) |
-| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | **Planned** (current focus) |
+| **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | **Closed** |
 
 Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
@@ -50,8 +50,8 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md) | Explicit downstream assumptions (M19–M22) | **M23** |
 | [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) | Combination truth table: Supported / Unsupported / Unknown | **M23** |
 | [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) | Adoption transfer checklist | **M23** |
-| `CLARITY_CHANGE_CONTROL.md` | Post-readiness change rules | M24 (planned) |
-| `CLARITY_READINESS_SCORECARD.md` | Final scorecard | M24 (planned) |
+| [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md) | Post-readiness change rules | **M24** |
+| [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) | Final scorecard and verdict | **M24** |
 
 ---
 
@@ -59,9 +59,11 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 
 | ID | Risk / issue | Mitigation / next step | Target |
 |----|----------------|------------------------|--------|
-| R-001 | Readiness docs could drift from code | Milestone updates to ledger + `docs/clarity.md`; tests per milestone | Ongoing |
-| R-002 | Dual location of plan (`docs/readinessplan.md` vs pack) | Canonical pack path documented in README; deprecate root copy only in a later milestone if desired | TBD |
-| R-003 | Multiple `sweep_manifest.json` schema families (orchestrator vs rich aggregate) | Documented in `CLARITY_ARTIFACT_CONTRACT.md` §6.1; consumers must not assume one shape | Accepted / monitored |
+| R-001 | Readiness docs could drift from code | Milestone updates to ledger + `docs/clarity.md`; tests per milestone; **C-M24-002** in scorecard | Ongoing |
+| R-002 | Dual location of plan (`docs/readinessplan.md` vs pack) | Canonical pack path documented in README; **C-M24-003** in scorecard | TBD |
+| R-003 | Multiple `sweep_manifest.json` schema families (orchestrator vs rich aggregate) | Documented in `CLARITY_ARTIFACT_CONTRACT.md` §6.1; **C-M24-001** in scorecard | Accepted / monitored |
+
+**M24 evaluation:** R-001–R-003 are **non-blockers** for an unconditional **`READY FOR DOWNSTREAM ADOPTION`** claim; they **are** conditions of the **`CONDITIONALLY READY`** verdict (see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)).
 
 ---
 
@@ -75,12 +77,16 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | M21 | Frozen `app.clarity.public_surface`; smoke + export tests | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md), `backend/tests/test_public_surface_contract.py`, CI |
 | M22 | Operating manual + matrix; doc consistency tests | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md), [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md), `backend/tests/test_m22_operating_manual.py`, CI |
 | M23 | Consumer assumptions + compatibility matrix + transfer checklist + `test_supported_combinations.py` | `CLARITY_CONSUMER_ASSUMPTIONS.md`, `CLARITY_COMPATIBILITY_MATRIX.md`, `CLARITY_TRANSFER_CHECKLIST.md`, `backend/tests/test_supported_combinations.py`, CI |
-| M24 | Per `readinessplan.md` | TBD |
+| M24 | Scorecard + change control + aggregate verdict test | `CLARITY_READINESS_SCORECARD.md`, `CLARITY_CHANGE_CONTROL.md`, `backend/tests/test_m24_readiness_verdict.py`, CI |
 
 ---
 
-## 7. Final verdict (reserved for M24)
+## 7. Final verdict
 
-**Verdict:** _Reserved — not evaluated before M24._
+**Verdict:** **`CONDITIONALLY READY`**
 
-Allowed final verdicts (per plan): `READY FOR DOWNSTREAM ADOPTION` | `CONDITIONALLY READY` | `NOT READY`.
+**Allowed verdicts (per plan):** `READY FOR DOWNSTREAM ADOPTION` | `CONDITIONALLY READY` | `NOT READY`
+
+**Authoritative detail:** [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) §8–§9 (explicit verdict and conditions).
+
+**Post-readiness governance:** [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md).

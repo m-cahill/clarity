@@ -249,7 +249,7 @@ frontend/                 ← UI console (demo)
 | [`CLARITY_BOUNDARY_CONTRACT.md`](./CLARITY_BOUNDARY_CONTRACT.md) | R2L consumer boundary |
 | [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) | Artifact inventory & schemas |
 | [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) | Inherited vs CLARITY-owned |
-| [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) | Readiness status (**NOT READY** until M24 verdict) |
+| [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) | Readiness status (**`CONDITIONALLY READY`** — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)) |
 
 | Topic | Tests (examples) |
 |-------|------------------|
@@ -282,4 +282,4 @@ frontend/                 ← UI console (demo)
 
 ---
 
-*Introduced: M22 — Operating Manual & Honest Implementation Matrix. Readiness status: **`NOT READY`** (see ledger).*
+*Introduced: M22 — Operating Manual & Honest Implementation Matrix. Readiness status: **`CONDITIONALLY READY`** (M24 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)).*

@@ -6,7 +6,7 @@
 |-------|--------|
 | **Introduced** | M23 — Consumer assumptions, compatibility matrix & transfer checklist |
 | **Authority** | Operational checklist for a **consumer project** adopting CLARITY; subordinate to frozen contracts and [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) |
-| **Readiness status** | Project readiness remains **`NOT READY`** until M24 verdict (see [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
+| **Readiness status** | **`CONDITIONALLY READY`** (M24 — see [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md), [`READINESS_LEDGER.md`](./READINESS_LEDGER.md)) |
 
 ---
 

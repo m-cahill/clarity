@@ -43,6 +43,8 @@ Within this pack, the **roadmap and definitions** in `readinessplan.md` set expe
 11. [`CLARITY_CONSUMER_ASSUMPTIONS.md`](./CLARITY_CONSUMER_ASSUMPTIONS.md) — Explicit downstream assumptions after M19–M22 (M23).
 12. [`CLARITY_COMPATIBILITY_MATRIX.md`](./CLARITY_COMPATIBILITY_MATRIX.md) — Supported / Unsupported / Unknown combination truth table (M23).
 13. [`CLARITY_TRANSFER_CHECKLIST.md`](./CLARITY_TRANSFER_CHECKLIST.md) — Adoption transfer checklist (M23).
+14. [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md) — Post-readiness change rules (M24).
+15. [`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md) — Final scorecard and portability verdict (M24).
 
 For overall project context, always read **`docs/clarity.md`** first or in parallel.
 
@@ -72,9 +74,9 @@ If both exist, treat **`docs/readiness/readinessplan.md`** as authoritative for 
 
 ## 7. Current readiness status
 
-**`NOT READY`**
+**`CONDITIONALLY READY`** (M24)
 
-M18 established governance and scaffolding; **M19** freezes the consumer boundary and assumption split; **M20** freezes outputs and deterministic serialization (see `CLARITY_ARTIFACT_CONTRACT.md`); **M21** freezes the canonical Python public surface (see `CLARITY_PUBLIC_SURFACE.md`); **M22** adds the operating manual and implementation-status matrix; **M23** adds consumer assumptions, the compatibility matrix (combination truth table), and transfer checklist (**closed** on `main`, [PR #24](https://github.com/m-cahill/clarity/pull/24)). A final portability verdict remains reserved for **M24** (see `READINESS_LEDGER.md`).
+M18–**M23** delivered the frozen pack (boundary, artifacts, public surface, manual, consumer kit). **M24** records the final scorecard ([`CLARITY_READINESS_SCORECARD.md`](./CLARITY_READINESS_SCORECARD.md)), post-readiness [`CLARITY_CHANGE_CONTROL.md`](./CLARITY_CHANGE_CONTROL.md), and aggregate test `test_m24_readiness_verdict.py`. Adoption is **subject to conditions** in the scorecard §9 (C-M24-001..003). See [`READINESS_LEDGER.md`](./READINESS_LEDGER.md) §7.
 
 ---
 
