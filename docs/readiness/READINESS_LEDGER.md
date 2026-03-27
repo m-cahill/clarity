@@ -12,8 +12,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 |-------|--------|
 | **Readiness** | **`NOT READY`** |
 | **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | M21 |
-| **Notes** | Consumer boundary (M19), artifact contract (M20), and canonical Python public surface (M21) frozen. Operating manual, consumer kit, and M24 verdict still open. No final portability claim. |
+| **As-of milestone** | M22 |
+| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) delivered. Consumer kit (M23) and M24 verdict still open. No final portability claim. |
 
 ---
 
@@ -25,7 +25,7 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 | **M19** | Consumer Boundary Freeze | Freeze CLARITY↔R2L consumer boundary and inherited guarantees | **Closed** |
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze outputs, serialization, reproducibility | **Closed** |
 | **M21** | Public Surface & Invocation Contract | Single official invocation path; public vs internal | **Closed** |
-| **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | Planned |
+| **M22** | Operating Manual & Honest Implementation Matrix | Operable manual + implemented vs planned vs unknown | **Closed** |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Consumer kit: assumptions, matrix, checklist | Planned |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned |
 
@@ -45,8 +45,8 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | [`CLARITY_ASSUMED_GUARANTEES.md`](./CLARITY_ASSUMED_GUARANTEES.md) | Inherited vs CLARITY-owned guarantees | **M19** |
 | [`CLARITY_ARTIFACT_CONTRACT.md`](./CLARITY_ARTIFACT_CONTRACT.md) | Artifact inventory, serialization, contract identity | **M20** |
 | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md) | Canonical Python consumer surface | **M21** |
-| `CLARITY_OPERATING_MANUAL.md` | Operator manual | M22 (planned) |
-| `CLARITY_IMPLEMENTATION_STATUS.md` | Honest status matrix | M22 (planned) |
+| [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md) | Operator / AI-agent manual | **M22** |
+| [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md) | Honest status matrix | **M22** |
 | `CLARITY_CONSUMER_ASSUMPTIONS.md` | Consumer assumptions | M23 (planned) |
 | `CLARITY_COMPATIBILITY_MATRIX.md` | Compatibility matrix | M23 (planned) |
 | `CLARITY_TRANSFER_CHECKLIST.md` | Transfer checklist | M23 (planned) |
@@ -73,7 +73,8 @@ Detailed scope: [`readinessplan.md`](./readinessplan.md).
 | M19 | Frozen boundary + assumed guarantees; boundary tests | `CLARITY_BOUNDARY_CONTRACT.md`, `CLARITY_ASSUMED_GUARANTEES.md`, `backend/tests/test_boundary_contract.py` (incl. M19 section), CI |
 | M20 | Frozen artifact contract; semantic + hash guardrails | `CLARITY_ARTIFACT_CONTRACT.md`, `backend/tests/test_artifact_contract.py`, CI |
 | M21 | Frozen `app.clarity.public_surface`; smoke + export tests | [`CLARITY_PUBLIC_SURFACE.md`](./CLARITY_PUBLIC_SURFACE.md), `backend/tests/test_public_surface_contract.py`, CI |
-| M22–M24 | Per `readinessplan.md` | TBD per milestone |
+| M22 | Operating manual + matrix; doc consistency tests | [`CLARITY_OPERATING_MANUAL.md`](./CLARITY_OPERATING_MANUAL.md), [`CLARITY_IMPLEMENTATION_STATUS.md`](./CLARITY_IMPLEMENTATION_STATUS.md), `backend/tests/test_m22_operating_manual.py`, CI |
+| M23–M24 | Per `readinessplan.md` | TBD per milestone |
 
 ---
 
