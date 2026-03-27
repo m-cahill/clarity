@@ -337,8 +337,8 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
 | M18 | not tagged | `0e674fd` | 5.0 | 2026-03-26 |
 | M19 | not tagged | `8187d62` | 5.0 | 2026-03-26 |
-| M20 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
-| M21 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
+| M20 | not tagged | `975165e` | 5.0 | 2026-03-27 |
+| M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
 
 ---
 
