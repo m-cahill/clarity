@@ -12,8 +12,8 @@ Make CLARITY **portable, governable, test-enforced, and legible** so a consumer 
 |-------|--------|
 | **Readiness** | **`NOT READY`** |
 | **Phase** | Readiness (M18–M24) |
-| **As-of milestone** | M22 |
-| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) delivered. Consumer kit (M23) and M24 verdict still open. No final portability claim. |
+| **As-of milestone** | M23 (current focus); M22 **closed** and merged to `main` |
+| **Notes** | Consumer boundary (M19), artifact contract (M20), canonical Python public surface (M21), operating manual + implementation matrix (M22) delivered and merged ([PR #23](https://github.com/m-cahill/clarity/pull/23), merge `7f50bfc`). Consumer kit (M23) and M24 verdict still open. No final portability claim. |
 
 ---
 
