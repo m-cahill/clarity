@@ -64,7 +64,7 @@ See: [CLARITY_ARCHITECHTURE_CONTRACT.MD](./CLARITY_ARCHITECHTURE_CONTRACT.MD)
 | **M19** | Consumer Boundary Freeze | Freeze CLARITY consumer boundary, inherited guarantees, forbidden behaviors | ✅ **Closed** | not tagged | 5.0 |
 | **M20** | Artifact Contract & Deterministic Output Freeze | Freeze artifact model, serialization, determinism, reproducibility rules | ✅ **Closed** | not tagged | 5.0 |
 | **M21** | Public Surface & Invocation Contract | Single official consumer invocation path; public vs internal | ✅ **Closed** | not tagged | 5.0 |
-| **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | Planned | — | — |
+| **M22** | Operating Manual & Honest Implementation Matrix | Operator manual + implemented vs planned vs unknown matrix | ✅ **Closed** | not tagged | 5.0 |
 | **M23** | Consumer Assumptions, Compatibility Matrix & Transfer Checklist | Explicit assumptions, compatibility matrix, transfer checklist | Planned | — | — |
 | **M24** | Readiness Audit, Scorecard & Portability Verdict | Final scorecard, verdict, change control | Planned | — | — |
 
@@ -93,6 +93,8 @@ The **readiness phase** (milestones **M18–M24**) is a governed execution track
 - [`readiness/CLARITY_ASSUMED_GUARANTEES.md`](./readiness/CLARITY_ASSUMED_GUARANTEES.md) — Inherited vs CLARITY-owned guarantees (**M19**)
 - [`readiness/CLARITY_ARTIFACT_CONTRACT.md`](./readiness/CLARITY_ARTIFACT_CONTRACT.md) — Artifact inventory, serialization, contract identity (**M20**)
 - [`readiness/CLARITY_PUBLIC_SURFACE.md`](./readiness/CLARITY_PUBLIC_SURFACE.md) — Canonical Python consumer surface (**M21**)
+- [`readiness/CLARITY_OPERATING_MANUAL.md`](./readiness/CLARITY_OPERATING_MANUAL.md) — AI-agent / operator manual (**M22**)
+- [`readiness/CLARITY_IMPLEMENTATION_STATUS.md`](./readiness/CLARITY_IMPLEMENTATION_STATUS.md) — Implemented / Planned / Unknown matrix (**M22**)
 
 **Legacy note:** [`readinessplan.md`](./readinessplan.md) at `docs/` root may remain as a convenience copy; the **canonical readiness-pack** copy of the plan is **`docs/readiness/readinessplan.md`**. If both differ, resolve in favor of the pack copy and record the change in `READINESS_DECISIONS.md`.
 
@@ -102,7 +104,9 @@ Later readiness milestones must update **`docs/clarity.md`** and the readiness p
 
 **M20 note:** The artifact contract and deterministic output expectations are **frozen** in `CLARITY_ARTIFACT_CONTRACT.md`.
 
-**M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`). Readiness remains **`NOT READY`**; operating manual, consumer kit, and final portability verdict are **M22+** and **M24**.
+**M21 note:** The public invocation surface is **frozen** in `CLARITY_PUBLIC_SURFACE.md` (`app.clarity.public_surface`).
+
+**M22 note:** The operating manual and implementation-status matrix are **delivered** (`CLARITY_OPERATING_MANUAL.md`, `CLARITY_IMPLEMENTATION_STATUS.md`). Readiness remains **`NOT READY`**; consumer kit (**M23**) and final portability verdict (**M24**) remain open.
 
 ---
 
@@ -155,25 +159,38 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 - [readiness/CLARITY_ASSUMED_GUARANTEES.md](./readiness/CLARITY_ASSUMED_GUARANTEES.md) — Inherited vs CLARITY-owned guarantees (M19)
 - [readiness/CLARITY_ARTIFACT_CONTRACT.md](./readiness/CLARITY_ARTIFACT_CONTRACT.md) — Artifact contract (M20)
 - [readiness/CLARITY_PUBLIC_SURFACE.md](./readiness/CLARITY_PUBLIC_SURFACE.md) — Public surface (M21)
+- [readiness/CLARITY_OPERATING_MANUAL.md](./readiness/CLARITY_OPERATING_MANUAL.md) — Operating manual (M22)
+- [readiness/CLARITY_IMPLEMENTATION_STATUS.md](./readiness/CLARITY_IMPLEMENTATION_STATUS.md) — Implementation status matrix (M22)
 
 ---
 
-## Current Milestone: M21 ✅ CLOSED
+## Current Milestone: M22 ✅ CLOSED
+
+**Objective**: Operating Manual & Honest Implementation Matrix — Produce an AI-agent-oriented operating manual grounded in frozen contracts and code truth, plus a table-driven **Implemented / Planned / Unknown** matrix; add M22 guardrail tests; update readiness pack and this ledger. **Readiness remains `NOT READY`.**
+
+**Tag**: not tagged (no git tag minted for M22 unless explicitly authorized later)
+
+**Details**: [M22_plan.md](./milestones/M22/M22_plan.md) | [M22_audit.md](./milestones/M22/M22_audit.md)
+
+**Deliverables**:
+- ✅ `docs/readiness/CLARITY_OPERATING_MANUAL.md`
+- ✅ `docs/readiness/CLARITY_IMPLEMENTATION_STATUS.md`
+- ✅ `docs/milestones/M22/M22_inventory.md` (milestone working note)
+- ✅ `docs/readiness/README.md`, `docs/readiness/READINESS_LEDGER.md`, `docs/clarity.md` (this file)
+- ✅ `backend/tests/test_m22_operating_manual.py`; `backend/tests/test_readiness_pack.py` (pack file list includes M22 docs)
+- ✅ M22_summary.md, M22_audit.md; M23 seeded
+
+---
+
+## Previous Milestone: M21 ✅ CLOSED
 
 **Objective**: Public Surface & Invocation Contract — Freeze **one** official consumer-facing Python surface (`app.clarity.public_surface`), explicit public vs internal policy, configuration and failure semantics, and guardrail tests; HTTP API remains non-canonical for readiness. **Readiness remains `NOT READY`.**
 
-**Tag**: not tagged (no git tag minted for M21 unless explicitly authorized later)
+**Tag**: not tagged
 
 **Details**: [M21_plan.md](./milestones/M21/M21_plan.md) | [M21_audit.md](./milestones/M21/M21_audit.md)
 
-**Deliverables**:
-- ✅ `docs/readiness/CLARITY_PUBLIC_SURFACE.md`
-- ✅ `backend/app/clarity/public_surface.py` (canonical surface)
-- ✅ `docs/readiness/READINESS_LEDGER.md`, `docs/readiness/README.md`, `docs/readiness/READINESS_DECISIONS.md` (RD-014)
-- ✅ `docs/clarity.md` updated (this file)
-- ✅ `backend/tests/test_public_surface_contract.py`; `backend/tests/test_readiness_pack.py` (pack file list includes public surface)
-- ✅ `docs/readiness/CLARITY_BOUNDARY_CONTRACT.md` (§4 / deferred table aligned with M21)
-- ✅ M21_summary.md, M21_audit.md; M22 seeded
+**Deliverables** (summary): `CLARITY_PUBLIC_SURFACE.md`, `public_surface.py`, public-surface tests, pack updates (RD-014).
 
 ---
 
@@ -337,8 +354,9 @@ Without these, production frontend may show "Failed to fetch" when calling the b
 | M17 | `v0.0.18-m17` | `cdac548` | 5.0 | 2026-02-24 |
 | M18 | not tagged | `0e674fd` | 5.0 | 2026-03-26 |
 | M19 | not tagged | `8187d62` | 5.0 | 2026-03-26 |
-| M20 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
-| M21 | not tagged | _[pending]_ | 5.0 | 2026-03-26 |
+| M20 | not tagged | `975165e` | 5.0 | 2026-03-27 |
+| M21 | not tagged | `975165e` | 5.0 | 2026-03-27 |
+| M22 | not tagged | `bba0d3b` | 5.0 | 2026-03-26 |
 
 ---
 
